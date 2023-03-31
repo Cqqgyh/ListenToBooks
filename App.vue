@@ -21,6 +21,8 @@ export default {
 @import "./Grace6/css/graceDark.scss";
 /* 加载自定义样式 */
 @import "./custom/custom.scss";
+
+@import "./custom/iconfont.scss";
 /* 加载图标字体 - 条件编译模式 */
 /* #ifdef APP-PLUS-NVUE */
 .gui-icons {

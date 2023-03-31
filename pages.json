@@ -4,7 +4,8 @@
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "uni-app"
+        "navigationBarTitleText": "uni-app",
+		"navigationStyle": "custom"
       }
     }
   ],
@@ -14,6 +15,7 @@
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
+  
   "uniIdRouter": {},
   "easycom": {
     "autoscan": true,

@@ -1,28 +1,91 @@
 /* 组件演示列表 */
-.gui-components-list{
-	padding:5rpx 30rpx;
+.gui-components-list {
+	padding: 5rpx 30rpx;
 }
-.gui-components-list-title{
-	padding:32rpx 0;
-	font-size:30rpx;
+.gui-components-list-title {
+	padding: 32rpx 0;
+	font-size: 30rpx;
 }
-.gui-components-list-text{
-	font-size:34rpx;
+.gui-components-list-text {
+	font-size: 34rpx;
 }
-.gui-components-list-icon{
-	font-size:38rpx;
+.gui-components-list-icon {
+	font-size: 38rpx;
 }
+
+$spaceamounts: (0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 75, 100); // Adjust this to include the pixel amounts you need.
+$sides: (top, bottom, left, right); // Leave this variable alone
+@each $space in $spaceamounts {
+	@each $side in $sides {
+		.gui-m-#{str-slice($side, 0, 1)}-#{$space} {
+			margin-#{$side}: #{$space}rpx !important;
+		}
+		.gui-p-#{str-slice($side, 0, 1)}-#{$space} {
+			padding-#{$side}: #{$space}rpx !important;
+		}
+	}
+}
+
+@each $space in $spaceamounts {
+	.gui-m-#{$space} {
+		margin: #{$space}rpx !important;
+	}
+	.gui-p-#{$space} {
+		padding: #{$space}rpx !important;
+	}
+}
+
+@each $space in $spaceamounts {
+	.gui-b-#{$space} {
+		border-radius: #{$space}rpx !important;
+	}
+}
+
+.gui-bg-black-opacity1 {
+	background: rgba(0, 0,0 , 0.1);
+}
+
+.gui-bg-black-opacity2 {
+	background: rgba(0, 0,0 , 0.2);
+}
+
+.gui-bg-black-opacity3 {
+	background: rgba(0, 0,0 , 0.3);
+}
+
+.gui-bg-black-opacity4 {
+	background: rgba(0, 0,0 , 0.4);
+}
+
+.gui-bg-black-opacity5 {
+	background: rgba(0, 0,0 , 0.5);
+}
+
+.gui-bg-black-opacity6 {
+	background: rgba(0, 0,0 , 0.6);
+}
+
+.gui-bg-black-opacity7 {
+	background: rgba(0, 0,0 , 0.7);
+}
+
+
 
 /* 动态渐变头部导航 */
-.custom-header-bg{background-color:rgba(0, 0, 0, 0.6);}
+.custom-header-bg {
+	background-color: rgba(0, 0, 0, 0.6);
+}
 
 /* 切换导航样式 */
-.custom-switch-nav-border{border-color:#FF0036 !important;}
-
+.custom-switch-nav-border {
+	border-color: #ff0036 !important;
+}
 
 /* 深色模式 */
 /* #ifndef APP-NVUE */
-@media (prefers-color-scheme: dark){
-	.custom-switch-nav-border{border-color:#888888 !important;}
+@media (prefers-color-scheme: dark) {
+	.custom-switch-nav-border {
+		border-color: #888888 !important;
+	}
 }
 /* #endif */
