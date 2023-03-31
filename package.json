@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "dayjs": "^1.11.7",
+    "pinia": "^2.0.33",
+    "pinia-plugin-persistedstate": "^3.1.0"
+  }
+}
