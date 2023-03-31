@@ -1,0 +1,75 @@
+/* 深色模式适配样式 */
+@import "@/custom/theme.scss";
+
+/* #ifndef APP-NVUE */
+@media (prefers-color-scheme: dark){
+	.gui-color-gray{color:rgba(188,188,188,1) !important;}
+	/* 黑色 */
+	.gui-dark-bg{background:#000000 !important;}
+	.gui-dark-bg-level-1{background:$dark-l1 !important;}
+	.gui-dark-bg-level-2{background:$dark-l2 !important;}
+	.gui-dark-bg-level-3{background:$dark-l3 !important;}
+	.gui-dark-bg-level-4{background:$dark-l4 !important;}
+	.gui-dark-bg-level-5{background:$dark-l5 !important;}
+	.gui-dark-bg-level-6{background:$dark-l6 !important;}
+	.gui-dark-bg-level-7{background:$dark-l7 !important;} 
+	.gui-dark-bg-level-8{background:$dark-l8 !important;}
+	.gui-dark-bg-level-9{background:$dark-l9 !important;}
+	.gui-dark-bg-level-10{background:$dark-l10 !important;}
+	/* 白色 */
+	.gui-dark-text-level-1{color:$white-l1 !important;}
+	.gui-dark-text-level-2{color:$white-l2 !important;}
+	.gui-dark-text-level-3{color:$white-l3 !important;}
+	.gui-dark-text-level-4{color:$white-l4 !important;}
+	.gui-dark-text-level-5{color:$white-l5 !important;}
+	.gui-dark-text-level-6{color:$white-l6 !important;}
+	.gui-dark-text-level-7{color:$white-l7 !important;}
+	.gui-dark-text-level-8{color:$white-l8 !important;}
+	.gui-dark-text-level-9{color:$white-l9 !important;}
+	.gui-dark-text-level-10{color:$white-l10 !important;}
+	/* 核心文本颜色 */
+	.gui-primary-text{color:$white-l2;}
+	.gui-secondary-text{color:$white-l3;}
+	.gui-third-text{color:$white-l5;}
+	.gui-primary-color{color:rgba(238,238,238,1) !important;}
+	.gui-bg-primary{background-color:$dark-l4 !important;}
+	.gui-color-gray{color:$white-l5 !important;}
+	/* 页面内置全屏 Loading 背景颜色 */
+	.gui-page-loading-bg{background-color:$dark-l1 !important;}
+	/* 页面内置全屏 Loading 颜色 */
+	.gui-page-loading-color{background-color:$white-l2 !important;}
+	
+	/* 底部导航 */
+	.gui-footer{background-color:$dark-l2 !important;}
+	/* 边框 */
+	.gui-border,.gui-border-l,.gui-border-t,.gui-border-r,.gui-border-b{
+		border-color:$dark-l4 !important;
+	}
+	.gui-footer{border-top:0px !important;}
+	/* 默认修正 */
+	.uni-page-head{background:$dark-l1 !important;} 
+	.uni-page-head-hd, .uni-page-head-bd, .uni-page-head-ft{color:#FFFFFF !important;}
+	page{background:$dark-l1 !important;}
+	.gui-button{border-color:$dark-l2;}
+	
+	/* 提交按钮 */
+	.gui-sbutton-default{background-color:$dark-l3;}
+	.gui-sbutton-loading{background-color:$dark-l3; opacity:0.8;}
+	.gui-sbutton-success{background-color:$dark-l3 !important;}
+	.gui-sbutton-fail{background-color:$dark-l3 !important;}
+	
+	.gui-gtbg-black{background-image:linear-gradient(to right, #C8C9CC,#333333) !important;}
+	.gui-primary-border-color{border-color:#FFFFFF !important;}
+	
+	/* 步骤 */
+	.gui-step-text{color:$dark-l8;}
+	.gui-step-text-active{color:$white-l1 !important;}
+	.gui-step-icon{background-color:$dark-l3; color:$dark-l8;}
+	.gui-step-icon-active{color:#000000 !important; background-color:#FFFFFF !important;}
+	.gui-step-line-active{background-color:$dark-l8 !important;}
+	
+	/* picker view */
+	.gui-picker-item{color:#FFFFFF;}
+	.gui-pv-mask{background-color:rgba(0,0,0,0) !important;}
+}
+/* #endif */

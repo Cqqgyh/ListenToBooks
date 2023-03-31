@@ -1,52 +1,39 @@
 <template>
-	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view class="text-area">
-			<text class="title">{{title}}</text>
-		</view>
-	</view>
+	<gui-page ref="guiPage">
+		<template v-slot:gBody>
+			<view>
+				<text>{{ count }}</text>
+			</view>
+			<button @click="increment">increment</button>
+		</template>
+	</gui-page>
 </template>
+<script setup lang="ts">
+import { useCounterStore } from '@/stores/counter';
+import { storeToRefs } from 'pinia';
+const { count } = storeToRefs(useCounterStore());
+const { increment } = useCounterStore();
 
-<script>
-	export default {
-		data() {
-			return {
-				title: 'Hello'
-			}
-		},
-		onLoad() {
-
-		},
-		methods: {
-
-		}
+const requestDemo = async () => {
+	// 请求前置函数
+	uni.gRequest.befor = () => {
+		uni.showLoading({ title: '加载中 ...' });
+	};
+	// 请求后置函数
+	uni.gRequest.after = () => {
+		uni.hideLoading();
+	};
+	// GET 请求
+	try {
+		// 请求成功
+		let res = await uni.gRequest.get('/todos/1', {}, false);
+		console.log(res);
+	} catch (e) {
+		// 请求失败
+		console.log(e);
 	}
+};
+
+requestDemo();
 </script>
-
-<style>
-	.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin-top: 200rpx;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 50rpx;
-	}
-
-	.text-area {
-		display: flex;
-		justify-content: center;
-	}
-
-	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
-	}
-</style>
+<style></style>

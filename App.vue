@@ -1,17 +1,35 @@
 <script>
-	export default {
-		onLaunch: function() {
-			console.log('App Launch')
-		},
-		onShow: function() {
-			console.log('App Show')
-		},
-		onHide: function() {
-			console.log('App Hide')
-		}
-	}
+export default {
+  onLaunch: function () {
+    // #ifdef APP-PLUS
+    plus.screen.lockOrientation("portrait-primary");
+    const dom = weex.requireModule("dom");
+    dom.addRule("fontFace", {
+      fontFamily: "graceIconfont",
+      src: "url('/static/font/grace.ttf')",
+    });
+    // #endif
+  },
+  onShow: function () {},
+  onHide: function () {},
+};
 </script>
-
-<style>
-	/*每个页面公共css */
+<style lang="scss">
+/* 加载框架核心样式 */
+@import "./Grace6/css/grace.scss";
+/* 加载深色模式适配样式 */
+@import "./Grace6/css/graceDark.scss";
+/* 加载自定义样式 */
+@import "./custom/custom.scss";
+/* 加载图标字体 - 条件编译模式 */
+/* #ifdef APP-PLUS-NVUE */
+.gui-icons {
+  font-family: graceIconfont;
+}
+/* #endif */
+/* #ifndef APP-NVUE */
+page {
+  background: #f8f8f8;
+}
+/* #endif */
 </style>
