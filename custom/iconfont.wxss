@@ -5,8 +5,10 @@
   font-style: normal;
   src: url("@/static/font/iconfont.ttf") format("truetype");
 }
+
 .iconfont {
   font-family: "iconfont";
   font-style: normal;
 }
+
 /* #endif */
