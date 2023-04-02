@@ -23,3 +23,7 @@
 - [uniapp-axios-adapter](https://ext.dcloud.net.cn/plugin?id=9840)的应用，可以不使用 GraceUI 的请求，可以更接近 axios 的请求处理
 - 个人中心页面的布局，主要包括自定义导航头部图标、列表模式实现用户个人信息显示、绝对定位相对定位的结合实现创作中心和录音直接的定位、用宫格实现图标名称的显示、用切换导航实现分类类别切换、scroll-view 与列表结合实现专辑清单列表渲染、自定义底部导航的应用
 - 分类页的布局，不利用 GraceUI，而是自定义实现分类页的布局与控制，将原来 vue2 的语法结构转换成了 vue3 的语法结构，需要注意 getCurrentInstance 的应用，因为原来 vue2 中使用的是 createSelectorQuery 中绑定的是 this，而 vue3 中使用的是 getCurrentInstance 中绑定的是 ctx，需要注意区分
+
+4 月 2 日：
+
+- 专辑列表页的设计布局，以用户模板中的会员排行模板进行专辑列表页的设计布局，选项卡切换、标签、scroll-view 滚动、底部播放绝对播放等组件的应用
