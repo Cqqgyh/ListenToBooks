@@ -221,7 +221,12 @@
 				<view style="height: 50px" class="gui-text-center" @touchstart="dragStart" @touchmove="dragMove" @touchend="dragEnd">
 					<text class="iconfont gui-color-white gui-h3">&#xeb2e;</text>
 				</view>
-				<scroll-view class="gui-bg-white gui-dark-bg-level-3 gui-border-box" :class="{ popupScrollView: scrollY }" :scroll-y="scrollY" :show-scrollbar="false">
+				<scroll-view
+					class="popupSVContainer gui-bg-white gui-dark-bg-level-3 gui-border-box"
+					:scroll-y="scrollY"
+					:show-scrollbar="false"
+					:style="{ height: scrollHeight + 'px' }"
+				>
 					<view><gui-image src="https://sghimages.shobserver.com/img/catch/2023/04/01/17054f5f-a4a9-4095-a200-a23d2a5231de.jpg" :width="750"></gui-image></view>
 					<view><gui-image src="https://sghimages.shobserver.com/img/catch/2023/04/01/734db9d3-7614-4ce9-b881-992dac4f945e.jpg" :width="750"></gui-image></view>
 					<view><gui-image src="https://sghimages.shobserver.com/img/catch/2023/04/01/b755d739-a7ef-41f7-8689-492fb4a77af4.jpg" :width="750"></gui-image></view>
@@ -244,12 +249,26 @@ let dragStartPos = { x: 0, y: 0 };
 let dragEndPos = { x: 0, y: 0 };
 let isDragging = false;
 
+const article = ref([]);
+
+const scrollHeight = computed(() => {
+  return systemHeight - popupViewTop.value - 50;
+});
+
+
 onMounted(() => {
 	const system = uni.getSystemInfoSync();
 	popupViewTopMin = 200;
 	popupViewTop.value = popupViewTopMax = system.windowHeight - 100;
 	coverTransform.value = popupViewTop.value;
 	systemHeight = system.windowHeight;
+
+	uni.request({
+		url: 'https://www.graceui.com/api/html2array',
+		success: res => {
+			article.value = res.data.data;
+		}
+	});
 });
 
 const getMainScrollViewStyle = computed(() => {
@@ -260,31 +279,21 @@ const getMainScrollViewStyle = computed(() => {
 });
 
 const toggleScroll = () => {
-  // 如果当前正在拖动，则不执行 toggle 操作
-  if (isDragging.value) {
-    return;
-  }
+	// 如果当前正在拖动，则不执行 toggle 操作
+	if (isDragging.value) {
+		return;
+	}
 
-  // 如果当前已经滑动到最底部了，则不再执行向下滑动的 toggle 操作
-  if (!scrollY.value && popupViewTop.value >= popupViewTopMax) {
-    return;
-  }
-
-  scrollY.value = !scrollY.value;
-
-  const timer = setInterval(() => {
-    if (scrollY.value) {
-      popupViewTop.value = popupViewTop.value - 10;
-      if (popupViewTop.value <= popupViewTopMin) {
-        clearInterval(timer);
-      }
-    } else {
-      popupViewTop.value = popupViewTop.value + 10;
-      if (popupViewTop.value >= popupViewTopMax) {
-        clearInterval(timer);
-      }
-    }
-  }, 10);
+	const startTop = popupViewTop.value;
+	const endTop = scrollY.value ? popupViewTopMax : popupViewTopMin;
+	const interval = endTop > startTop ? 10 : -10;
+	const timer = setInterval(() => {
+		popupViewTop.value += interval;
+		if ((interval > 0 && popupViewTop.value >= endTop) || (interval < 0 && popupViewTop.value <= endTop)) {
+			clearInterval(timer);
+			scrollY.value = !scrollY.value;
+		}
+	}, 10);
 };
 
 const dragStart = e => {
