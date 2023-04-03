@@ -105,6 +105,10 @@ $sides: (top, bottom, left, right); // Leave this variable alone
   border-color: #ff0036 !important;
 }
 
+.gui-bg-brown-linear-gradient {
+  background-image: linear-gradient(to right, rgb(120, 105, 90), rgb(100, 85, 60)) !important;
+}
+
 /* 深色模式 */
 /* #ifndef APP-NVUE */
 @media (prefers-color-scheme: dark) {

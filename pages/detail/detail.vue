@@ -1,0 +1,343 @@
+<template>
+	<gui-page :customHeader="true" :isHeaderSized="false" :headerClass="['gui-bg-brown-linear-gradient']">
+		<!-- 自定义头部导航 -->
+		<template v-slot:gHeader>
+			<view style="height: 44px" class="gui-flex gui-nowrap gui-rows gui-align-items-center">
+				<gui-header-leading :home="false" :backButtonClass="['gui-color-white']"></gui-header-leading>
+				<view class="gui-flex1">
+					<view
+						class="gui-bg-black-opacity2 gui-flex gui-justify-content-center gui-align-items-center"
+						style="border-radius: 20rpx; width: 180rpx; height: 60rpx; line-height: 60rpx"
+					>
+						<text class="gui-icons gui-block gui-color-white iconfont gui-m-r-10">&#xe610;</text>
+						<text class="gui-color-white gui-text gui-button-text">投月票</text>
+						<text class="gui-icons gui-block gui-color-white gui-m-l-10">&#xe601;</text>
+					</view>
+				</view>
+
+				<view class="gui-flex">
+					<text class="iconfont gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black-opacity2 gui-m-r-10 gui-color-white">&#xe685;</text>
+					<text class="gui-icons gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black-opacity2 gui-m-r-10 gui-color-white">&#xe615;</text>
+				</view>
+				<view style="width: 180rpx"></view>
+			</view>
+		</template>
+		<!-- 页面主体 -->
+		<template v-slot:gBody>
+			<scroll-view
+				class="gui-bg-white gui-dark-bg-level-3 gui-border-box mianImgBg gui-bg-brown-linear-gradient gui-m-t-100 gui-p-30"
+				:style="{
+					height: 600 + 'px'
+				}"
+				:scroll-y="true"
+				:show-scrollbar="false"
+			>
+				<view class="gui-margin-top gui-flex gui-row gui-space-between">
+					<view class="gui-dark-bg-level-3 gui-color-gray">
+						<image
+							class="gui-album-img"
+							mode="aspectFill"
+							src="https://images.unsplash.com/photo-1663603802898-798d83877992?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0OHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=90"
+						></image>
+					</view>
+					<view class="gui-flex gui-column gui-flex1 gui-m-l-20" style="width: 388rpx">
+						<text class="gui-color-white" style="font-size: 38rpx">寻龙天师</text>
+						<view class="gui-m-t-10 gui-flex gui-row gui-wrap">
+							<gui-tags
+								text="小标签"
+								:size="22"
+								:customClass="['gui-bg-black-opacity2', 'gui-color-white', 'gui-m-r-5', 'gui-m-b-5']"
+								v-for="n in 10"
+								:key="n"
+							></gui-tags>
+						</view>
+					</view>
+				</view>
+
+				<view class="gui-flex gui-row gui-space-between gui-color-white gui-text-center gui-m-t-30">
+					<view class="gui-flex gui-column">
+						<text class="gui-text-brown-light">
+							<text class="iconfont">&#xe651;</text>
+							NO.6
+							<text class="iconfont">&#xe650;</text>
+						</text>
+						<text class="gui-text-small gui-text-brown">小说</text>
+					</view>
+					<view class="gui-flex gui-column">
+						<text>
+							9.5
+							<text class="gui-text-small gui-text-brown">分</text>
+						</text>
+						<text class="gui-text-small gui-text-brown">1.6万条评价</text>
+					</view>
+					<view class="gui-flex gui-column">
+						<text>
+							3.5
+							<text class="gui-text-small gui-text-brown">万</text>
+						</text>
+						<text class="gui-text-small gui-text-brown">月票</text>
+					</view>
+					<view class="gui-flex gui-column">
+						<text>
+							8.3
+							<text class="gui-text-small gui-text-brown">亿</text>
+						</text>
+						<text class="gui-text-small gui-text-brown">播放量</text>
+					</view>
+					<view class="gui-flex gui-column">
+						<text>
+							83.5
+							<text class="gui-text-small gui-text-brown">万</text>
+						</text>
+						<text class="gui-text-small gui-text-brown">订阅量</text>
+					</view>
+				</view>
+
+				<view class="gui-m-t-30"><text class="gui-text-brown">点击超60亿有声作品《摸金天师》作者，盗墓新作!</text></view>
+
+				<view class="gui-m-t-20 gui-border-box gui-flex gui-bg-black-opacity2 gui-p-20" style="border-radius: 20rpx">
+					<view class="gui-flex gui-column gui-flex1 gui-color-white">
+						<text>剧集与更新</text>
+						<text class="gui-m-t-20 gui-text-brown gui-text-small">专辑限时免费中·连载至第2257集</text>
+					</view>
+					<view><text class="gui-icons gui-block gui-color-white">&#xe601;</text></view>
+				</view>
+
+				<view class="gui-m-t-20 gui-border-box gui-bg-black-opacity2 gui-p-20" style="border-radius: 20rpx">
+					<view class="gui-flex gui-column gui-flex1 gui-color-white"><text>主播介绍</text></view>
+					<view class="gui-flex gui-m-t-20">
+						<view class="gui-flex1">
+							<view class="gui-flex">
+								<image
+									mode="aspectFill"
+									src="https://images.unsplash.com/photo-1663524789648-90fbdf8c8b76?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzMDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=100&q=90"
+									class="gui-album-avatar"
+								></image>
+								<view class="gui-flex gui-column gui-m-l-20">
+									<text class="gui-color-white">有声的紫襟</text>
+									<text class="gui-text-brown gui-text-small gui-m-t-20">已被2331.4万人关注</text>
+								</view>
+							</view>
+						</view>
+						<view class="gui-bg-black-opacity1 gui-text-center" style="width: 150rpx; height: 60rpx; line-height: 60rpx; border-radius: 20rpx">
+							<text class="gui-icons gui-color-white gui-text-small">&#xe6c7; 关注</text>
+						</view>
+					</view>
+					<view class="gui-m-t-20 gui-text-brown gui-text-small"><text>喜马人肉故事机!来呀，等你关注。微博求关注呀: 有声的紫襟。更多的内容点击查看</text></view>
+				</view>
+
+				<view class="gui-m-t-30">
+					<view class="gui-text-center"><text class="gui-color-white gui-h3">简介</text></view>
+					<view class="gui-bg-white gui-dark-bg-level-3 gui-m-t-20">
+						<gui-spread class="guiSpread" height="600rpx" :isShrink="true"><gui-article-info :article="article"></gui-article-info></gui-spread>
+					</view>
+				</view>
+
+				<view class="gui-m-t-30">
+					<text class="gui-h3 gui-color-white gui-m-b-20 gui-block">创作团队</text>
+					<scroll-view :scroll-x="true" class="create-team-scroll">
+						<view class="create-team-item gui-bg-black-opacity1 gui-flex gui-column gui-align-items-center gui-text-center gui-p-50 gui-m-r-20">
+							<image
+								mode="aspectFill"
+								src="https://images.unsplash.com/photo-1663524789648-90fbdf8c8b76?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzMDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=100&q=90"
+								class="create-team-avatar"
+							></image>
+							<text class="gui-color-white">有声的</text>
+							<text class="gui-text-small gui-text-brown">主播</text>
+						</view>
+
+						<view class="create-team-item gui-bg-black-opacity1 gui-flex gui-column gui-align-items-center gui-text-center gui-p-50 gui-m-r-20">
+							<image
+								mode="aspectFill"
+								src="https://images.unsplash.com/photo-1663524789648-90fbdf8c8b76?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzMDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=100&q=90"
+								class="create-team-avatar"
+							></image>
+							<text class="gui-color-white">风尘散人本尊</text>
+							<text class="gui-text-small gui-text-brown">作者</text>
+						</view>
+
+						<view class="create-team-item gui-bg-black-opacity1 gui-flex gui-column gui-align-items-center gui-text-center gui-p-50 gui-m-r-20">
+							<image
+								mode="aspectFill"
+								src="https://images.unsplash.com/photo-1663524789648-90fbdf8c8b76?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzMDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=100&q=90"
+								class="create-team-avatar"
+							></image>
+							<text class="gui-color-white">冬菱扇</text>
+							<text class="gui-text-small gui-text-brown">所有女角色呀</text>
+						</view>
+
+						<view class="create-team-item gui-bg-black-opacity1 gui-flex gui-column gui-align-items-center gui-text-center gui-p-50 gui-m-r-20">
+							<image
+								mode="aspectFill"
+								src="https://images.unsplash.com/photo-1663524789648-90fbdf8c8b76?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzMDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=100&q=90"
+								class="create-team-avatar"
+							></image>
+							<text class="gui-color-white">赵露思</text>
+							<text class="gui-text-small gui-text-brown">所有女角色呀</text>
+						</view>
+
+						<view class="create-team-item gui-bg-black-opacity1 gui-flex gui-column gui-align-items-center gui-text-center gui-p-50 gui-m-r-20">
+							<image
+								mode="aspectFill"
+								src="https://images.unsplash.com/photo-1663524789648-90fbdf8c8b76?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzMDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=100&q=90"
+								class="create-team-avatar"
+							></image>
+							<text class="gui-color-white">吴磊</text>
+							<text class="gui-text-small gui-text-brown">所有男角色呀</text>
+						</view>
+					</scroll-view>
+				</view>
+
+				<view class="gui-m-t-20 gui-border-box gui-bg-black-opacity2 gui-p-20" style="border-radius: 20rpx">
+					<view class="gui-flex gui-row gui-space-between">
+						<view class="gui-text-brown">本月月票贡献榜</view>
+						<text class="gui-icons gui-block gui-color-white">&#xe601;</text>
+					</view>
+					<view class="gui-flex gui-row gui-space-between">
+						<view class="gui-flex gui-column gui-align-items-center gui-m-r-100 gui-m-t-30">
+							<text class="gui-h2 gui-color-white">915</text>
+							<text class="gui-text-brown gui-text-small">本月月票总数</text>
+						</view>
+						<view class="gui-flex1 gui-flex">
+							<view class="gui-flex gui-column gui-align-items-center gui-p-10 gui-m-10 gui-bg-black-opacity6">
+								<text class="gui-text-small gui-text-brown">TOP 1</text>
+								<text class="iconfont gui-block gui-color-white gui-h1" style="color: goldenrod !important">&#xe6b1;</text>
+							</view>
+							<view class="gui-flex gui-column gui-align-items-center gui-p-10 gui-m-10">
+								<text class="gui-text-small gui-text-brown">TOP 2</text>
+								<text class="iconfont gui-block gui-color-white gui-h1" style="color: silver !important">&#xe6b1;</text>
+							</view>
+							<view class="gui-flex gui-column gui-align-items-center gui-p-10 gui-m-10">
+								<text class="gui-text-small gui-text-brown">TOP 3</text>
+								<text class="iconfont gui-block gui-color-white gui-h1" style="color: coral !important">&#xe6b1;</text>
+							</view>
+						</view>
+					</view>
+				</view>
+			</scroll-view>
+			<!-- 滚动区域 -->
+
+			<view class="mainScrollView" :style="getMainScrollViewStyle">
+				<view @click="toggleScroll" style="height: 50px" class="gui-text-center">
+					<text class="gui-icons gui-color-white gui-h3">{{ scrollY ? '&#xe654;' : '&#xe603;' }}</text>
+				</view>
+				<scroll-view class="gui-bg-white gui-dark-bg-level-3 gui-border-box" :class="{ popupScrollView: scrollY }" :scroll-y="scrollY" :show-scrollbar="false">
+					<view><gui-image src="https://sghimages.shobserver.com/img/catch/2023/04/01/17054f5f-a4a9-4095-a200-a23d2a5231de.jpg" :width="750"></gui-image></view>
+					<view><gui-image src="https://sghimages.shobserver.com/img/catch/2023/04/01/734db9d3-7614-4ce9-b881-992dac4f945e.jpg" :width="750"></gui-image></view>
+					<view><gui-image src="https://sghimages.shobserver.com/img/catch/2023/04/01/b755d739-a7ef-41f7-8689-492fb4a77af4.jpg" :width="750"></gui-image></view>
+				</scroll-view>
+			</view>
+		</template>
+	</gui-page>
+</template>
+<script setup>
+import { onMounted, ref, computed } from 'vue';
+let popupViewTopMin = 0;
+let popupViewTopMax = 0;
+let systemHeight = 0;
+const popupViewTop = ref(0);
+const scrollY = ref(false);
+const article = ref([]);
+const coverTransform = ref(0);
+
+onMounted(() => {
+	const system = uni.getSystemInfoSync();
+	popupViewTopMin = 200;
+	popupViewTop.value = popupViewTopMax = system.windowHeight - 100;
+	coverTransform.value = popupViewTop.value;
+	systemHeight = system.windowHeight;
+	uni.request({
+		url: 'https://www.graceui.com/api/html2array',
+		success: res => {
+			article.value = res.data.data;
+		}
+	});
+});
+
+const getMainScrollViewStyle = computed(() => {
+	return {
+		background: 'black',
+		transform: `translateY(${popupViewTop.value}px)`
+	};
+});
+
+const toggleScroll = () => {
+	scrollY.value = !scrollY.value;
+	const timer = setInterval(() => {
+		if (scrollY.value) {
+			popupViewTop.value = popupViewTop.value - 10;
+			if (popupViewTop.value <= popupViewTopMin) {
+				clearInterval(timer);
+			}
+		} else {
+			popupViewTop.value = popupViewTop.value + 10;
+			if (popupViewTop.value >= popupViewTopMax) {
+				clearInterval(timer);
+			}
+		}
+	}, 10);
+};
+</script>
+<style scoped lang="scss">
+.mianImgBg {
+	left: 0;
+	top: 0;
+	z-index: 1;
+}
+.mainScrollView {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 2;
+	width: 750rpx;
+	border-radius: 8rpx;
+}
+
+.popupScrollView {
+	height: calc(100vh - var(--window-top) - 250px);
+}
+
+.gui-album-img {
+	width: 150rpx;
+	height: 150rpx;
+	border: 2rpx solid gold;
+	border-radius: 10rpx;
+}
+
+.gui-album-avatar {
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 50%;
+}
+
+.gui-text-brown {
+	color: #b3a598;
+}
+
+.gui-text-brown-light {
+	color: #e2bb92;
+}
+
+/*  深度样式 */
+.guiSpread :deep(.gui-editor-show) {
+	width: 690rpx !important;
+}
+
+.create-team-scroll {
+	white-space: nowrap; // 滚动必须加的属性
+	width: 100%;
+	padding: 20rpx 20rpx 20rpx 0rpx;
+}
+.create-team-item {
+	display: inline-flex; // item的外层定义成行内元素才可进行滚动 inline-block / inline-flex 均可
+	flex-direction: column;
+	align-items: center;
+	border-radius: 20rpx;
+}
+
+.create-team-avatar {
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 50%;
+}
+</style>
