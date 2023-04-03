@@ -318,6 +318,7 @@ const dragMove = e => {
 
 const dragEnd = () => {
 	isDragging = false;
+	scrollY.value = true;
 };
 </script>
 <style scoped lang="scss">
