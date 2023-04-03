@@ -260,22 +260,31 @@ const getMainScrollViewStyle = computed(() => {
 });
 
 const toggleScroll = () => {
-	if (!isDragging) {
-		scrollY.value = !scrollY.value;
-		const timer = setInterval(() => {
-			if (scrollY.value) {
-				popupViewTop.value = popupViewTop.value - 10;
-				if (popupViewTop.value <= popupViewTopMin) {
-					clearInterval(timer);
-				}
-			} else {
-				popupViewTop.value = popupViewTop.value + 10;
-				if (popupViewTop.value >= popupViewTopMax) {
-					clearInterval(timer);
-				}
-			}
-		}, 10);
-	}
+  // 如果当前正在拖动，则不执行 toggle 操作
+  if (isDragging.value) {
+    return;
+  }
+
+  // 如果当前已经滑动到最底部了，则不再执行向下滑动的 toggle 操作
+  if (!scrollY.value && popupViewTop.value >= popupViewTopMax) {
+    return;
+  }
+
+  scrollY.value = !scrollY.value;
+
+  const timer = setInterval(() => {
+    if (scrollY.value) {
+      popupViewTop.value = popupViewTop.value - 10;
+      if (popupViewTop.value <= popupViewTopMin) {
+        clearInterval(timer);
+      }
+    } else {
+      popupViewTop.value = popupViewTop.value + 10;
+      if (popupViewTop.value >= popupViewTopMax) {
+        clearInterval(timer);
+      }
+    }
+  }, 10);
 };
 
 const dragStart = e => {
