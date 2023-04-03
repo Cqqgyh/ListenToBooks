@@ -218,18 +218,30 @@
 			<!-- 滚动区域 -->
 
 			<view class="mainScrollView" :style="getMainScrollViewStyle" @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd">
-				<view style="height: 50px" class="gui-text-center" @touchstart="dragStart" @touchmove="dragMove" @touchend="dragEnd">
-					<text class="iconfont gui-color-white gui-h3">&#xeb2e;</text>
-				</view>
+				<view class="gui-text-center" @touchstart="dragStart" @touchmove="dragMove" @touchend="dragEnd"><text class="iconfont gui-color-white gui-h3">&#xeb2e;</text></view>
 				<scroll-view
 					class="popupSVContainer gui-bg-white gui-dark-bg-level-3 gui-border-box"
 					:scroll-y="scrollY"
 					:show-scrollbar="false"
 					:style="{ height: scrollHeight + 'px' }"
 				>
-					<view><gui-image src="https://sghimages.shobserver.com/img/catch/2023/04/01/17054f5f-a4a9-4095-a200-a23d2a5231de.jpg" :width="750"></gui-image></view>
-					<view><gui-image src="https://sghimages.shobserver.com/img/catch/2023/04/01/734db9d3-7614-4ce9-b881-992dac4f945e.jpg" :width="750"></gui-image></view>
-					<view><gui-image src="https://sghimages.shobserver.com/img/catch/2023/04/01/b755d739-a7ef-41f7-8689-492fb4a77af4.jpg" :width="750"></gui-image></view>
+					<view class="gui-flex gui-space-between gui-align-items-center gui-m-20">
+						<view class="gui-h4" style="font-weight: bold;">6元开会员 免费听</view>
+						<button type="default" class="gui-button gui-bg-red gui-noborder">
+							<text class="gui-color-white gui-button-text gui-p-l-20 gui-p-r-20 gui-border-radius">立即开通</text>
+						</button>
+					</view>
+
+					<view class="gui-flex gui-space-between gui-justify-content-center gui-align-items-center">
+						<view type="default" class="gui-button gui-bg-black-opacity6 gui-noborder gui-flex1 gui-m-l-20 gui-m-r-20 gui-flex gui-justify-content-center">
+							<text class="gui-icons gui-block  gui-m-r-10  gui-text-brown-light">&#xe649;</text>
+							<text class="gui-icons  gui-button-text  gui-text-brown-light">开始播放</text>
+						</view>
+						<view type="default" class="gui-button gui-bg-black-opacity6 gui-noborder gui-flex1 gui-m-l-20 gui-m-r-20  gui-flex gui-justify-content-center">
+							<text class="gui-icons gui-color-white gui-block  gui-m-r-10">&#xe625;</text>
+							<text class="gui-icons gui-color-white gui-button-text">免费订阅</text>
+						</view>
+					</view>
 				</scroll-view>
 			</view>
 		</template>
@@ -252,9 +264,8 @@ let isDragging = false;
 const article = ref([]);
 
 const scrollHeight = computed(() => {
-  return systemHeight - popupViewTop.value - 50;
+	return systemHeight - popupViewTop.value - 50;
 });
-
 
 onMounted(() => {
 	const system = uni.getSystemInfoSync();
