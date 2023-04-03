@@ -95,7 +95,7 @@
 
 				<view class="gui-m-t-30"><text class="gui-text-brown">点击超60亿有声作品《摸金天师》作者，盗墓新作!</text></view>
 
-				<view class="gui-m-t-20 gui-border-box gui-flex gui-bg-black-opacity2 gui-p-20" style="border-radius: 20rpx">
+				<view class="gui-m-t-20 gui-border-box gui-flex gui-bg-black-opacity2 gui-p-20" style="border-radius: 20rpx" @click="toggleScroll">
 					<view class="gui-flex gui-column gui-flex1 gui-color-white">
 						<text>剧集与更新</text>
 						<text class="gui-m-t-20 gui-text-brown gui-text-small">专辑限时免费中·连载至第2257集</text>
@@ -217,9 +217,9 @@
 			</scroll-view>
 			<!-- 滚动区域 -->
 
-			<view class="mainScrollView" :style="getMainScrollViewStyle">
-				<view @click="toggleScroll" style="height: 50px" class="gui-text-center">
-					<text class="gui-icons gui-color-white gui-h3">{{ scrollY ? '&#xe654;' : '&#xe603;' }}</text>
+			<view class="mainScrollView" :style="getMainScrollViewStyle" @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd">
+				<view style="height: 50px" class="gui-text-center" @touchstart="dragStart" @touchmove="dragMove" @touchend="dragEnd">
+					<text class="iconfont gui-color-white gui-h3">&#xeb2e;</text>
 				</view>
 				<scroll-view class="gui-bg-white gui-dark-bg-level-3 gui-border-box" :class="{ popupScrollView: scrollY }" :scroll-y="scrollY" :show-scrollbar="false">
 					<view><gui-image src="https://sghimages.shobserver.com/img/catch/2023/04/01/17054f5f-a4a9-4095-a200-a23d2a5231de.jpg" :width="750"></gui-image></view>
@@ -232,13 +232,17 @@
 </template>
 <script setup>
 import { onMounted, ref, computed } from 'vue';
+
 let popupViewTopMin = 0;
 let popupViewTopMax = 0;
 let systemHeight = 0;
 const popupViewTop = ref(0);
 const scrollY = ref(false);
-const article = ref([]);
 const coverTransform = ref(0);
+
+let dragStartPos = { x: 0, y: 0 };
+let dragEndPos = { x: 0, y: 0 };
+let isDragging = false;
 
 onMounted(() => {
 	const system = uni.getSystemInfoSync();
@@ -246,12 +250,6 @@ onMounted(() => {
 	popupViewTop.value = popupViewTopMax = system.windowHeight - 100;
 	coverTransform.value = popupViewTop.value;
 	systemHeight = system.windowHeight;
-	uni.request({
-		url: 'https://www.graceui.com/api/html2array',
-		success: res => {
-			article.value = res.data.data;
-		}
-	});
 });
 
 const getMainScrollViewStyle = computed(() => {
@@ -262,20 +260,46 @@ const getMainScrollViewStyle = computed(() => {
 });
 
 const toggleScroll = () => {
-	scrollY.value = !scrollY.value;
-	const timer = setInterval(() => {
-		if (scrollY.value) {
-			popupViewTop.value = popupViewTop.value - 10;
-			if (popupViewTop.value <= popupViewTopMin) {
-				clearInterval(timer);
+	if (!isDragging) {
+		scrollY.value = !scrollY.value;
+		const timer = setInterval(() => {
+			if (scrollY.value) {
+				popupViewTop.value = popupViewTop.value - 10;
+				if (popupViewTop.value <= popupViewTopMin) {
+					clearInterval(timer);
+				}
+			} else {
+				popupViewTop.value = popupViewTop.value + 10;
+				if (popupViewTop.value >= popupViewTopMax) {
+					clearInterval(timer);
+				}
 			}
-		} else {
-			popupViewTop.value = popupViewTop.value + 10;
-			if (popupViewTop.value >= popupViewTopMax) {
-				clearInterval(timer);
-			}
+		}, 10);
+	}
+};
+
+const dragStart = e => {
+	isDragging = true;
+	dragStartPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+};
+
+const dragMove = e => {
+	if (isDragging) {
+		const { clientX, clientY } = e.touches[0];
+		const dy = clientY - dragStartPos.y;
+		popupViewTop.value += dy;
+		if (popupViewTop.value <= popupViewTopMin) {
+			popupViewTop.value = popupViewTopMin;
 		}
-	}, 10);
+		if (popupViewTop.value >= popupViewTopMax) {
+			popupViewTop.value = popupViewTopMax;
+		}
+		dragStartPos = { x: clientX, y: clientY };
+	}
+};
+
+const dragEnd = () => {
+	isDragging = false;
 };
 </script>
 <style scoped lang="scss">
