@@ -1,119 +1,97 @@
 /* 组件演示列表 */
 .gui-components-list {
-  padding: 5rpx 30rpx;
+	padding: 5rpx 30rpx;
 }
 .gui-components-list-title {
-  padding: 32rpx 0;
-  font-size: 30rpx;
+	padding: 32rpx 0;
+	font-size: 30rpx;
 }
 .gui-components-list-text {
-  font-size: 34rpx;
+	font-size: 34rpx;
 }
 .gui-components-list-icon {
-  font-size: 38rpx;
+	font-size: 38rpx;
 }
 
-$spaceamounts: (
-  0,
-  5,
-  10,
-  15,
-  20,
-  25,
-  30,
-  35,
-  40,
-  45,
-  50,
-  75,
-  80,
-  85,
-  90,
-  95,
-  100
-); // Adjust this to include the pixel amounts you need.
+$spaceamounts: (0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 75, 80, 85, 90, 95, 100); // Adjust this to include the pixel amounts you need.
 $sides: (top, bottom, left, right); // Leave this variable alone
 @each $space in $spaceamounts {
-  @each $side in $sides {
-    .gui-m-#{str-slice($side, 0, 1)}-#{$space} {
-      margin-#{$side}: #{$space}rpx !important;
-    }
-    .gui-p-#{str-slice($side, 0, 1)}-#{$space} {
-      padding-#{$side}: #{$space}rpx !important;
-    }
-  }
+	@each $side in $sides {
+		.gui-m-#{str-slice($side, 0, 1)}-#{$space} {
+			margin-#{$side}: #{$space}rpx !important;
+		}
+		.gui-p-#{str-slice($side, 0, 1)}-#{$space} {
+			padding-#{$side}: #{$space}rpx !important;
+		}
+	}
 }
-
 @each $space in $spaceamounts {
-  .gui-m-#{$space} {
-    margin: #{$space}rpx !important;
-  }
-  .gui-p-#{$space} {
-    padding: #{$space}rpx !important;
-  }
+	.gui-m-#{$space} {
+		margin: #{$space}rpx !important;
+	}
+	.gui-p-#{$space} {
+		padding: #{$space}rpx !important;
+	}
 }
-
 @each $space in $spaceamounts {
-  .gui-b-#{$space} {
-    border-radius: #{$space}rpx !important;
+	.gui-b-#{$space} {
+		border-radius: #{$space}rpx !important;
+	}
+}
+$mounts: (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+$alphamounts: (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1);
+
+
+@each $mount, $alpha in zip($mounts, $alphamounts) {
+  .gui-text-orange-opacity#{$mount} {
+    color: rgba(233, 150, 122, $alpha);
   }
 }
 
-.gui-bg-black-opacity1 {
-  background: rgba(0, 0, 0, 0.1);
+@each $mount, $alpha in zip($mounts, $alphamounts) {
+  .gui-bg-orange-opacity#{$mount} {
+    background: rgba(233, 150, 122, $alpha);
+  }
 }
 
-.gui-bg-black-opacity2 {
-  background: rgba(0, 0, 0, 0.2);
+@each $mount, $alpha in zip($mounts, $alphamounts) {
+  .gui-text-black-opacity#{$mount} {
+    color: rgba(0, 0, 0, $alpha);
+  }
 }
 
-.gui-bg-black-opacity3 {
-  background: rgba(0, 0, 0, 0.3);
+
+@each $mount, $alpha in zip($mounts, $alphamounts) {
+  .gui-bg-black-opacity#{$mount} {
+    background: rgba(0, 0, 0, $alpha);
+  }
 }
 
-.gui-bg-black-opacity4 {
-  background: rgba(0, 0, 0, 0.4);
-}
-
-.gui-bg-black-opacity5 {
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.gui-bg-black-opacity6 {
-  background: rgba(0, 0, 0, 0.6);
-}
-
-.gui-bg-black-opacity7 {
-  background: rgba(0, 0, 0, 0.7);
-}
 
 .gui-ellipsis-line2 {
-  // 多行文本溢出
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+	// 多行文本溢出
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
 }
-
 /* 动态渐变头部导航 */
 .custom-header-bg {
-  background-color: rgba(0, 0, 0, 0.6);
+	background-color: rgba(0, 0, 0, 0.6);
 }
 
 /* 切换导航样式 */
 .custom-switch-nav-border {
-  border-color: #ff0036 !important;
+	border-color: #ff0036 !important;
 }
-
 .gui-bg-brown-linear-gradient {
-  background-image: linear-gradient(to right, rgb(120, 105, 90), rgb(100, 85, 60)) !important;
+	background-image: linear-gradient(to right, rgb(120, 105, 90), rgb(100, 85, 60)) !important;
 }
-
 /* 深色模式 */
 /* #ifndef APP-NVUE */
 @media (prefers-color-scheme: dark) {
-  .custom-switch-nav-border {
-    border-color: #888888 !important;
-  }
+	.custom-switch-nav-border {
+		border-color: #888888 !important;
+	}
 }
 /* #endif */
