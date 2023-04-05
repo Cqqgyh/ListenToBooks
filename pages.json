@@ -1,18 +1,17 @@
 {
 	"pages": [{
-			"path": "pages/confirmOrder/confirmOrder",
-			"style": {
-				"navigationBarTitleText": "确认订单",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
 			"path": "pages/detail/detail",
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom",
 				"disableScroll": true
+			}
+		}, {
+			"path": "pages/confirmOrder/confirmOrder",
+			"style": {
+				"navigationBarTitleText": "确认订单",
+				"enablePullDownRefresh": false
 			}
 
 		}, {

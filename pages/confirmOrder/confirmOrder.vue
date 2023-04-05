@@ -38,28 +38,6 @@
 
 				<view class="split-line gui-m-t-20 gui-m-b-20"></view>
 
-				<view class="gui-flex gui-align-items-center">
-					<image
-						class="gui-album-img"
-						mode="aspectFill"
-						src="https://images.unsplash.com/photo-1663603802898-798d83877992?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0OHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=90"
-					></image>
-
-					<view class="gui-flex gui-column gui-flex1 gui-m-l-20">
-						<text class="gui-block gui-ellipsis-line2 gui-h5">人生|路遥著人生之路电视剧原著杨 晨张震演播 更多详情的内容请点点击查看</text>
-						<text class="gui-text-small gui-m-t-20 gui-m-b-20 gui-block gui-color-red">7天无忧退</text>
-						<view class="gui-flex gui-space-between gui-align-items-end">
-							<text class="gui-h3 gui-bold">￥39.00</text>
-							<text class="gui-block gui-color-gray">
-								<text class="gui-text-small">X</text>
-								1
-							</text>
-						</view>
-					</view>
-				</view>
-
-				<view class="split-line gui-m-t-20 gui-m-b-20"></view>
-
 				<view class="gui-flex gui-justify-content-end gui-m-t-40 gui-m-b-40">
 					<text class="gui-bold">
 						小计:
