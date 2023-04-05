@@ -221,7 +221,7 @@
 				<view class="gui-text-center" @touchstart="dragStart" @touchmove="dragMove" @touchend="dragEnd"><text class="iconfont gui-color-white gui-h3">&#xeb2e;</text></view>
 				<view class="gui-bg-white gui-dark-bg-level-3 gui-border-box popupView">
 					<view class="gui-flex gui-space-between gui-align-items-center gui-m-20" @click="openAccountPopup">
-						<view class="gui-h4" style="font-weight: bold">6元开会员 免费听</view>
+						<view class="gui-h4 gui-bold">6元开会员 免费听</view>
 						<button type="default" class="gui-button gui-bg-red gui-noborder gui-m-t-20">
 							<text class="gui-color-white gui-button-text gui-p-l-20 gui-p-r-20 gui-border-radius">立即开通</text>
 						</button>
@@ -309,7 +309,7 @@
 									:style="{ height: scrollHeight + 'px' }"
 								>
 									<view class="gui-flex gui-space-around gui-m-t-20 gui-m-b-20">
-										<view class="gui-flex gui-flex1 gui-justify-content-start gui-align-items-center"><text style="font-weight: bold">评论区 1.6万</text></view>
+										<view class="gui-flex gui-flex1 gui-justify-content-start gui-align-items-center"><text class="gui-bold">评论区 1.6万</text></view>
 										<view class="gui-flex gui-flex1 gui-justify-content-end">
 											<text class="gui-block gui-m-r-20">热门</text>
 											<text class="gui-block gui-m-r-20">|</text>
@@ -445,7 +445,7 @@
 					</view>
 
 					<view class="gui-flex gui-space-between gui-m-30 gui-border gui-p-20">
-						<text class="gui-text-black-opacity5" style="font-weight: bold">更多会员套餐</text>
+						<text class="gui-text-black-opacity5 gui-bold">更多会员套餐</text>
 						<text class="gui-icons gui-block gui-h3 gui-text-black-opacity3">&#xe601;</text>
 					</view>
 
@@ -529,11 +529,11 @@
 					</view>
 
 					<navigator class="gui-m-40 gui-flex gui-space-between gui-bg-black-opacity2 gui-p-20">
-						<text class="gui-ellipsis gui-flex1" >0.3喜点/集购买本专辑</text>
+						<text class="gui-ellipsis gui-flex1">0.3喜点/集购买本专辑</text>
 						<text class="gui-list-arrow-right gui-icons">&#xe601;</text>
 					</navigator>
 
-					<view style="height:100rpx"></view>
+					<view style="height: 100rpx"></view>
 				</view>
 			</gui-popup>
 		</template>

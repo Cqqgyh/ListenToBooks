@@ -27,7 +27,7 @@
             <view class="gui-list-body">
               <view class="gui-card-desc">
                 <view class="gui-flex gui-rows gui-nowrap gui-align-items-center">
-                  <text class="gui-card-name gui-primary-text gui-h4" style="font-weight: bold">听友 1234567890</text>
+                  <text class="gui-card-name gui-primary-text gui-h4 gui-bold">听友 1234567890</text>
                 </view>
                 <view class="gui-flex gui-row gui-text gui-m-t-10">
                   <view class="gui-flex gui-column gui-align-items-center">
