@@ -1,5 +1,13 @@
 {
 	"pages": [{
+			"path": "pages/album/album",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+
+		}, {
 			"path": "pages/detail/detail",
 			"style": {
 				"navigationBarTitleText": "",
@@ -53,7 +61,6 @@
 				"navigationStyle": "custom"
 			}
 		}
-
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
