@@ -99,6 +99,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/createAlbum/createAlbum",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
