@@ -154,7 +154,7 @@
 <script setup lang="ts">
 import graceJS from '@/Grace6/js/grace.js';
 
-import { ref, computed, onMounted, onBeforeUpdate } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 const systemHeight = ref(0);
 const swiperHeight = computed(() => {
 	return systemHeight.value - uni.upx2px(113);
