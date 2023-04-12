@@ -254,6 +254,8 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue"
+import { courseService } from '../../api'
+import { onLoad } from '@dcloudio/uni-app'
 const navItems = ref([
   { name: "追更", id: 0 },
   { name: "订阅", id: 1 },
@@ -261,6 +263,14 @@ const navItems = ref([
   { name: "历史", id: 3 },
   { name: "下载", id: 4 },
 ])
+
+const currentIndex = ref(4)
+onLoad(async () => {
+  console.log(1);
+  
+  const res = courseService.findAllCategory1()
+  console.log(res);
+})
 </script>
 <style scoped>
 .gui-card-img {
