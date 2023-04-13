@@ -1,5 +1,6 @@
 import { useUserStore } from '../stores/user'
 import type { RequestOptions } from './interface'
+import { RequestResponse } from "./interface"
 const BASEURL = 'http://139.198.163.91:8500'
 class Service {
   api(opts: RequestOptions) {
@@ -66,9 +67,9 @@ class Service {
     })
   }
 
-  get(options: RequestOptions) {
+  get(options: RequestOptions): Promise<RequestResponse> {
     options.method = 'GET'
-    return this.api(options)
+    return this.api(options) as Promise<RequestResponse>
   }
 
   post(options: RequestOptions) {
