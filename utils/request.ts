@@ -25,7 +25,6 @@ class Service {
         method: opts.method,
         header,
         success: (res: any) => {
-          console.log('-----------------',res)
           uni.hideLoading()
           if (res.statusCode === 200) {
             if (res.data.code == 200) {
@@ -73,17 +72,17 @@ class Service {
     return this.api(options)
   }
 
-  post(options: RequestOptions) {
+  post<T>(options: RequestOptions):Promise<RequestResponse<T>> {
     options.method = 'POST'
     return this.api(options)
   }
 
-  pus(options: RequestOptions) {
+  pus<T>(options: RequestOptions):Promise<RequestResponse<T>> {
     options.method = 'PUT'
     return this.api(options)
   }
 
-  delete(options: RequestOptions) {
+  delete<T>(options: RequestOptions):Promise<RequestResponse<T>> {
     options.method = 'DELETE'
     return this.api(options)
   }
