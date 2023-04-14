@@ -17,6 +17,6 @@ export interface AnyType {
 export interface RequestResponse<T = any> {
   code: number
   message: string
-  success: boolean
+  success?: boolean
   data: T
 }
