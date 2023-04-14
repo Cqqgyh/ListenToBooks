@@ -18,11 +18,5 @@ export interface RequestResponse<T = any> {
   code: number
   message: string
   success: boolean
-  data?: T
-}
-
-export interface AxiosResponse<T = RequestResponse> {
-  data: T;
-  statusCode: number;
-  statusText?: string;
+  data: T
 }

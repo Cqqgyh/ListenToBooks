@@ -9,14 +9,14 @@ class CateGory extends Service {
     })
   }
   // 获取所有分类信息
-  findAllCategory(): Promise<RequestResponse<CategoryListInterface[]>> {
-    return this.get({
+  findAllCategory() {
+    return this.get<CategoryListInterface[]>({
       url: '/api/album/category/getBaseCategoryList'
     })
   }
   // 根据一级分类Id 查询分类属性数据
-  getAttrList(category1Id: string | number): Promise<RequestResponse<AttributeListInterface[]>> {
-    return this.get({
+  getAttrList(category1Id: string | number) {
+    return this.get<AttributeListInterface[]>({
       url: `/api/album/category/findAttribute/${category1Id}`
     })
   }
