@@ -21,6 +21,8 @@ export default {
 @import "./Grace6/css/graceDark.scss";
 /* 加载自定义样式 */
 @import "./custom/custom.scss";
+/* 引入颜色库 */
+@import "./Grace6/css/colors.css";
 
 @import "./custom/iconfont.scss";
 /* 加载图标字体 - 条件编译模式 */
