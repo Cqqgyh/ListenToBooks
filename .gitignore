@@ -34,6 +34,6 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
+.vscode
 # Use the PNPM
 package-lock.json
