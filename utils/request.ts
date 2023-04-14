@@ -1,9 +1,9 @@
 import { useUserStore } from '../stores/user'
-import type { RequestOptions } from './interface'
+import type { RequestOptions, AxiosResponse } from './interface'
 import { RequestResponse } from "./interface"
 const BASEURL = 'http://139.198.163.91:8500'
 class Service {
-  api(opts: RequestOptions): Promise<RequestResponse> {
+  api<T>(opts: RequestOptions): Promise<AxiosResponse<T>> {
     // 定义参数对象
     if (!opts.method) opts.method = 'GET'
 
@@ -68,7 +68,7 @@ class Service {
     })
   }
 
-  get(options: RequestOptions) {
+  get<T>(options: RequestOptions):Promise<AxiosResponse<T>> {
     options.method = 'GET'
     return this.api(options)
   }
