@@ -3,6 +3,14 @@ import { RequestResponse } from "../utils/interface"
 import { AttributeListInterface, CategoryListInterface } from "../pages/createAlbum/interfaces"
 
 class CateGory extends Service {
+  /**
+ * @description 新增用户
+ * @param  {string} username
+ * @param {string} nickName
+ * @param {string} password
+ * @returns {<PageRes<any>>}
+ * @docs https://
+ */
   findAllCategory1() {
     return this.get({
       url: '/api/album/category/findAllCategory1'

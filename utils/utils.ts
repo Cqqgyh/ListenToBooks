@@ -22,7 +22,7 @@ export function recursionTree(data: any[], key: string, value: string, childrenN
 }
 
 /**
- * 根据节点id,获取其所有父节点
+ * @description 根据节点id,获取其所有父节点
  * @param list 完整的树结构数组
  * @param  id 当前点击的id
  * @param  idName 需要对比的idName 的属性节点
