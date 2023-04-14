@@ -42,4 +42,11 @@ export function getAllParentArr(list:any[],id:string | number,idName:string = 'i
     }
   }
 }
-
+/**
+ * @description 简单对象的拷贝
+ * @param {object}target 目标对象
+ * @returns
+ */
+export function simpleDeepCopy(target: object) {
+  return JSON.parse(JSON.stringify(target))
+}
