@@ -14,8 +14,9 @@ export interface AnyType {
   data: any
 }
 
-export interface RequestResponse extends AnyType {
+export interface RequestResponse<T = any> {
   code: number
   message: string
   success: boolean
+  data?: T
 }

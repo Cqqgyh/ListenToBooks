@@ -3,7 +3,7 @@ import type { RequestOptions } from './interface'
 import { RequestResponse } from "./interface"
 const BASEURL = 'http://139.198.163.91:8500'
 class Service {
-  api(opts: RequestOptions) {
+  api(opts: RequestOptions): Promise<RequestResponse> {
     // 定义参数对象
     if (!opts.method) opts.method = 'GET'
 
@@ -25,6 +25,7 @@ class Service {
         method: opts.method,
         header,
         success: (res: any) => {
+          console.log('-----------------',res)
           uni.hideLoading()
           if (res.statusCode === 200) {
             if (res.data.code == 200) {
@@ -67,9 +68,9 @@ class Service {
     })
   }
 
-  get(options: RequestOptions): Promise<RequestResponse> {
+  get(options: RequestOptions) {
     options.method = 'GET'
-    return this.api(options) as Promise<RequestResponse>
+    return this.api(options)
   }
 
   post(options: RequestOptions) {
