@@ -3,6 +3,18 @@ export interface AlbumAttributeValueVoListInterface {
   attributeId: number
   valueId: number
 }
+export interface AttributeInterface {
+  attributeId: number | string
+  id: number | string
+  valueName: string
+  [propName: string]: any
+}
+export interface AttributeListInterface {
+  id: number | string
+  attributeName: number | string
+  attributeValueList: AttributeInterface[]
+  [propName: string]: any
+}
 // 专辑信息接口
 export interface AlbumInfoInterface {
   albumTitle: string
@@ -19,13 +31,9 @@ export interface AlbumInfoInterface {
   tracksForFree: number | string
   isOpen: number | string
   albumAttributeValueVoList: AlbumAttributeValueVoListInterface[]
-  // 任意属性
-  [propName: string]: any
 }
 // 分类列表接口
 export interface CategoryListInterface {
   categoryName: string
   categoryId: string | number
-  // 任意属性
-  [propName: string]: any
 }

@@ -19,13 +19,20 @@
             <view class="gui-form-item gui-border-b">
               <text class="gui-form-label">专辑封面</text>
               <view class="gui-form-body">
-                <gui-upload-images
-                  @change="changeUploadedImg"
-                  @uploaded="uploadedImg"
-                  ref="uploadImgRef"
-                  uploadServerUrl="http://139.198.163.91:8500/api/album/fileUpload"
-                  :maxFileNumber="1"
-                ></gui-upload-images>
+                <cl-upload
+                  class="gui-flex gui-space-between"
+                  v-model="coverUrlList"
+                  fileType="image"
+                  :imageFormData="{
+                    count:1,
+                    sizeType:['original', 'compressed'],
+                  }"
+                  :listStyle="{
+                    columns:2,
+                  }"
+                  :add="coverUrlList.length < 1"
+                  action="http://139.198.163.91:8500/api/album/fileUpload"
+                  @onSuccess="uploadImgSuccess"></cl-upload>
               </view>
             </view>
             <!--           专辑分类 -->
@@ -34,30 +41,30 @@
               <!--      分类数据弹出框 -->
               <uni-data-picker
                 ref="categoryPopupPickerRef"
+                class="gui-flex1"
                 placeholder="请选择分类"
                 popup-title="请选择分类"
                 :localdata="categoryList"
                 v-model="formData.category3Id"
-                @change="onchange"
               >
               </uni-data-picker>
             </view>
-            <!--           专辑分类 -->
-            <view class="gui-form-item gui-border-b">
-              <text class="gui-form-label">专辑分类</text>
-              <view class="gui-form-body gui-color-gray" @click="openCategoryPopup">这里应该使用popup选择（必填）</view>
-            </view>
-
             <!--           专辑标签 -->
             <view class="gui-form-item gui-border-b">
               <text class="gui-form-label">专辑标签</text>
-              <view class="gui-form-body">（必填）</view>
+              <!--      标签数据弹出框 -->
+              <view class="gui-form-body" @click="openAttributePopup">这里应该使用popup选择</view>
             </view>
             <!--           专辑简介 -->
             <view class="gui-form-item gui-border-b">
               <text class="gui-form-label">专辑简介</text>
-              <view class="gui-form-body">
-                <gui-editor ref="guieditor"></gui-editor>
+              <view class="gui-form-body" style="padding:10rpx 0;">
+                <textarea
+                  v-model="formData.albumRichIntro"
+                  style="padding:15rpx;"
+                  class="gui-textarea gui-bg-gray gui-dark-bg-level-1"
+                  placeholder="请输入专辑简介" />
+
               </view>
             </view>
             <!--           设为私密 -->
@@ -141,21 +148,31 @@
       <view style="height: 60rpx"></view>
       </form>
       </view>
+      <AttributePopup ref="attributePopupRef" :attributeList="attributeList as AttributeListInterface[]"></AttributePopup>
+
     </template>
   </gui-page>
 </template>
 <script setup lang="ts">
-import { recursionTree } from "../../utils/utils"
-import { ref, reactive } from "vue"
-import { AlbumAttributeValueVoListInterface, AlbumInfoInterface } from "./interfaces"
+import { getAllParentArr, recursionTree } from "../../utils/utils"
+import { ref, reactive, watch,ComponentPublicInstance } from "vue"
+import { onLoad } from '@dcloudio/uni-app'
+import {
+  AlbumAttributeValueVoListInterface,
+  AlbumInfoInterface, AttributeInterface,
+  AttributeListInterface,
+  CategoryListInterface
+} from "./interfaces"
+import { courseService } from '../../api'
+import AttributePopup from "../../components/AttributePopup/AttributePopup.vue"
+
 /* 响应式数据 */
-const categoryPopup = ref(null) as any
-const categoryPopupPickerRef = ref(null) as any
-const uploadImgRef = ref(null) as any
+const attributePopupRef =ref<InstanceType<typeof AttributePopup>>()
+const categoryPopupPickerRef = ref<ComponentPublicInstance>()
 // 表单收集
 const formData = reactive<AlbumInfoInterface>({
   albumTitle: "",
-  category3Id: '2|放松音乐',
+  category3Id: '',
   albumIntro: "",
   coverUrl: "",
   albumRichIntro: "",
@@ -168,131 +185,77 @@ const formData = reactive<AlbumInfoInterface>({
   tracksForFree: 0,
   isOpen: 1,
   albumAttributeValueVoList: <AlbumAttributeValueVoListInterface[]>[],
-  coverUrlList: [] as any[]
 })
+// 上传图片列表
+const coverUrlList = reactive<string[]>([])
+// 监视上传图片列表
+watch(coverUrlList, (val:string[],old:string[]) => {
+  formData.coverUrl = val[0] || ''
+},{immediate:true})
+// 监视已经选中的三级分类
+watch(() => formData.category3Id, (val:string|number,old:string|number) => {
+  // 请求属性列表
+  if (val) {
+    getAttributeList(val)
+  }
+},{immediate:true})
 // 付费类型
 const payTypeList = ref([
   // 付费类型: 0101-免费、0102-vip免费、0103-付费
   { name: "免费", value: "0101" },
   { name: "VIP免费", value: "0102" },
-  { name: "付费", value: "0103" }]
-)
+  { name: "付费", value: "0103" }])
 // 付费类型
 const priceTypeList = ref([
   // 	价格类型： 0201-单集 0202-整专辑
   { name: "单集", value: "0201" },
   { name: "整专辑", value: "0202" }
-  ]
-)
+  ])
 // 分类数据
-const categoryList = reactive([
-  {
-    categoryChild: [
-      {
-        categoryChild: [
-          {
-            categoryName: "催眠音乐",
-            categoryId: 1
-          },
-          {
-            categoryName: "放松音乐",
-            categoryId: 2
-          },
-          {
-            categoryName: "提神音乐",
-            categoryId: 3
-          },
-          {
-            categoryName: "胎教音乐",
-            categoryId: 4
-          },
-          {
-            categoryName: "运动音乐",
-            categoryId: 5
-          },
-          {
-            categoryName: "休闲音乐",
-            categoryId: 6
-          }
-        ],
-        categoryName: "音乐音效",
-        categoryId: 1
-      },
-      {
-        categoryChild: [
-          {
-            categoryName: "助眠引导",
-            categoryId: 7
-          },
-          {
-            categoryName: "放松引导",
-            categoryId: 8
-          },
-          {
-            categoryName: "专注引导",
-            categoryId: 9
-          },
-          {
-            categoryName: "儿童入睡引导",
-            categoryId: 10
-          },
-          {
-            categoryName: "其他",
-            categoryId: 11
-          }
-        ],
-        categoryName: "课程引导",
-        categoryId: 2
-      },
-      {
-        categoryChild: [
-          {
-            categoryName: "经典音乐推荐",
-            categoryId: 12
-          },
-          {
-            categoryName: "热歌盘点",
-            categoryId: 13
-          },
-          {
-            categoryName: "歌曲翻唱",
-            categoryId: 14
-          },
-          {
-            categoryName: "音乐教学",
-            categoryId: 15
-          },
-          {
-            categoryName: "音乐故事",
-            categoryId: 16
-          },
-          {
-            categoryName: "其他",
-            categoryId: 17
-          }
-        ],
-        categoryName: "主播音乐节目",
-        categoryId: 3
-      }
-    ],
-    categoryName: "音乐",
-    categoryId: 1
-  }
-])
-recursionTree(categoryList,'text','categoryName','categoryChild')
-recursionTree(categoryList,'value','categoryId','categoryChild','text')
-recursionTree(categoryList,'children','categoryChild')
+const categoryList = ref<CategoryListInterface[]>([])
+// 分类属性数据
+const attributeList = ref<AttributeListInterface[]>([])
+// 计算选中的三级分类的一级分类是多少
 
 /* 方法 */
-// 分类弹出
-const showCategory = () => {
-  console.log('categoryPopupPickerRef', categoryPopupPickerRef)
-  categoryPopupPickerRef.value.show()
+// 获取所有分类
+const getCategoryList = async () => {
+  try {
+    const res = await courseService.findAllCategory()
+    recursionTree(res.data,'text','categoryName','categoryChild')
+    recursionTree(res.data,'value','categoryId','categoryChild')
+    recursionTree(res.data,'children','categoryChild')
+    categoryList.value = res.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+// 通过一级分类获取属性列表
+const getAttributeList = async (categoryId: string | number) => {
+  try {
+    // 根据id获取所有父级分类
+    const category123List = getAllParentArr(categoryList.value,categoryId,'value','children')
+    console.log('category123List[category123List.length - 1].value',category123List[category123List.length - 1].value)
+    const res = await courseService.getAttrList(category123List[category123List.length - 1].value)
+    res.data.forEach((item:AttributeListInterface,index:number) => {
+      item.checkedId = ''
+      item.attributeValueList.forEach((item2:AttributeInterface,index2) => {
+        item2.value = item2.id
+        item2.text = item2.valueName
+      })
+    })
+    attributeList.value = res.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+// 图片上传成功
+const uploadImgSuccess = (res: any) => {
+  console.log(res)
+  coverUrlList.push(res.data)
 }
 // 表单提交
 const submit = () => {
-  // 提交前先上传图片
-  uploadImgRef.value.upload()
   console.log("submit")
 }
 // 私密开关方法
@@ -307,16 +270,17 @@ const payTypeRadioChange = (e: any) => {
 const priceTypeRadioChange = (e: any) => {
   formData.priceType = e.detail.value
 }
-// 记录选择图片时的待提交数据
-const changeUploadedImg = (e: any) => {
-  console.log(e)
-  formData.coverUrlList = e
-}
-// 上传图片
-const uploadedImg = (res: any) => {
-  console.log(res)
-  formData.coverUrl = res[0].url
-}
+const openAttributePopup = () => {
+  attributePopupRef.value.openPopup();
+};
+
+const closeAttributePopup = () => {
+  attributePopupRef.value.closePopup();
+};
+/* 声明周期 */
+onLoad(() => {
+  getCategoryList()
+})
 </script>
 <style lang="scss" scoped>
 .payment-type-radio{
