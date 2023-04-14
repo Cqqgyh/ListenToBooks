@@ -1,7 +1,7 @@
 <template>
   <gui-page>
     <template v-slot:gBody>
-      
+
     </template>
   </gui-page>
 </template>
@@ -12,6 +12,7 @@ import { ref } from "vue"
 
 /* 方法 */
 
+/* 声明周期 */
 </script>
 
 <style lang="scss" scoped>
