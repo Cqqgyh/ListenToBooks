@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { ref, PropType, watch, reactive, ComponentPublicInstance } from "vue"
-import { AttributeInterface, AttributeListInterface } from "../../pages/createAlbum/interfaces"
+import { AttributeListInterface } from "../../api/albums/interfaces"
 /* 响应式数据 */
 const popup = ref<ComponentPublicInstance>()
 
