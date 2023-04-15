@@ -77,7 +77,7 @@ class Service {
     return this.api(options)
   }
 
-  pus<T>(options: RequestOptions):Promise<RequestResponse<T>> {
+  put<T>(options: RequestOptions):Promise<RequestResponse<T>> {
     options.method = 'PUT'
     return this.api(options)
   }
