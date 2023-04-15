@@ -2,7 +2,7 @@
 export interface AlbumAttributeValueVoListInterface {
   attributeId: number
   valueId: number
-  valueName:string
+  valueName: string
 }
 export interface AttributeInterface {
   attributeId: number
@@ -18,7 +18,7 @@ export interface AttributeListInterface {
   [propName: string]: any
 }
 // 专辑信息接口
-export interface AlbumInfoInterface extends AnyInterface{
+export interface AlbumInfoInterface extends AnyInterface {
   albumTitle: string
   category3Id: number | string
   albumIntro: string
@@ -33,6 +33,8 @@ export interface AlbumInfoInterface extends AnyInterface{
   discount?: number | string
   vipDiscount?: number | string
   tracksForFree?: number | string
+  // 专辑id
+  id?: number | string
 }
 // 分类列表接口
 export interface CategoryListInterface {
@@ -42,4 +44,52 @@ export interface CategoryListInterface {
 // 任意属性接口
 export interface AnyInterface {
   [propName: string]: any
+}
+// 分页查询专辑需要专辑信息
+export interface AlbumInfoQueryInterface {
+  albumTitle?: string
+  status?: string
+  userId?: string
+}
+// 分页查询声音需要专辑信息
+export interface TrackInfoQueryInterface {
+  trackTitle?: string
+  status?: string
+  userId?: string
+}
+// 分页接口
+export interface WorksInfoPageInterface {
+  page: number
+  limit: number
+  // 专辑信息
+  albumInfoQuery?: AlbumInfoQueryInterface
+  // 声音信息
+  trackInfoQuery?: TrackInfoQueryInterface
+}
+// 专辑列表信息接口
+export interface AlbumInfoListInterface {
+  albumId: number
+  albumTitle: string
+  coverUrl: string
+  includeTrackCount: number
+  isFinished: string
+  status: string
+  playStatNum: number
+  subscribeStatNum: number
+  buyStatNum: number
+  albumCommentStatNum: number
+}
+// 声音信息列表接口
+export interface TrackInfoListInterface {
+  albumId: number
+  albumTitle: string
+  trackId: number
+  trackTitle: string
+  coverUrl: string
+  mediaDuration: number
+  status: string
+  playStatNum: number
+  collectStatNum: number
+  praiseStatNum: number
+  albumCommentStatNum: number
 }

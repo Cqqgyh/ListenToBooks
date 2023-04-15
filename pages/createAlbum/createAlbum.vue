@@ -305,7 +305,7 @@ const getAttributeList = async (categoryId: string | number) => {
     const res = await courseService.getAttrList(categoryAllParentsList[categoryAllParentsList.length - 1].value)
     res.data.forEach((item: AttributeListInterface, index: number) => {
       // 如果formData中已经有albumAttributeValueList
-      if (formData.albumAttributeValueVoList.length){
+      if (formData.albumAttributeValueVoList?.length){
         // 如果formData中的albumAttributeValueList中有当前属性
         if (formData.albumAttributeValueVoList.find(item2 => item2.attributeId === item.id)){
           // 选中当前属性
@@ -315,6 +315,7 @@ const getAttributeList = async (categoryId: string | number) => {
           item.checkedId = -1
         }
       } else {
+        formData.albumAttributeValueVoList = []
         item.checkedId = -1
       }
 
@@ -342,6 +343,15 @@ const addAlbum = async () => {
     console.log(error)
   }
 }
+// 修改专辑
+const editAlbum = async () => {
+  try {
+    const res = await albumsService.editAlbum(formData)
+    console.log(res)
+  } catch (error) {
+    console.log(error)
+  }
+}
 // 表单提交
 const submit = () => {
   formDataRef.value.validate().then((res:object) => {
@@ -350,13 +360,13 @@ const submit = () => {
     if (formData.payType != "0101") {
       payTypeFormDataRef.value.validate().then((res:object) => {
         // 付费字段校验通过
-        addAlbum()
+        formData.id ? editAlbum() : addAlbum()
       }).catch((err:object) => {
 
       })
     } else {
       // 免费通过字段校验
-      addAlbum()
+      formData.id ? editAlbum() : addAlbum()
     }
   }).catch((err:object) => {
 

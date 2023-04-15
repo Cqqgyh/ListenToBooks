@@ -33,7 +33,7 @@ export default {
 /* #endif */
 /* #ifndef APP-NVUE */
 page {
-  background: #f8f8f8;
+  background: #fff;
 }
 /* #endif */
 </style>
