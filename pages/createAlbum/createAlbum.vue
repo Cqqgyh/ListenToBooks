@@ -354,19 +354,27 @@ const editAlbum = async () => {
 }
 // 表单提交
 const submit = () => {
-  formDataRef.value.validate().then((res:object) => {
-    console.log('--------',res)
+  formDataRef.value.validate().then(async (res: object) => {
+    console.log('--------', res)
     // 免费通过字段校验 判断需不需要付费字段校验
     if (formData.payType != "0101") {
-      payTypeFormDataRef.value.validate().then((res:object) => {
+      payTypeFormDataRef.value.validate().then(async (res: object) => {
         // 付费字段校验通过
-        formData.id ? editAlbum() : addAlbum()
-      }).catch((err:object) => {
+        formData.id ? await editAlbum() : await addAlbum()
+        // 返回上一页
+        // 去往专辑列表页
+        uni.navigateTo({
+          url: "/pages/myWork/myWork"
+        })
+      }).catch((err: object) => {
 
       })
     } else {
       // 免费通过字段校验
-      formData.id ? editAlbum() : addAlbum()
+      formData.id ? await editAlbum() : await addAlbum()
+      uni.navigateTo({
+        url: "/pages/myWork/myWork"
+      })
     }
   }).catch((err:object) => {
 
