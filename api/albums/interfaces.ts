@@ -49,13 +49,13 @@ export interface AnyInterface {
 export interface AlbumInfoQueryInterface {
   albumTitle?: string
   status?: string
-  userId?: string
+  userId?: number | string
 }
 // 分页查询声音需要专辑信息
 export interface TrackInfoQueryInterface {
   trackTitle?: string
   status?: string
-  userId?: string
+  userId?: number | string
 }
 // 分页接口
 export interface WorksInfoPageInterface {
@@ -65,6 +65,7 @@ export interface WorksInfoPageInterface {
   albumInfoQuery?: AlbumInfoQueryInterface
   // 声音信息
   trackInfoQuery?: TrackInfoQueryInterface
+  [propName: string]: any
 }
 // 专辑列表信息接口
 export interface AlbumInfoListInterface {
@@ -92,4 +93,12 @@ export interface TrackInfoListInterface {
   collectStatNum: number
   praiseStatNum: number
   albumCommentStatNum: number
+}
+// 分页请求响应接口
+export interface PageResponseInterface<T> {
+  records: T
+  total: number
+  size: number
+  current: number
+  pages: number
 }
