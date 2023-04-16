@@ -14,16 +14,16 @@
           </view>
           <view class="gui-flex gui-rows gui-nowrap gui-align-items-center gui-m-t-30">
             <view class="gui-m-r-20">
-              <uni-icons custom-prefix="iconfont" type="shengyin_o" class="gui-m-r-10"></uni-icons>
-              <text>{{ data.includeTrackCount}}</text>
+              <uni-icons custom-prefix="iconfont" type="shichang" class="gui-m-r-10" size="15"></uni-icons>
+              <text>{{ formatTime(data.mediaDuration)}}</text>
             </view>
             <view class="gui-m-r-20">
               <uni-icons custom-prefix="iconfont" type="erji" class="gui-m-r-10"></uni-icons>
               <text>{{ data.playStatNum}}</text>
             </view>
             <view class="gui-m-r-20">
-              <uni-icons custom-prefix="iconfont" type="gouwuche3" class="gui-m-r-10"></uni-icons>
-              <text>{{ data.buyStatNum}}</text>
+              <uni-icons custom-prefix="iconfont" type="shoucang" class="gui-m-r-10" size="12"></uni-icons>
+              <text>{{ data.collectStatNum}}</text>
             </view>
             <view class="gui-m-r-20">
               <uni-icons custom-prefix="iconfont" type="pinglun" class="gui-m-r-10"></uni-icons>
@@ -73,6 +73,7 @@ import { PropType, ref } from "vue"
 import { AlbumInfoInterface } from "../../api/albums/interfaces"
 import { albumsService } from "../../api"
 import UniPopup from "../../uni_modules/uni-popup/components/uni-popup/uni-popup.vue"
+import { formatTime } from "../../utils/utils"
 /* 响应式数据 */
 const shareRef = ref<InstanceType<typeof UniPopup>>(null)
 const deletePopUpRef = ref<InstanceType<typeof UniPopup>>(null)
