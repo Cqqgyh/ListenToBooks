@@ -15,6 +15,8 @@ export default {
 };
 </script>
 <style lang="scss">
+/* 加载阿里图标字体 */
+@import "./static/font/ali/index.css";
 /* 加载框架核心样式 */
 @import "./Grace6/css/grace.scss";
 /* 加载深色模式适配样式 */

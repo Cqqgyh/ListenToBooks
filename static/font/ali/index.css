@@ -1,0 +1,53 @@
+/*
+目前使用在线图标字体库，等到项目完成后需要将图标字体下载到本地
+*/
+
+@font-face {
+    font-family: "iconfont"; /* Project id 4018356 */
+    src:
+    url('https://at.alicdn.com/t/c/font_4018356_3h6350ms9c9.ttf?t=1681617421015') format('truetype');
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.gouwuche:before {
+    content: "\e73d";
+}
+
+.gouwuche1:before {
+    content: "\e63f";
+}
+
+.pinglun:before {
+    content: "\e891";
+}
+
+.gouwuche2:before {
+    content: "\e899";
+}
+
+.gouwuche3:before {
+    content: "\e70b";
+}
+
+.pinglun1:before {
+    content: "\e646";
+}
+
+.erji:before {
+    content: "\e654";
+}
+
+.shengyin_o:before {
+    content: "\eb62";
+}
+
+.xingxing:before {
+    content: "\e859";
+}
