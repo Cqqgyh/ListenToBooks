@@ -50,3 +50,31 @@ export function getAllParentArr(list:any[],id:string | number,idName:string = 'i
 export function simpleDeepCopy(target: object) {
   return JSON.parse(JSON.stringify(target))
 }
+/**
+ * @description: 将秒数转换为分时格式
+ * @param {number | string} durationSeconds 持续时长 单位秒
+ * @return {*}
+ */
+export function formatTime(durationSeconds: number | string): string {
+  let seconds: number;
+
+  if (typeof durationSeconds === 'string') {
+    seconds = Math.round(Number(durationSeconds));
+  } else {
+    seconds = Math.round(durationSeconds);
+  }
+
+  if (isNaN(seconds)) {
+    return '00:00';
+  }
+
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remSeconds = seconds % 60;
+
+  if (hours > 0) {
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remSeconds.toString().padStart(2, '0')}`;
+  } else {
+    return `${minutes.toString().padStart(2, '0')}:${remSeconds.toString().padStart(2, '0')}`;
+  }
+}
