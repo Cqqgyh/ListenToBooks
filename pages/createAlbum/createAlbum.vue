@@ -145,6 +145,7 @@ import { courseService } from "../../api"
 import { albumsService } from "../../api"
 import AttributePopup from "../../components/AttributePopup/AttributePopup.vue"
 import UniForms from "../../uni_modules/uni-forms/components/uni-forms/uni-forms.vue"
+import { emitter } from "../../utils/mitt"
 
 /* 响应式数据 */
 const attributePopupRef = ref<InstanceType<typeof AttributePopup>>()
@@ -170,10 +171,9 @@ const formData = reactive<AlbumInfoInterface>({
 const formDataRule = {
   albumTitle: {
     rules: [
-      // 校验 name 不能为空
       {
         required: true,
-        errorMessage: "请填写姓名"
+        errorMessage: "请填写标题"
       }
     ]
   },
@@ -245,6 +245,11 @@ const payTypeFormDataRule = {
 }
 // 上传图片列表
 const coverUrlList = reactive<string[]>([])
+// 监视图片列表
+watch(coverUrlList, (val: string[]) => {
+  console.log('coverUrlList', val)
+  formData.coverUrl = val[0]
+})
 // 监视已经选中的三级分类
 watch(() => formData.category3Id, (val: string | number) => {
   // 请求属性列表
@@ -362,10 +367,8 @@ const submit = () => {
         // 付费字段校验通过
         formData.id ? await editAlbum() : await addAlbum()
         // 返回上一页
-        // 去往专辑列表页
-        uni.navigateTo({
-          url: "/pages/myWork/myWork"
-        })
+        uni.navigateBack()
+        emitter.emit('reloadMyWork')
       }).catch((err: object) => {
 
       })
