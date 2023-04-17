@@ -41,7 +41,7 @@
           class="gui-icons gui-color-gray gui-card-footer-item gui-border-r">&#xe614;数据
         </text>
         <text
-          @click="() => editItemHandler(data.albumId)"
+          @click="() => editItemHandler(data.trackId)"
           class="gui-icons gui-color-gray gui-card-footer-item gui-border-r">&#xe69e; 编辑
         </text>
         <text

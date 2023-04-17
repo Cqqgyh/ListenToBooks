@@ -2,7 +2,7 @@ import Service from "../../utils/request"
 import {
   AlbumInfoInterface,
   AlbumInfoListInterface,
-  PageResponseInterface,
+  PageResponseInterface, TrackInfoInterface,
   WorksInfoPageInterface
 } from "../albums/interfaces"
 
@@ -54,6 +54,17 @@ class CateGory extends Service {
     })
   }
   /**
+   * @description: 获取声音信息
+   * @param {number} id 声音id
+   * @return {*}
+   * @docs http://139.198.163.91:8501/doc.html
+   */
+  getTrackInfo(id: number) {
+    return this.get<TrackInfoInterface>({
+      url: `/api/album/trackInfo/getTrackInfo/${id}`,
+    })
+  }
+  /**
    * @description: 删除声音信息
    * @param {number} id 声音id
    * @return {*}
@@ -75,9 +86,41 @@ class CateGory extends Service {
       data:albumInfoPage
     })
   }
+  // 获取所有的专辑列表
+  /**
+   * @description: 获取所有的专辑列表
+   * @return {*}
+   */
+  getAllAlbumList() {
+    return this.get<AlbumInfoListInterface[]>({
+      url: `/api/album/albumInfo/findUserAllAlbumList`,
+    })
+  }
+  /**
+   * @description: 新增声音信息
+   * @param {TrackInfoInterface} trackInfo
+   * @return {*}
+   */
+  addTrackInfo(trackInfo: TrackInfoInterface) {
+    return this.post({
+      url: `/api/album/trackInfo/saveTrackInfo`,
+      data: trackInfo,
+    })
+  }
+  /**
+   * @description: 修改声音信息
+   * @param {TrackInfoInterface} trackInfo
+   * @return {*}
+   */
+  editTrackInfo(trackInfo: TrackInfoInterface) {
+    return this.put({
+      url: `/api/album/trackInfo/updateTrackInfo/${trackInfo.id}`,
+      data: trackInfo,
+    })
+  }
   /**
    * @description: 获取当前用户声音分页列表
-   * @param {WorksInfoPageInterface} albumInfoPage
+   * @param {WorksInfoPageInterface} trackListInfoPage
    * @return {*}
    */
   getTrackList(trackListInfoPage:WorksInfoPageInterface) {

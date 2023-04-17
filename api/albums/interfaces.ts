@@ -36,6 +36,18 @@ export interface AlbumInfoInterface extends AnyInterface {
   // 专辑id
   id?: number | string
 }
+// 声音信息接口
+export interface TrackInfoInterface extends AnyInterface {
+  id?: number | string
+  albumId?: number | string
+  mediaFileId: string
+  mediaUrl: string
+  trackTitle: string
+  trackIntro: string
+  coverUrl: string
+  trackRichIntro?: string
+  isOpen: number | string
+}
 // 分类列表接口
 export interface CategoryListInterface {
   categoryName: string
@@ -68,7 +80,7 @@ export interface WorksInfoPageInterface {
   [propName: string]: any
 }
 // 专辑列表信息接口
-export interface AlbumInfoListInterface {
+export interface AlbumInfoListInterface{
   albumId: number
   albumTitle: string
   coverUrl: string
@@ -79,6 +91,7 @@ export interface AlbumInfoListInterface {
   subscribeStatNum: number
   buyStatNum: number
   albumCommentStatNum: number
+  id?: number | string
 }
 // 声音信息列表接口
 export interface TrackInfoListInterface {

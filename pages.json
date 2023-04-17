@@ -107,7 +107,15 @@
                 "enablePullDownRefresh": false
             }
 
-        },
+        },{
+			"path" : "pages/createTrack/createTrack",
+			"style" :
+			{
+				"navigationBarTitleText": "创作音频",
+				"enablePullDownRefresh": false
+			}
+
+		},
 		{
 		    "path" : "pages/vipChannel/vipChannel",
 		    "style" :
@@ -122,6 +130,15 @@
             "style" :
             {
                 "navigationBarTitleText": "我的作品",
+                "enablePullDownRefresh": false
+            }
+
+        },
+		{
+            "path" : "pages/demo/demo",
+            "style" :
+            {
+                "navigationBarTitleText": "demo",
                 "enablePullDownRefresh": false
             }
 

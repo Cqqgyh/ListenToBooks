@@ -49,17 +49,19 @@
         v-for="(item,index) in pageData.trackInfoListInfo.list"
         :data="item"
         :editItemHandler="addOrEditItem"
-        :key="item.albumId"></TrackItemCard>
+        :deleteItemHandler="deleteItem"
+        :key="item.trackId"></TrackItemCard>
     </z-paging>
   </view>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue"
+import { onUnmounted, reactive, ref } from "vue"
 import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
 import { albumsService } from "../../api"
 import GuiSelectMenu from "../../Grace6/components/gui-select-menu.vue"
 import { AlbumInfoListInterface, TrackInfoListInterface } from "../../api/albums/interfaces"
+import { emitter } from "../../utils/mitt"
 /* 响应式数据 */
 const zPagingRef = ref<InstanceType<typeof ZPaging>>()
 const guiSelectMenuRef = ref<InstanceType<typeof GuiSelectMenu>>()
@@ -101,7 +103,7 @@ const pageData = reactive({
     // 专辑列表
     list: [],
     // 声音新增修改路由路径
-    addEditRoutePath: '/pages/createAlbum/createAlbum',
+    addEditRoutePath: '/pages/createTrack/createTrack',
     // getListInfo搜索参数
     query: {
       trackTitle: "",
@@ -184,7 +186,25 @@ const select = (index: number) => {
   // 当切换tab或搜索时请调用组件的reload方法
   zPagingRef.value.reload()
 }
-// 滑动中
+// 重载页面
+const reload = () => {
+  // 重置下拉列表数据
+  resetSelectItems()
+  // 当切换tab或搜索时请调用组件的reload方法
+  zPagingRef.value.reload()
+}
+// 注册重载页面方法
+emitter.on('reloadMyWork', function() {
+  // reloadMyWork
+  console.log('reloadMyWork')
+  // 处理接收到的消息
+  reload()
+})
+/* 生命周期 */
+// 页面卸载时，移除事件监听
+onUnmounted(() => {
+  emitter.off('reloadMyWork')
+})
 </script>
 
 <style lang="scss" scoped>
