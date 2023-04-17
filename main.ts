@@ -2,7 +2,8 @@ import App from "./App";
 import { createSSRApp } from "vue";
 import { createPinia } from "pinia";
 import piniaPersist from "pinia-plugin-persist-uni";
-
+// 引入全局事件总线mitt
+import  "./utils/mitt"
 const pinia = createPinia();
 pinia.use(piniaPersist);
 /* 全局挂载请求库 */
