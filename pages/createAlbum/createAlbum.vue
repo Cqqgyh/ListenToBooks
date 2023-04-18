@@ -69,7 +69,7 @@
           <uni-forms-item label="设为私密" required name="isOpen">
             <switch
               @change="secretChangeSwitch"
-              :checked="formData.isOpen === 0"
+              :checked="formData.isOpen === '0'"
               style="transform:scale(0.8)"
               color="#008AFF" />
           </uni-forms-item>
@@ -146,6 +146,7 @@ import { albumsService } from "../../api"
 import AttributePopup from "../../components/AttributePopup/AttributePopup.vue"
 import UniForms from "../../uni_modules/uni-forms/components/uni-forms/uni-forms.vue"
 import { emitter } from "../../utils/mitt"
+import { PAY_TYPE } from "../../utils/constant"
 
 /* 响应式数据 */
 const attributePopupRef = ref<InstanceType<typeof AttributePopup>>()
@@ -164,7 +165,7 @@ const formData = reactive<AlbumInfoInterface>({
   price: "",
   discount: "",
   vipDiscount: "",
-  isOpen: 1,
+  isOpen: '1',
   albumAttributeValueVoList: <AlbumAttributeValueVoListInterface[]>[]
 })
 // 表单校验
@@ -262,11 +263,12 @@ const selectedAttributeList = computed(() => {
   return formData.albumAttributeValueVoList.filter(item => item.valueId !== -1)
 })
 // 付费类型
-const payTypeList = ref([
-  // 付费类型: 0101-免费、0102-vip免费、0103-付费
-  { name: "免费", value: "0101" },
-  { name: "VIP免费", value: "0102" },
-  { name: "付费", value: "0103" }])
+// const payTypeList = ref([
+//   { name: "免费", value: "0101" },
+//   { name: "VIP免费", value: "0102" },
+//   { name: "付费", value: "0103" }])
+// 付费类型: 0101-免费、0102-vip免费、0103-付费
+const payTypeList = ref(PAY_TYPE)
 // 付费类型
 const priceTypeList = ref([
   // 	价格类型： 0201-单集 0202-整专辑
@@ -405,7 +407,7 @@ const getAlbumDataInfo = async (albumId:number = 2) => {
 }
 // 私密开关方法
 const secretChangeSwitch = (e: any) => {
-  formData.isOpen = e.detail.value ? 0 : 1
+  formData.isOpen = e.detail.value ? '0' : '1'
 }
 // 付费类型选择
 const payTypeRadioChange = (e: any) => {
