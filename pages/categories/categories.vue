@@ -9,13 +9,13 @@
         :scroll-into-view="itemId"
       >
         <view
-          v-for="(item, index) in tabbar"
+          v-for="(item, index) in tabBar"
           :key="index"
           class="gui-tab-item"
           :class="[current == index && 'gui-tab-item-active']"
-          @tap.stop="swichMenu(index)"
+          @tap.stop="switchMenu(index)"
         >
-          <text class="u-line-1">{{ item.name }}</text>
+          <text class="u-line-1">{{ item.categoryName }}</text>
         </view>
       </scroll-view>
       <scroll-view
@@ -26,16 +26,16 @@
         @scroll="rightScroll"
       >
         <view class="gui-page-view">
-          <view class="gui-class-item" :id="'item' + index" v-for="(item, index) in tabbar" :key="index">
+          <view class="gui-class-item" :id="'item' + index" v-for="(item, index) in tabBar" :key="index">
             <view class="gui-item-title">
-              <text>{{ item.name }}</text>
+              <text>{{ item.categoryName }}</text>
             </view>
             <view class="gui-item-container">
-              <view class="gui-thumb-box" v-for="(item1, index1) in item.foods" :key="index1">
-                <image class="gui-item-menu-image" :src="item1.icon" mode=""></image>
-                <view class="gui-item-menu-name">{{ item1.name }}</view>
+              <view class="gui-thumb-box" v-for="(item1, index1) in item.categoryChild" :key="index1">
+                <view class="gui-item-menu-name">{{ item1.categoryName }}</view>
               </view>
             </view>
+            <view style="height:100rpx;width: 10px;"></view>
           </view>
         </view>
       </scroll-view>
@@ -43,25 +43,45 @@
   </view>
 </template>
 
-<script setup>
-import classifyData from "@/common/classify.data.js"
+<script setup lang="ts">
 import { nextTick, ref, toRef, onMounted, getCurrentInstance } from "vue"
+import { courseService } from "../../api"
+import { CategoryTreeInterface } from "../../api/category/interfaces"
 let scrollTop = ref(0) // tab标题的滚动条位置
-let oldScrollTop = ref(0)
+let oldScrollTop = ref(0) // 上一次tab标题的滚动条位置
 let current = ref(0) // 预设当前项的值
 let menuHeight = ref(0) // 左边菜单的高度
 let menuItemHeight = ref(0) // 左边菜单item的高度
 let itemId = ref("") // 栏目右边scroll-view用于滚动的id
-const tabbar = classifyData
-let menuItemPos = ref([])
-let arr = ref([])
+const tabBar = ref<CategoryTreeInterface[]>([])
+let navItemsHeightList = ref([]) // 保存每个栏目的高度
 let scrollRightTop = ref(0) // 右边栏目scroll-view的滚动条高度
 const instance = getCurrentInstance() // 获取组件实例
-onMounted(async () => {
-  getMenuItemTop()
-  leftMenuStatus(0)
-})
+// 页面可以通过定义 props 来直接接收 url 传入的参数
+// 如：uni.navigateTo({ url: '/pages/index/index?id=10' })
+const props = defineProps({
+  category1Id:{
+    type: Number || String,
+    required: true,
+  }, // 一级分类Id
+  category1Name:{
+    type: String,
+    required: true,
+  }, // 一级分类Id
+});
 
+
+/* 方法 */
+// 根据一级分类id获取全部分类信息
+const getCategoryTree = async () => {
+  try {
+    const res = await courseService.getCategory1IdAllInfo(props.category1Id)
+    tabBar.value = res.data.categoryChild || []
+  } catch (error) {
+    console.log(error)
+  }
+}
+// 获取每个栏目的高度
 function getMenuItemTop() {
   new Promise((resolve) => {
     let selectorQuery = uni.createSelectorQuery()
@@ -75,7 +95,7 @@ function getMenuItemTop() {
           return
         }
         rects.forEach((rect) => {
-          arr.value.push(rect.top - rects[0].top)
+          navItemsHeightList.value.push(rect.top - rects[0].top)
           resolve()
         })
       })
@@ -83,19 +103,25 @@ function getMenuItemTop() {
   })
 }
 
-const swichMenu = async (index) => {
-  if (arr.length == 0) {
+// 切换栏目
+const switchMenu = async (index) => {
+  // 如果没有获取到每个栏目的高度，就先获取
+  if (navItemsHeightList.value.length === 0) {
     await getMenuItemTop()
   }
+  // 如果点击的是当前栏目，就不执行
   if (index == current.value) return
+  // 设置右边栏目的id
   scrollRightTop.value = oldScrollTop.value
-  nextTick(() => {
-    scrollRightTop.value = arr.value[index]
+  // 设置右边栏目的滚动条位置
+  await nextTick(() => {
+    scrollRightTop.value = navItemsHeightList.value[index]
     current.value = index
     leftMenuStatus(index)
   })
 }
 
+// 左边菜单的状态
 const leftMenuStatus = async (index) => {
   current.value = index
   if (menuHeight.value === 0 || menuItemHeight.value === 0) {
@@ -135,10 +161,10 @@ async function getElRect(elClass, dataVal) {
       .exec()
   })
 }
-
+// 右边栏目的滚动事件
 const rightScroll = async (e) => {
   oldScrollTop.value = e.detail.scrollTop
-  if (arr.value.length == 0) {
+  if (navItemsHeightList.value.length == 0) {
     await getMenuItemTop()
   }
   if (!menuHeight.value) {
@@ -146,9 +172,9 @@ const rightScroll = async (e) => {
   }
   setTimeout(() => {
     let scrollHeight = e.detail.scrollTop + menuHeight.value / 2
-    for (let i = 0; i < arr.value.length; i++) {
-      let height1 = arr.value[i]
-      let height2 = arr.value[i + 1]
+    for (let i = 0; i < navItemsHeightList.value.length; i++) {
+      let height1 = navItemsHeightList.value[i]
+      let height2 = navItemsHeightList.value[i + 1]
       if (!height2 || (scrollHeight >= height1 && scrollHeight < height2)) {
         leftMenuStatus(i)
         return
@@ -156,6 +182,16 @@ const rightScroll = async (e) => {
     }
   }, 10)
 }
+
+/* 生命周期 */
+onMounted(async () => {
+  uni.setNavigationBarTitle({
+    title: props.category1Name
+  });
+  await getCategoryTree() // 获取全部分类信息
+  await getMenuItemTop() // 获取每个栏目的高度
+  await leftMenuStatus(0) // 初始化左边菜单的状态
+})
 </script>
 
 <style lang="scss" scoped>
@@ -177,10 +213,11 @@ const rightScroll = async (e) => {
 .gui-tab-view {
   width: 200rpx;
   height: 100%;
+  background-color: #f6f6f6;
 }
 
 .gui-tab-item {
-  height: 110rpx;
+  height: 120rpx;
   background: #f6f6f6;
   box-sizing: border-box;
   display: flex;
@@ -195,7 +232,6 @@ const rightScroll = async (e) => {
 .gui-tab-item-active {
   position: relative;
   color: #000;
-  font-size: 30rpx;
   font-weight: 600;
   background: #fff;
 }
@@ -214,7 +250,7 @@ const rightScroll = async (e) => {
 }
 
 .gui-right-box {
-  background-color: rgb(250, 250, 250);
+  background-color:#f6f6f6;
 }
 
 .gui-page-view {
@@ -223,7 +259,7 @@ const rightScroll = async (e) => {
 
 .gui-class-item {
   margin-bottom: 30rpx;
-  background-color: #fff;
+  //background-color: #fff;
   padding: 16rpx;
   border-radius: 8rpx;
 }
@@ -240,26 +276,26 @@ const rightScroll = async (e) => {
 
 .gui-item-menu-name {
   font-weight: normal;
-  font-size: 24rpx;
-  color: gray;
+  font-size: 30rpx;
 }
 
 .gui-item-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .gui-thumb-box {
-  width: 33.333333%;
+  width: 240rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 20rpx;
+  margin-top: 80rpx;
+  padding: 30rpx 10rpx;
+  background-color: #fff;
+  border-radius: 8rpx;
+  color: rgba(0, 0, 0, 0.65);
 }
 
-.gui-item-menu-image {
-  width: 120rpx;
-  height: 120rpx;
-}
 </style>

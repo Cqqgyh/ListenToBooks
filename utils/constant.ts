@@ -11,3 +11,9 @@
 export const TOKEN_KEY = 'token'
 // 本地存储用户信息的key
 export const USER_KEY = 'user'
+// 收费类型
+export const PAY_TYPE = [
+  { name: "免费", value: "0101" },
+  { name: "VIP免费", value: "0102" },
+  { name: "付费", value: "0103" }
+]

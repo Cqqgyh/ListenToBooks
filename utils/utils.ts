@@ -78,3 +78,15 @@ export function formatTime(durationSeconds: number | string): string {
     return `${minutes.toString().padStart(2, '0')}:${remSeconds.toString().padStart(2, '0')}`;
   }
 }
+/**
+ * @description: uniapp中获取当前页面信息
+ * @return {*}
+ */
+export function getCurrentPageInfo(): { route: string; pageInfo: any } {
+  const pages = getCurrentPages();
+  const currentPage = pages[pages.length - 1];
+  return {
+    route: `/${currentPage.route}`,
+    pageInfo: currentPage,
+  };
+}
