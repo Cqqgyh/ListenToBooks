@@ -6,6 +6,7 @@ class Service {
   api<T>(opts: RequestOptions): Promise<RequestResponse<T>> {
     // 定义参数对象
     if (!opts.method) opts.method = 'GET'
+    opts.loading = opts.loading !== false;
 
     // 鉴权
     const token = useUserStore().token
@@ -15,6 +16,7 @@ class Service {
     }
 
     return new Promise((resolve, reject) => {
+      if (opts.loading)
       uni.showLoading({
         title: '加载中',
         mask: true,

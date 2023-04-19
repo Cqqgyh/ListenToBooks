@@ -12,7 +12,7 @@ import { ref } from "vue"
 
 /* 方法 */
 
-/* 声明周期 */
+/* 生命周期 */
 </script>
 
 <style lang="scss" scoped>

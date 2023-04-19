@@ -2,7 +2,7 @@
 <template>
   <view class="content">
     <z-paging
-      ref="zPagingRef"
+        ref="zPagingRef"
       v-model="pageData[pageData.currentPageNav].list"
       @query="getListInfo"
       show-refresher-update-time

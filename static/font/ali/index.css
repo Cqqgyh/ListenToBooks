@@ -1,11 +1,13 @@
 /*
 目前使用在线图标字体库，等到项目完成后需要将图标字体下载到本地
 */
-
+/*
+<uni-icons custom-prefix="iconfont" type="shichang" class="gui-m-r-10" size="15"></uni-icons>
+*/
 @font-face {
     font-family: "iconfont"; /* Project id 4018356 */
     src:
-    url('https://at.alicdn.com/t/c/font_4018356_fxzvae881nl.ttf?t=1681723574162') format('truetype');
+    url('https://at.alicdn.com/t/c/font_4018356_vev6etnupu.ttf?t=1681893706758') format('truetype');
 }
 
 .iconfont {
@@ -14,6 +16,10 @@
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.wanjie:before {
+    content: "\e62f";
 }
 
 .shoucang1:before {
@@ -51,3 +57,4 @@
 .xingxing:before {
     content: "\e859";
 }
+

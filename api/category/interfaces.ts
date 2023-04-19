@@ -5,7 +5,7 @@ export interface CategoryTreeInterface{
   categoryChild?: CategoryTreeInterface[];
 }
 // 常规树属性
-export interface CategoryTreePropsInterface{
+export interface CategoryTreePropsInterface extends Record<string, any>{
   id: number;
   name: string;
   children?: CategoryTreePropsInterface[];

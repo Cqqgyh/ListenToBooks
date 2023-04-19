@@ -8,6 +8,8 @@
 
 
 // 本地存储token的key
+import { MapItem } from "./interface"
+
 export const TOKEN_KEY = 'token'
 // 本地存储用户信息的key
 export const USER_KEY = 'user'
@@ -16,4 +18,9 @@ export const PAY_TYPE = [
   { name: "免费", value: "0101" },
   { name: "VIP免费", value: "0102" },
   { name: "付费", value: "0103" }
+]
+// 完结类型
+export const FINISH_TYPE = [
+  { name: "未完结", value: "0" },
+  { name: "完结", value: "1" }
 ]

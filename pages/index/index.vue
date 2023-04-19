@@ -2,13 +2,13 @@
 	<gui-page :customHeader="true" :customFooter="true">
 		<template v-slot:gHeader>
 			<view style="height: 44px;background-color: #fff" class="gui-flex">
-				<view class="gui-dark-bg-level-1 gui-p-15 gui-flex1">
-					<gui-search :customClass="['gui-bg-black-opacity1']" @inputting="inputting" @confirm="confirm"></gui-search>
+				<view class="gui-dark-bg-level-1 gui-p-15 gui-flex1" @click="handleSearchOnClick">
+					<gui-search :customClass="['gui-bg-black-opacity1']"></gui-search>
 				</view>
-				<view class="gui-flex gui-row gui-wrap gui-align-items-center">
-					<text class="gui-icons gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black4 gui-m-r-10">&#xe69e;</text>
-					<text class="gui-icons gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black4">&#xe6c7;</text>
-				</view>
+<!--				<view class="gui-flex gui-row gui-wrap gui-align-items-center">-->
+<!--					<text class="gui-icons gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black4 gui-m-r-10">&#xe69e;</text>-->
+<!--					<text class="gui-icons gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black4">&#xe6c7;</text>-->
+<!--				</view>-->
 				<view style="width: 200rpx"></view>
 			</view>
 		</template>
@@ -103,6 +103,13 @@ watchEffect(() => {
 })
 
 /* 方法 */
+// 搜索组件被点击
+const handleSearchOnClick = () => {
+	console.log('handleSearchOnClick')
+	uni.navigateTo({
+		url: `/pages/search/search`
+	})
+}
 // 获取导航数据
 const getCategoryList = async () => {
 	try {

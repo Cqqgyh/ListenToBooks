@@ -31,7 +31,7 @@
               <text>{{ item.categoryName }}</text>
             </view>
             <view class="gui-item-container">
-              <view class="gui-thumb-box" v-for="(item1, index1) in item.categoryChild" :key="index1">
+              <view @click="handleNavItemOnClick(item1)" class="gui-thumb-box" v-for="(item1, index1) in item.categoryChild" :key="index1">
                 <view class="gui-item-menu-name">{{ item1.categoryName }}</view>
               </view>
             </view>
@@ -64,7 +64,7 @@ const props = defineProps({
     type: Number || String,
     required: true,
   }, // 一级分类Id
-  category1Name:{
+  pageTitle:{
     type: String,
     required: true,
   }, // 一级分类Id
@@ -80,6 +80,13 @@ const getCategoryTree = async () => {
   } catch (error) {
     console.log(error)
   }
+}
+// 导航被点击
+const handleNavItemOnClick = (item:CategoryTreeInterface) => {
+  // 去往分类搜索搜索
+  uni.navigateTo({
+    url: `/pages/search/search?category1Id=${props.category1Id}&category3Id=${item.categoryId}&pageTitle=${item.categoryName}`
+  })
 }
 // 获取每个栏目的高度
 function getMenuItemTop() {
@@ -186,7 +193,7 @@ const rightScroll = async (e) => {
 /* 生命周期 */
 onMounted(async () => {
   uni.setNavigationBarTitle({
-    title: props.category1Name
+    title: props.pageTitle || '分类'
   });
   await getCategoryTree() // 获取全部分类信息
   await getMenuItemTop() // 获取每个栏目的高度

@@ -3,6 +3,7 @@ export interface RequestOptions {
   method?: RequestOptionsMethod
   data?: object
   url?: string
+  loading?: boolean
 }
 
 export interface UserInfo {
@@ -19,4 +20,9 @@ export interface RequestResponse<T = any> {
   message: string
   success?: boolean
   data: T
+}
+
+export interface MapItem<T> {
+  name: string;
+  value: T;
 }

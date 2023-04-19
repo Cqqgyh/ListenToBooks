@@ -1,3 +1,5 @@
+import { MapItem } from "./interface"
+
 /**
  * 递归树结构，修改树结构的属性的key
  * @param data 树结构数据
@@ -29,19 +31,20 @@ export function recursionTree(data: any[], key: string, value: string, childrenN
  * @param  childName 子节点名称
  * @returns
  */
-export function getAllParentArr(list:any[],id:string | number,idName:string = 'id',childName:string = "children"){
-  for(let i in list){
-    if(list[i][idName] == id){
+export function getAllParentArr(list: any[], id: string | number, idName: string = "id", childName: string = "children") {
+  for (let i in list) {
+    if (list[i][idName] == id) {
       return [list[i]]
     }
     if (list[i][childName]) {
-      let node:any = getAllParentArr(list[i][childName],id,idName,childName)
-      if(!!node){
+      let node: any = getAllParentArr(list[i][childName], id, idName, childName)
+      if (!!node) {
         return node.concat(list[i])
       }
     }
   }
 }
+
 /**
  * @description 简单对象的拷贝
  * @param {object}target 目标对象
@@ -50,43 +53,114 @@ export function getAllParentArr(list:any[],id:string | number,idName:string = 'i
 export function simpleDeepCopy(target: object) {
   return JSON.parse(JSON.stringify(target))
 }
+
 /**
  * @description: 将秒数转换为分时格式
  * @param {number | string} durationSeconds 持续时长 单位秒
  * @return {*}
  */
 export function formatTime(durationSeconds: number | string): string {
-  let seconds: number;
+  let seconds: number
 
-  if (typeof durationSeconds === 'string') {
-    seconds = Math.round(Number(durationSeconds));
+  if (typeof durationSeconds === "string") {
+    seconds = Math.round(Number(durationSeconds))
   } else {
-    seconds = Math.round(durationSeconds);
+    seconds = Math.round(durationSeconds)
   }
 
   if (isNaN(seconds)) {
-    return '00:00';
+    return "00:00"
   }
 
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const remSeconds = seconds % 60;
+  const hours = Math.floor(seconds / 3600)
+  const minutes = Math.floor((seconds % 3600) / 60)
+  const remSeconds = seconds % 60
 
   if (hours > 0) {
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remSeconds.toString().padStart(2, '0')}`;
+    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${remSeconds.toString().padStart(2, "0")}`
   } else {
-    return `${minutes.toString().padStart(2, '0')}:${remSeconds.toString().padStart(2, '0')}`;
+    return `${minutes.toString().padStart(2, "0")}:${remSeconds.toString().padStart(2, "0")}`
   }
 }
+
 /**
  * @description: uniapp中获取当前页面信息
  * @return {*}
  */
 export function getCurrentPageInfo(): { route: string; pageInfo: any } {
-  const pages = getCurrentPages();
-  const currentPage = pages[pages.length - 1];
+  const pages = getCurrentPages()
+  const currentPage = pages[pages.length - 1]
   return {
     route: `/${currentPage.route}`,
-    pageInfo: currentPage,
-  };
+    pageInfo: currentPage
+  }
 }
+
+/**
+ * @description: 从指定数组数组中获取value值
+ * @param {MapItem} arr
+ * @param {T} value
+ * @return {*}
+ */
+export function getNameByValue<T>(arr: MapItem<T>[], value: T): string | null {
+  const item = arr.find((item) => item.value === value)
+  return item ? item.name : null
+}
+
+// 节流函数
+
+/**
+ * @description: 节流函数
+ * @return {*}
+ * @param fn 需要进行节流的函数。
+ * @param delay 时间间隔，单位为毫秒。表示在这个时间内不能重复执行函数。
+ * @param options options（可选）：配置项对象。包含两个属性：
+ * leading：是否允许首次立即执行函数，
+ * trailing：是否允许在时间间隔结束后执行函数，
+ */
+export function myThrottle<T extends (...args: any[]) => void>(
+  fn: T,
+  delay: number,
+  options?: { leading?: boolean; trailing?: boolean }
+): T & { cancel(): void } {
+  let lastTime = 0;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+
+  const resultFn = function (this: unknown, ...args: Parameters<T>) {
+    const currentTime = Date.now();
+
+    if (!lastTime && options?.leading === false) {
+      lastTime = currentTime;
+    }
+
+    const remainingTime = delay - (currentTime - lastTime);
+
+    if (remainingTime <= 0 || remainingTime > delay) {
+      if (timer) {
+        clearTimeout(timer);
+        timer = undefined;
+      }
+
+      lastTime = currentTime;
+      fn.apply(this, args);
+    } else if (!timer && options?.trailing !== false) {
+      timer = setTimeout(() => {
+        lastTime = Date.now();
+        timer = undefined;
+        fn.apply(this, args);
+      }, remainingTime);
+    }
+  };
+
+  resultFn.cancel = function () {
+    if (timer) {
+      clearTimeout(timer);
+      timer = undefined;
+      lastTime = 0;
+    }
+  };
+
+  return resultFn as T & { cancel(): void };
+}
+
+
