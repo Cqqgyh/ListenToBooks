@@ -52,14 +52,6 @@
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
-		},
-		{
-			"path": "pages/list/list",
-			"style": {
-				"navigationBarTitleText": "列表",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
 		}
 	    ,{
             "path" : "pages/wallet/wallet",
@@ -145,12 +137,12 @@
         }
         ,{
             "path" : "pages/search/search",
-            "style" :                                                                                    
+            "style" :
             {
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
-            
+
         }
     ],
 	"globalStyle": {
