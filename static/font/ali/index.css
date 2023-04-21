@@ -7,7 +7,7 @@
 @font-face {
     font-family: "iconfont"; /* Project id 4018356 */
     src:
-    url('https://at.alicdn.com/t/c/font_4018356_vev6etnupu.ttf?t=1681893706758') format('truetype');
+    url('https://at.alicdn.com/t/c/font_4018356_xzvd13bjp1b.ttf?t=1682072437606') format('truetype');
 }
 
 .iconfont {
@@ -16,6 +16,14 @@
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.shoufeiguanli:before {
+    content: "\e603";
+}
+
+.xiazai:before {
+    content: "\e634";
 }
 
 .wanjie:before {
