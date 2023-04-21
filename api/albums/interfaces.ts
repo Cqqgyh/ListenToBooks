@@ -115,3 +115,94 @@ export interface PageResponseInterface<T> {
   current: number
   pages: number
 }
+// 专辑详情接口
+export interface AnnouncerInterface {
+  id: number;
+  wxOpenId: string;
+  nickname: string;
+  avatarUrl: string;
+  isVip: number;
+  vipExpireTime: null | string;
+}
+
+export interface AlbumInterface {
+  id: number;
+  createTime: string;
+  userId: number;
+  albumTitle: string;
+  category3Id: number;
+  albumIntro: string;
+  coverUrl: string;
+  includeTrackCount: number;
+  isFinished: string;
+  estimatedTrackCount: number;
+  albumRichIntro: string;
+  qualityScore: string;
+  payType: string;
+  priceType: string;
+  price: number;
+  discount: number;
+  vipDiscount: number;
+  tracksForFree: number;
+  secondsForFree: number;
+  buyNotes: null | string;
+  sellingPoint: null | string;
+  isOpen: string;
+  status: string;
+  albumAttributeValueVoList: {
+    id: number;
+    createTime: string;
+    albumId: number;
+    attributeId: number;
+    valueId: number;
+    attributeName: null | string;
+    valueName: null | string;
+  }[];
+}
+
+export interface AlbumStatVoInterface {
+  albumId: null | number;
+  playStatNum: number;
+  collectStatNum: null | number;
+  buyStatNum: number;
+  commentStatNum: null | number;
+}
+
+export interface BaseCategoryViewInterface {
+  id: number;
+  createTime: string;
+  category1Id: number;
+  category1Name: string;
+  category2Id: number;
+  category2Name: string;
+  category3Id: number;
+  category3Name: string;
+}
+
+export interface AlbumDetailInterface {
+  announcer: AnnouncerInterface;
+  albumInfo: AlbumInterface;
+  albumStatVo: AlbumStatVoInterface;
+  baseCategoryView: BaseCategoryViewInterface;
+  isSubscribe: boolean;
+  startPlayTrackId: null | number;
+}
+// 专辑声音接口
+export interface TrackInterface {
+  trackId: number;
+  trackTitle: string;
+  mediaDuration: number;
+  orderNum: number;
+  playStatNum: number;
+  albumCommentStatNum: number;
+  createTime: string;
+  isShowPiadMark: boolean;
+  isChecked?: boolean;
+}
+// 专辑声音列表查询参数
+export interface QueryTrackInterface {
+  albumId: number | string;
+  page: number;
+  limit: number;
+}
+

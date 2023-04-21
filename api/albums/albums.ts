@@ -1,8 +1,9 @@
 import Service from "../../utils/request"
 import {
+  AlbumDetailInterface,
   AlbumInfoInterface,
   AlbumInfoListInterface,
-  PageResponseInterface, TrackInfoInterface,
+  PageResponseInterface, QueryTrackInterface, TrackInfoInterface, TrackInterface,
   WorksInfoPageInterface
 } from "../albums/interfaces"
 
@@ -127,6 +128,26 @@ class CateGory extends Service {
     return this.get<PageResponseInterface<AlbumInfoListInterface[]>>({
       url: `/api/album/trackInfo/findUserTrackPage/${trackListInfoPage.page}/${trackListInfoPage.limit}`,
       data:trackListInfoPage
+    })
+  }
+  /**
+   * @description: 获取专辑详情
+   * @param {number | string} albumId
+   * @return {*}
+   */
+  getAlbumDetail(albumId: number | string) {
+    return this.get<AlbumDetailInterface>({
+      url: `/api/search/albumInfo/${albumId}`,
+    })
+  }
+  /**
+   * @description: 获取专辑声音分页列表
+   * @param {QueryTrackInterface} trackListInfoPage
+   * @return {*}
+   */
+  getAlbumTrackList(trackListInfoPage:QueryTrackInterface) {
+    return this.get<PageResponseInterface<TrackInterface[]>>({
+      url: `/api/album/trackInfo/findAlbumTrackPage/${trackListInfoPage.albumId}/${trackListInfoPage.page}/${trackListInfoPage.limit}`,
     })
   }
 }
