@@ -1,50 +1,12 @@
 {
-	"pages": [{
-			"path": "pages/album/album",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/detail/detail",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom",
-				"disableScroll": true
-			}
-		}, {
-			"path": "pages/confirmOrder/confirmOrder",
-			"style": {
-				"navigationBarTitleText": "确认订单",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "pages/works/works",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
+	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app",
+				"navigationBarTitleText": "首页",
 				"navigationStyle": "custom"
 			}
 		},
-		{
-			"path": "pages/categories/categories",
-			"style": {
-				"navigationBarTitleText": "有声图书分类",
-				"enablePullDownRefresh": false
-			}
-		},
-
 		{
 			"path": "pages/my/my",
 			"style": {
@@ -52,54 +14,96 @@
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
-		}
-	    ,{
-            "path" : "pages/wallet/wallet",
-            "style" :
-            {
-                "navigationBarTitleText": "我的钱包",
-                "enablePullDownRefresh": false
-            }
-
-        }
-        ,{
-            "path" : "pages/fund/fund",
-            "style" :
-            {
-                "navigationBarTitleText": "资金记录",
-                "enablePullDownRefresh": false,
+		},
+		{
+			"path": "pages/album/album",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
-            }
+			}
 
-        }
-        ,{
-            "path" : "pages/orderDetail/orderDetail",
-            "style" :
-            {
-                "navigationBarTitleText": "订单详情",
-                "enablePullDownRefresh": false
-            }
+		}, 
+		{
+			"path": "pages/detail/detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"disableScroll": true
+			}
+		}, 
+		{
+			"path": "pages/confirmOrder/confirmOrder",
+			"style": {
+				"navigationBarTitleText": "确认订单",
+				"enablePullDownRefresh": false
+			}
 
-        }
-        ,{
-            "path" : "pages/order/order",
-            "style" :
-            {
-                "navigationBarTitleText": "订单中心",
-                "enablePullDownRefresh": false,
+		}, 
+		{
+			"path": "pages/works/works",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
-            }
+			}
+		},
+		
+		{
+			"path": "pages/categories/categories",
+			"style": {
+				"navigationBarTitleText": "有声图书分类",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path" : "pages/wallet/wallet",
+			"style" :
+			{
+				"navigationBarTitleText": "我的钱包",
+				"enablePullDownRefresh": false
+			}
 
-        }
-        ,{
-            "path" : "pages/createAlbum/createAlbum",
-            "style" :
-            {
-                "navigationBarTitleText": "创作专辑",
-                "enablePullDownRefresh": false
-            }
+		},
+		{
+			"path" : "pages/fund/fund",
+			"style" :
+			{
+				"navigationBarTitleText": "资金记录",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
 
-        },{
+		},
+		{
+			"path" : "pages/orderDetail/orderDetail",
+			"style" :
+			{
+				"navigationBarTitleText": "订单详情",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path" : "pages/order/order",
+			"style" :
+			{
+				"navigationBarTitleText": "订单中心",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/createAlbum/createAlbum",
+			"style" :
+			{
+				"navigationBarTitleText": "创作专辑",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
 			"path" : "pages/createTrack/createTrack",
 			"style" :
 			{
@@ -109,42 +113,39 @@
 
 		},
 		{
-		    "path" : "pages/vipChannel/vipChannel",
-		    "style" :
-		    {
-		        "navigationBarTitleText": "vip频道",
-		        "enablePullDownRefresh": false
-		    }
+			"path" : "pages/vipChannel/vipChannel",
+			"style" :
+			{
+					"navigationBarTitleText": "vip频道",
+					"enablePullDownRefresh": false
+			}
 
-		}
-        ,{
-            "path" : "pages/myWork/myWork",
-            "style" :
-            {
-                "navigationBarTitleText": "我的作品",
-                "enablePullDownRefresh": false
-            }
-
-        },
+		},
 		{
-            "path" : "pages/demo/demo",
-            "style" :
-            {
-                "navigationBarTitleText": "demo",
-                "enablePullDownRefresh": false
-            }
-
-        }
-        ,{
-            "path" : "pages/search/search",
-            "style" :
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-
-        }
-    ],
+			"path" : "pages/myWork/myWork",
+			"style" :
+			{
+					"navigationBarTitleText": "我的作品",
+					"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path" : "pages/demo/demo",
+			"style" :
+			{
+					"navigationBarTitleText": "demo",
+					"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path" : "pages/search/search",
+			"style" :
+			{
+					"navigationBarTitleText": "搜索",
+					"enablePullDownRefresh": false
+			}
+		}
+  ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
