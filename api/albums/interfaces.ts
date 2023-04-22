@@ -198,6 +198,7 @@ export interface TrackInterface {
   createTime: string;
   isShowPiadMark: boolean;
   isChecked?: boolean;
+  isPlaying?: boolean;
 }
 // 专辑声音列表查询参数
 export interface QueryTrackInterface {
