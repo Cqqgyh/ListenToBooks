@@ -38,7 +38,8 @@
           class="gui-icons gui-color-gray gui-card-footer-item gui-border-r">&#xe615; 分享
         </text>
         <text
-          class="gui-icons gui-color-gray gui-card-footer-item gui-border-r">&#xe614;数据
+          @click="() => goToDetailsHandler(data.albumId)"
+          class="gui-icons gui-color-gray gui-card-footer-item gui-border-r">&#xe614;详情
         </text>
         <text
           @click="() => editItemHandler(data.albumId)"
@@ -106,6 +107,12 @@ const deleteAlbumInfo = async (id: number) => {
   } catch (error) {
     console.log(error)
   }
+}
+// 去往详情页
+const goToDetailsHandler = (id: number) => {
+  uni.navigateTo({
+    url: `/pages/detail/detail?id=${id}`,
+  })
 }
 // 分享
 const shareHandler = () => {

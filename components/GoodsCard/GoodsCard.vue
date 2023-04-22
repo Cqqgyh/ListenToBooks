@@ -67,6 +67,10 @@ const payTypeMap = computed(() => {
 // 点击去商品详情页
 const gotoGoodInfo = (index: number, item: GoodsInterface) => {
   console.log(index, item)
+  // 跳转到专辑详情页
+  uni.navigateTo({
+    url: `/pages/detail/detail?id=${item.id}`,
+  })
 }
 
 /* 生命周期 */
