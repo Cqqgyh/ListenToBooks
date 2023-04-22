@@ -1,50 +1,12 @@
 {
-	"pages": [{
-			"path": "pages/album/album",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/detail/detail",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom",
-				"disableScroll": true
-			}
-		}, {
-			"path": "pages/confirmOrder/confirmOrder",
-			"style": {
-				"navigationBarTitleText": "确认订单",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "pages/works/works",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
+	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app",
+				"navigationBarTitleText": "首页",
 				"navigationStyle": "custom"
 			}
 		},
-		{
-			"path": "pages/categories/categories",
-			"style": {
-				"navigationBarTitleText": "有声图书分类",
-				"enablePullDownRefresh": false
-			}
-		},
-
 		{
 			"path": "pages/my/my",
 			"style": {
@@ -52,54 +14,96 @@
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
-		}
-	    ,{
-            "path" : "pages/wallet/wallet",
-            "style" :
-            {
-                "navigationBarTitleText": "我的钱包",
-                "enablePullDownRefresh": false
-            }
-
-        }
-        ,{
-            "path" : "pages/fund/fund",
-            "style" :
-            {
-                "navigationBarTitleText": "资金记录",
-                "enablePullDownRefresh": false,
+		},
+		{
+			"path": "pages/album/album",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
-            }
+			}
 
-        }
-        ,{
-            "path" : "pages/orderDetail/orderDetail",
-            "style" :
-            {
-                "navigationBarTitleText": "订单详情",
-                "enablePullDownRefresh": false
-            }
+		}, 
+		{
+			"path": "pages/detail/detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"disableScroll": true
+			}
+		}, 
+		{
+			"path": "pages/confirmOrder/confirmOrder",
+			"style": {
+				"navigationBarTitleText": "确认订单",
+				"enablePullDownRefresh": false
+			}
 
-        }
-        ,{
-            "path" : "pages/order/order",
-            "style" :
-            {
-                "navigationBarTitleText": "订单中心",
-                "enablePullDownRefresh": false,
+		}, 
+		{
+			"path": "pages/works/works",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
-            }
+			}
+		},
+		
+		{
+			"path": "pages/categories/categories",
+			"style": {
+				"navigationBarTitleText": "有声图书分类",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path" : "pages/wallet/wallet",
+			"style" :
+			{
+				"navigationBarTitleText": "我的钱包",
+				"enablePullDownRefresh": false
+			}
 
-        }
-        ,{
-            "path" : "pages/createAlbum/createAlbum",
-            "style" :
-            {
-                "navigationBarTitleText": "创作专辑",
-                "enablePullDownRefresh": false
-            }
+		},
+		{
+			"path" : "pages/fund/fund",
+			"style" :
+			{
+				"navigationBarTitleText": "资金记录",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
 
-        },{
+		},
+		{
+			"path" : "pages/orderDetail/orderDetail",
+			"style" :
+			{
+				"navigationBarTitleText": "订单详情",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path" : "pages/order/order",
+			"style" :
+			{
+				"navigationBarTitleText": "订单中心",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/createAlbum/createAlbum",
+			"style" :
+			{
+				"navigationBarTitleText": "创作专辑",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
 			"path" : "pages/createTrack/createTrack",
 			"style" :
 			{
@@ -109,42 +113,39 @@
 
 		},
 		{
-		    "path" : "pages/vipChannel/vipChannel",
-		    "style" :
-		    {
-		        "navigationBarTitleText": "vip频道",
-		        "enablePullDownRefresh": false
-		    }
+			"path" : "pages/vipChannel/vipChannel",
+			"style" :
+			{
+					"navigationBarTitleText": "vip频道",
+					"enablePullDownRefresh": false
+			}
 
-		}
-        ,{
-            "path" : "pages/myWork/myWork",
-            "style" :
-            {
-                "navigationBarTitleText": "我的作品",
-                "enablePullDownRefresh": false
-            }
-
-        },
+		},
 		{
-            "path" : "pages/demo/demo",
-            "style" :
-            {
-                "navigationBarTitleText": "demo",
-                "enablePullDownRefresh": false
-            }
-
-        }
-        ,{
-            "path" : "pages/search/search",
-            "style" :
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-
-        }
-    ],
+			"path" : "pages/myWork/myWork",
+			"style" :
+			{
+					"navigationBarTitleText": "我的作品",
+					"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path" : "pages/demo/demo",
+			"style" :
+			{
+					"navigationBarTitleText": "demo",
+					"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path" : "pages/search/search",
+			"style" :
+			{
+					"navigationBarTitleText": "搜索",
+					"enablePullDownRefresh": false
+			}
+		}
+  ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -152,6 +153,51 @@
 		"backgroundColor": "#F8F8F8"
 	},
 
+	"condition": { 
+		"current": 0,
+		"list": [
+			{
+				"name": "测试页-首页",
+				"path": "pages/index/index"
+			},
+			{
+				"name": "测试页-我的作品页",
+				"path": "pages/myWork/myWork"
+			},
+			{
+				"name": "测试页-创建专辑",
+				"path": "pages/createAlbum/createAlbum"
+			},
+			{
+				"name": "测试页-修改专辑",
+				"path": "pages/createAlbum/createAlbum",
+				"query": "id=1"
+			},
+			{
+				"name": "测试页-创建音频",
+				"path": "pages/createTrack/createTrack"
+			},
+			{
+				"name": "测试页-修改音频",
+				"path": "pages/createTrack/createTrack",
+				"query": "id=1"
+			},
+			{
+				"name": "测试页-搜索历史",
+				"path": "pages/search/search"
+			},
+			{
+				"name": "测试页-分类列表",
+				"path": "pages/categories/categories",
+				"query": "category1Id=1&pageTitle=音乐"
+			},
+			{
+				"name": "测试页-分类查询列表",
+				"path": "pages/search/search",
+				"query": "category1Id=1&category2Id=101&category3Id=1002&pageTitle=音乐"
+			}
+		]
+	},
 	"uniIdRouter": {},
 	"easycom": {
 		"autoscan": true,
