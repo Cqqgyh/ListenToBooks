@@ -207,3 +207,39 @@ export interface QueryTrackInterface {
   limit: number;
 }
 
+// 订阅专辑列表接口
+export interface SubscribeAlbumsInterface {
+  albumId: number;
+  createTime: string;
+  albumTitle: string;
+  coverUrl: string;
+  includeTrackCount: number;
+  isFinished: string;
+}
+// 订阅专辑列表接口
+export interface CollectTrackInterface {
+  trackId?: number;
+  createTime?: string;
+  trackTitle?: string;
+  coverUrl?: string;
+}
+// 历史声音接口
+export interface HistoryTrackInterface {
+  albumId?: number;
+  albumTitle?: string;
+  trackId?: number;
+  trackTitle?: string;
+  coverUrl?: string;
+  mediaDuration?: number;
+  breakSecond?: number;
+  playRate?: string;
+}
+// 弹出框接口配置
+export interface DialogInterface {
+  type: string,
+  title: string,
+  content: string,
+  cancelText: string,
+  confirmText:string
+}
+
