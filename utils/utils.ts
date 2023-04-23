@@ -1,4 +1,5 @@
 import { MapItem } from "./interface"
+import { REDIRECT_URL_KEY } from "./constant"
 
 /**
  * 递归树结构，修改树结构的属性的key
@@ -87,13 +88,19 @@ export function formatTime(durationSeconds: number | string): string {
  * @description: uniapp中获取当前页面信息
  * @return {*}
  */
-export function getCurrentPageInfo(): { route: string; pageInfo: any } {
+export function getCurrentPageInfo(): { route: string; pageInfo: any, fullPath: string } {
   const pages = getCurrentPages()
   const currentPage = pages[pages.length - 1]
-  return {
+  let returnObj = {
     route: `/${currentPage.route}`,
-    pageInfo: currentPage
+    pageInfo: currentPage,
+    fullPath: ''
   }
+  // uniapp+vue3中存在bug，小程序不能实时获取到fullPath，需要延迟获取
+  setTimeout(() => {
+    returnObj.fullPath = currentPage.$page.fullPath
+  },0)
+  return returnObj
 }
 
 /**
@@ -163,4 +170,28 @@ export function myThrottle<T extends (...args: any[]) => void>(
   return resultFn as T & { cancel(): void };
 }
 
+/**
+ * @description: 存储重定向url
+ */
+export function setRedirectUrl() {
+  // 获取当前页面对象
+  const pageInfo = getCurrentPageInfo()
+  console.log('pageInfo', pageInfo)
+  // uniapp+vue3中存在bug，小程序不能实时获取到fullPath，需要延迟获取，确保已经获取到fullPath
+  setTimeout(()=>{
+    uni.setStorageSync(REDIRECT_URL_KEY, encodeURIComponent(pageInfo.fullPath))
+  },0)
+}
+/**
+ * @description: 获取重定向url
+ */
+export function getRedirectUrl() {
+  return decodeURIComponent(uni.getStorageSync(REDIRECT_URL_KEY) || '')
+}
+/**
+ * @description: 清空重定向url
+ */
+export function clearRedirectUrl() {
+  uni.removeStorageSync(REDIRECT_URL_KEY)
+}
 
