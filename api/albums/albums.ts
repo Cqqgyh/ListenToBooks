@@ -196,6 +196,15 @@ class CateGory extends Service {
       url: `/api/user/userInfo/isCollect/${trackId}`,
     })
   }
+  // 根据id删除播放历史
+  /**
+   * @description 根据id删除播放历史
+   */
+  deleteHistoryTrack(id: number) {
+    return this.delete({
+      url: `/api/user/userListenProcess/delete/${id}`,
+    })
+  }
 }
 
 export const albumsService = new CateGory()

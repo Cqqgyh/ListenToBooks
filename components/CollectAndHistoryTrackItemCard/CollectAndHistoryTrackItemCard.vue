@@ -15,7 +15,12 @@
      >
     </view>
     <text v-if="mode === 'collect'" class="gui-list-body-desc gui-color-gray gui-ellipsis">收藏于:{{ data.createTime.slice(0, 10) }}</text>
-    <text v-if="mode === 'collect'" class="gui-list-body-desc gui-color-gray gui-ellipsis">专辑:{{ data.albumTitle }}</text>
+    <text v-if="mode === 'history'" class="gui-list-body-desc gui-color-gray gui-ellipsis">专辑:{{ data.albumTitle }}</text>
+    <view v-if="mode === 'history'" class="gui-flex gui-align-items-center">
+     <uni-icons   custom-prefix="iconfont" type="shichang" class="gui-m-r-10" size="15"></uni-icons>
+     <text class="gui-list-body-desc gui-color-gray gui-ellipsis">{{ formatTime(data.mediaDuration) }}</text>
+     <text class="gui-list-body-desc gui-ellipsis gui-m-l-15 gui-color-orange2">已播 {{ data.playRate }}</text>
+    </view>
    </view>
    <uni-icons  @click="cancelPopUpRef.open()" custom-prefix="iconfont" type="shanchu" class="gui-m-r-10" size="15"></uni-icons>
   </view>
@@ -28,7 +33,7 @@
     :confirmText="popSetting.confirmText"
     :title="popSetting.title"
     :content="popSetting.content"
-    @confirm="() => handleCancel(data.trackId)"
+    @confirm="() => handleCancel(data.trackId as number)"
   ></uni-popup-dialog>
  </uni-popup>
 </template>
@@ -40,6 +45,7 @@ import {
  HistoryTrackInterface,
 } from "../../api/albums/interfaces"
 import UniPopup from "../../uni_modules/uni-popup/components/uni-popup/uni-popup.vue"
+import { formatTime } from "../../utils/utils"
 /* 响应式数据 */
 const cancelPopUpRef= ref<InstanceType<typeof UniPopup>>()
 const props = defineProps({

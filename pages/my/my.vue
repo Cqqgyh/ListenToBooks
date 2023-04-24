@@ -38,7 +38,7 @@
 
         <view class="gui-absolute-lb gui-bg-white gui-creation-live">
           <view class="gui-flex gui-row gui-nowrap gui-space-around gui-p-t-20">
-            <view class="gui-flex gui-row gui-align-items-center">
+            <view @click="handleGoToMyWork" class="gui-flex gui-row gui-align-items-center">
               <text class="gui-icons gui-h3 gui-color-drak">&#xe666;</text>
               <text class="gui-p-l-10">创作中心</text>
             </view>
@@ -111,6 +111,7 @@
             v-if="pageData.currentPageNav === 'history'"
             :data="item"
             :deleteItemHandler="deleteItem"
+            :handleCancel="(id) => albumsService.deleteHistoryTrack(id)"
             :popSetting="pageData[pageData.currentPageNav].popSetting"
             mode="history"
             :jumpRoute="pageData[pageData.currentPageNav].jumpRoute"
@@ -248,6 +249,12 @@ const deleteItem = (id: number | string) => {
 onLoad(async () => {
   console.log(1);
 })
+// 去往创作中心
+const handleGoToMyWork = () => {
+  uni.navigateTo({
+    url: '/pages/myWork/myWork'
+  })
+}
 </script>
 <style scoped>
 .gui-card-img {
