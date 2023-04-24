@@ -233,6 +233,7 @@ export interface HistoryTrackInterface {
   mediaDuration?: number;
   breakSecond?: number;
   playRate?: string;
+  id?:number | string
 }
 // 弹出框接口配置
 export interface DialogInterface {

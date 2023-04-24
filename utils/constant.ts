@@ -20,6 +20,11 @@ export const PAY_TYPE = [
   { name: "VIP免费", value: "0102" },
   { name: "付费", value: "0103" }
 ]
+export enum PAY_TYPE_MAP {
+  Free = '0101',
+  VipFree = '0102',
+  NotFree = '0103',
+}
 // 完结类型
 export const FINISH_TYPE = [
   { name: "未完结", value: "0" },
@@ -37,3 +42,9 @@ export enum PAY_WAY_MAP {
   Alipay = '1102',
   Balance = '1103',
 }
+// 	价格类型： 0201-单集 0202-整专辑
+export enum PRICE_TYPE_MAP {
+  Single = '0201',
+  Album = '0202',
+}
+

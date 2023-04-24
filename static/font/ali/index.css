@@ -7,7 +7,7 @@
 @font-face {
     font-family: "iconfont"; /* Project id 4018356 */
     src:
-    url('https://at.alicdn.com/t/c/font_4018356_h0l2h3keo2e.ttf?t=1682242568562') format('truetype');
+    url('https://at.alicdn.com/t/c/font_4018356_ymr6wpicchl.ttf?t=1682316477528') format('truetype');
 }
 
 .iconfont {
@@ -16,6 +16,18 @@
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.zhifubao:before {
+    content: "\e607";
+}
+
+.weixin:before {
+    content: "\e608";
+}
+
+.qudao-ximalaya:before {
+    content: "\e792";
 }
 
 .shanchu:before {

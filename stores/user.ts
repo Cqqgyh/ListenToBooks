@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { TOKEN_KEY, USER_KEY } from "../utils/constant"
-import { user } from "../api"
+import { order, user } from "../api"
 import { UpdateUserInfoInterface, UserInfoInterface, WechatUserInfoInterface } from "../api/user/interfaces"
 import { clearRedirectUrl, getRedirectUrl } from "../utils/utils"
 
@@ -8,7 +8,8 @@ export const useUserStore = defineStore("user", {
   state: () => {
     return {
       user: JSON.parse(uni.getStorageSync(USER_KEY) || "{}") as UserInfoInterface,
-      token: uni.getStorageSync(TOKEN_KEY) || "c2362386c59745c7bd4b9c43bb659f2a"
+      token: uni.getStorageSync(TOKEN_KEY) || "c2362386c59745c7bd4b9c43bb659f2a",
+      amount: 0,
     }
   },
   actions: {
@@ -27,6 +28,8 @@ export const useUserStore = defineStore("user", {
           })
           // 清空重定向url
           clearRedirectUrl()
+          // 获取账户可用余额
+          await this.getAccountBalance()
         },
         fail: (err:any) => {
           console.log(err)
@@ -81,6 +84,16 @@ export const useUserStore = defineStore("user", {
     async updateUserInfo(userInfo: UpdateUserInfoInterface) {
       try {
         const res = await user.updateUserInfo(userInfo)
+      }
+      catch (error) {
+        console.log(error)
+      }
+    },
+    // 获取账户可用余额
+    async getAccountBalance() {
+      try {
+        const res = await order.getAccountBalance()
+        this.amount = res.data
       }
       catch (error) {
         console.log(error)

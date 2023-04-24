@@ -123,10 +123,10 @@
 					:fixed="false">
 					<template #top>
 						<view
-							v-if="!albumDetailInfo.announcer.isVip"
+							v-if="userStore.user.isVip === 0 && albumDetailInfo.albumInfo.payType === PAY_TYPE_MAP.VipFree"
 							class="gui-flex gui-space-between gui-align-items-center gui-padding"
 							@click="openAccountPopup">
-							<view class="gui-h4 gui-bold">6元开会员 免费听</view>
+							<view class="gui-h4 gui-bold">开通会员 免费听</view>
 							<button type="default" class="gui-button gui-bg-red gui-noborder">
 								<text class="gui-color-white gui-button-text gui-p-l-20 gui-p-r-20 gui-border-radius">立即开通</text>
 							</button>
@@ -146,8 +146,9 @@
 								class="gui-button gui-bg-black-opacity6 gui-noborder gui-flex1 gui-m-l-20 gui-m-r-20 gui-flex gui-justify-content-center"
 								@click="handleSubscribe"
 							>
-								<text class="gui-icons gui-color-white gui-block gui-m-r-10">&#xe625;</text>
-								<text class="gui-icons gui-color-white gui-button-text">订阅</text>
+								<text v-if="albumDetailInfo.isSubscribe" class="gui-icons gui-color-white gui-block gui-m-r-10">&#xe78a;</text>
+								<text v-else class="gui-icons gui-color-white gui-block gui-m-r-10">&#xe625;</text>
+								<text class="gui-icons gui-color-white gui-button-text">{{ albumDetailInfo.isSubscribe ? '取消订阅' : '订阅' }}</text>
 							</view>
 						</view>
 					</template>
@@ -195,31 +196,17 @@
 			<text class="gui-icons gui-block gui-absolute-rt gui-h3 gui-p-20" @click="closeAccountPopup">&#xe610;</text>
 			<text class="gui-h3 gui-block gui-p-t-20 gui-p-b-20 gui-text-center">开通会员，可免费畅听本专辑</text>
 			<view class="gui-flex gui-space-between gui-m-20">
-				<view class="gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
-					<text>6个月</text>
-					<text>
+				<view @click="handleBuyVip(item)" v-for="item in vipSettingList" :key="item.id" class="gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
+					<text>{{ item.name }}</text>
+					<view class="price-container">
 						￥
-						<text class="gui-h2">138</text>
-					</text>
-					<text class="gui-text-small gui-text-brown">每日仅需￥0.74</text>
-				</view>
-
-				<view class="gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
-					<text>3个月</text>
-					<text>
-						￥
-						<text class="gui-h2">73</text>
-					</text>
-					<text class="gui-text-small gui-text-brown">每日仅需￥0.78</text>
-				</view>
-
-				<view class="gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
-					<text>1个月</text>
-					<text>
-						￥
-						<text class="gui-h2">25</text>
-					</text>
-					<text class="gui-text-small gui-text-brown">每日仅需￥0.8</text>
+						<text>{{ item.discountPrice }}</text>
+					</view>
+					<view class="gui-line-through gui-text-small gui-text-brown">
+						原价￥
+						<text>{{ item.price }}</text>
+					</view>
+					<text class="gui-text-small gui-text-brown">每日仅需￥{{(item.discountPrice/(item.serviceMonth*30)).toFixed(2)}}</text>
 				</view>
 			</view>
 
@@ -259,13 +246,7 @@
 				</view>
 			</view>
 
-			<view class="gui-flex gui-space-between gui-m-30 gui-border gui-p-20">
-				<text class="gui-text-black-opacity5 gui-bold">更多会员套餐</text>
-				<text class="gui-icons gui-block gui-h3 gui-text-black-opacity3">&#xe601;</text>
-			</view>
-
 			<view class="gui-flex gui-padding-x gui-column">
-				<view class="gui-h4 gui-color-white gui-flex1 gui-text-center gui-bg-orange-opacity9 gui-p-30 gui-border-radius">首月6元</view>
 				<text class="gui-text-small gui-block gui-text-center gui-m-t-20 gui-m-b-20">购买即视为同意《会员服务协议》和《自动续费服务规则》</text>
 			</view>
 		</view>
@@ -275,37 +256,24 @@
 	<gui-popup ref="buyPopupRef" position="bottom">
 		<view class="gui-relative gui-box-shadow gui-bg-white gui-dark-bg-level-1">
 			<text class="gui-icons gui-block gui-absolute-rt gui-h3 gui-p-20" @click="closeBuyPopup">&#xe610;</text>
-			<text class="gui-h3 gui-block gui-p-t-20 gui-p-b-20 gui-text-center">全集购买</text>
-			<view class="gui-flex gui-m-20 gui-wrap gui-row">
-				<view class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
+			<text class="gui-h3 gui-block gui-p-t-20 gui-p-b-20 gui-text-center">购买</text>
+			<view class="gui-flex gui-m-20 gui-wrap gui-row buy-track-container">
+				<view
+					@click="handleBuyAllIsMeanBuyVip"
+					class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
 					<text>全集</text>
 					<text class="gui-text-orange-opacity9 gui-block gui-m-t-10 gui-h4">VIP免费</text>
 				</view>
 
-				<view class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
-					<text>本集</text>
-					<text class="gui-text-orange-opacity9 gui-block gui-m-t-10">0.30 喜点</text>
+				<view
+					v-for="(item,index) in trackSettingList"
+					:key="index"
+					@click="handleBuySingle(item)"
+					class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
+					<text>{{ item.name }}</text>
+					<text class="gui-text-orange-opacity9 gui-block gui-m-t-10">￥{{ item.price }}</text>
 				</view>
 
-				<view class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
-					<text>后10集</text>
-					<text class="gui-text-orange-opacity9 gui-block gui-m-t-10">3.00 喜点</text>
-				</view>
-
-				<view class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
-					<text>后20集</text>
-					<text class="gui-text-orange-opacity9 gui-block gui-m-t-10">6.00 喜点</text>
-				</view>
-
-				<view class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
-					<text>后50集</text>
-					<text class="gui-text-orange-opacity9 gui-block gui-m-t-10">15.00 喜点</text>
-				</view>
-
-				<view class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
-					<text>已更未购281集</text>
-					<text class="gui-text-orange-opacity9 gui-block gui-m-t-10">84.30 喜点</text>
-				</view>
 			</view>
 
 			<view class="gui-flex gui-column gui-m-40">
@@ -313,9 +281,50 @@
 				<text class="gui-text-small gui-block gui-m-b-20 gui-text-black-opacity3">有声书免费听|去声音广告|喜马讲书畅听等9项权益</text>
 			</view>
 
-			<view class="gui-h4 gui-color-white gui-flex1 gui-text-center gui-bg-orange-opacity9 gui-p-30 gui-border-radius">会员免费听</view>
+			<view
+				@click="handleBuyAllIsMeanBuyVip"
+				class="gui-h4 gui-color-white gui-flex1 gui-text-center gui-bg-orange gui-p-30">会员免费听</view>
 		</view>
 	</gui-popup>
+
+	<!-- 弹出层，整专辑购买 -->
+	<gui-popup ref="albumPopupRef" position="bottom">
+		<view class="gui-relative gui-box-shadow gui-bg-white gui-dark-bg-level-1">
+			<text class="gui-icons gui-block gui-absolute-rt gui-h3 gui-p-20" @click="closeAlbumPopup">&#xe610;</text>
+			<navigator class="gui-list-items gui-m-40">
+				<view class="gui-list-image gui-relative">
+					<image
+						class="gui-list-image"
+						mode="aspectFill"
+						:src="albumDetailInfo.albumInfo.coverUrl"
+					></image>
+				</view>
+				<view class="gui-list-body gui-border-b">
+					<view class="gui-list-title"><text class="gui-list-title-text gui-primary-text">以下方式开启畅听</text></view>
+					<text class="gui-list-body-desc gui-color-gray">{{ albumDetailInfo.albumInfo.albumTitle }}</text>
+				</view>
+			</navigator>
+<!--			购买会员-->
+			<view
+				v-if="userStore.user.isVip === 0 && albumDetailInfo.albumInfo.payType === PAY_TYPE_MAP.VipFree"
+				@click="handleBuyAllIsMeanBuyVip"
+				class="gui-flex gui-row gui-space-between gui-m-40 gui-align-items-center">
+				<view class="gui-flex gui-flex1 gui-column">
+					<text class="gui-block">开通会员 免费听</text>
+					<text class="gui-block gui-text-small gui-text-brown-light">可收听所有会员内容</text>
+				</view>
+				<view class="gui-bg-orange gui-color-white gui-p-20">立即开通</view>
+			</view>
+
+			<navigator class="gui-m-40 gui-flex gui-space-between gui-bg-black-opacity2 gui-p-20">
+				<text class="gui-ellipsis gui-flex1">0.3喜点/集购买本专辑</text>
+				<text class="gui-list-arrow-right gui-icons">&#xe601;</text>
+			</navigator>
+
+			<view style="height: 100rpx"></view>
+		</view>
+	</gui-popup>
+
 
 </template>
 <script setup lang="ts">
@@ -325,13 +334,25 @@ import GuiPopup from "../../Grace6/components/gui-popup.vue"
 import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
 import Resizable from "../../components/Resizable/Resizable.vue"
 import { AlbumDetailInterface, TrackInterface } from "../../api/albums/interfaces"
-import { albumsService } from "../../api"
+import { albumsService, order } from "../../api"
 import { formatTime } from "../../utils/utils"
+import { TrackSettingInterface, VipSettingInterface } from "../../api/order/interfaces"
+import { PAY_TYPE_MAP, PAYMENT_ITEM_TYPE_MAP, PRICE_TYPE_MAP } from "../../utils/constant"
+import { useOrderStore } from "../../stores/order"
+import { useUserStore } from "../../stores/user"
 
 const accountPopupRef = ref<InstanceType<typeof GuiPopup>>()
 const buyPopupRef = ref<InstanceType<typeof GuiPopup>>()
+const albumPopupRef = ref<InstanceType<typeof GuiPopup>>()
 const resizableRef = ref<InstanceType<typeof Resizable>>()
+
 const zPagingRef = ref<InstanceType<typeof ZPaging>>()
+// 使用用户相关
+const userStore = useUserStore()
+// 使用订单相关的store
+const orderStore = useOrderStore()
+// 初始加载清空订单信息
+orderStore.clearOrderInfo()
 
 const props = defineProps({
 	id: {
@@ -343,6 +364,10 @@ const props = defineProps({
 const albumDetailInfo = ref({} as AlbumDetailInterface)
 //专辑声音列表
 const albumTrackList = ref<TrackInterface[]>([])
+// 会员收费列表
+const vipSettingList = ref<VipSettingInterface[]>([])
+// 声音收费列表
+const trackSettingList = ref<TrackSettingInterface[]>([])
 
 /* 方法 */
 // 获取专辑详情
@@ -373,15 +398,28 @@ const getAlbumTrackList= async (page:number, limit:number) => {
 	}
 }
 // 专辑声音被点击
-const handleTrackOnClick = (index:number,item:TrackInterface) => {
-	console.log('item',item)
-	if(item.isShowPiadMark){
-		// 弹出收费弹窗
-		openBuyPopup()
+const handleTrackOnClick = async (index: number, item: TrackInterface) => {
+	console.log('item', item)
+	// 是否收费
+	if (item.isShowPiadMark) {
+		// 判断是整张专辑购买还是分级购买
+		if (albumDetailInfo.value.albumInfo.priceType === PRICE_TYPE_MAP.Single) {
+			// 分集购买
+			// 请求收费信息配置
+			await getTrackVipSettingList(item.trackId)
+			// 弹出收费弹窗
+			openBuyPopup()
+		} else if (albumDetailInfo.value.albumInfo.priceType === PRICE_TYPE_MAP.Album) {
+			// 整张专辑购买
+			// 请求收费信息配置
+			// await getVipSettingList()
+			// 弹出收费弹窗
+			openAlbumPopup()
+		}
 	} else {
 		// 免费
-		albumTrackList.value.forEach((item2:TrackInterface,index2:number) => {
-			if(index2 !== index){
+		albumTrackList.value.forEach((item2: TrackInterface, index2: number) => {
+			if (index2 !== index) {
 				item2.isChecked = false
 				item2.isPlaying = false
 			} else {
@@ -391,33 +429,107 @@ const handleTrackOnClick = (index:number,item:TrackInterface) => {
 		})
 	}
 }
+// 获取会员收费配置列表
+const getVipSettingList = async () => {
+	try {
+		const res = await order.getVipSettingList()
+		vipSettingList.value = res.data
+	} catch (error) {
+		console.log(error)
+	}
+}
+// 获取声音收费配置列表
+const getTrackVipSettingList = async (trackId:number) => {
+	try {
+		const res = await order.getTrackSettingList(trackId)
+		// 增加声音Id，用于之后的购买
+		res.data.forEach((item:TrackSettingInterface) => {
+			item.trackId = trackId
+		})
+		trackSettingList.value = res.data
+	} catch (error) {
+		console.log(error)
+	}
+}
 // 订阅
 const handleSubscribe = () => {
 	console.log('handleSubscribe')
+	try {
+		const res = albumsService.isSubscribeAlbum(albumDetailInfo.value.albumInfo.id)
+		uni.showToast({
+			title: albumDetailInfo.value.isSubscribe ? '取消订阅成功' : '订阅成功',
+			icon: 'none'
+		})
+		albumDetailInfo.value.isSubscribe = !albumDetailInfo.value.isSubscribe
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+// 去往订单页
+const handleToOrder = () => {
+	uni.navigateTo({
+		url: '/pages/confirmOrder/confirmOrder'
+	})
 }
 const openAccountPopup = () => {
 	console.log('openAccountPopup')
 	accountPopupRef.value.open();
 };
-
-const closeAccountPopup = () => {
-	accountPopupRef.value.close();
-};
-
 const openBuyPopup = () => {
 	buyPopupRef.value.open();
+};
+const openAlbumPopup = () => {
+	albumPopupRef.value.open();
 };
 
 const closeBuyPopup = () => {
 	buyPopupRef.value.close();
 };
-
-
-// 弹出层导航切换
-const currentIndex = ref(0);
-
+// 关闭专辑弹窗
+const closeAlbumPopup = () => {
+	albumPopupRef.value.close();
+};
+const closeAccountPopup = () => {
+	accountPopupRef.value.close();
+};
+// 购买会员
+const handleBuyVip = (item:VipSettingInterface) => {
+	console.log('handleBuyVip')
+	// 关闭会员购买弹窗
+	closeAccountPopup()
+	orderStore.setConfirmOrderInfo({
+		itemType: PAYMENT_ITEM_TYPE_MAP.Vip,
+		itemId: item.id,
+	})
+	// 去往确认订单页面
+	handleToOrder()
+};
+// 购买全集
+const handleBuyAllIsMeanBuyVip = () => {
+	console.log('handleBuyAllIsMeanBuyVip')
+	// 弹出支付方式选择弹窗
+	// 关闭购买弹窗
+	closeBuyPopup()
+	// 关闭专辑弹窗
+	closeAlbumPopup()
+	// 打开会员购买弹窗
+	openAccountPopup()
+};
+// 分集单次购买
+const handleBuySingle = (item:TrackSettingInterface) => {
+	console.log('handleBuySingle')
+	orderStore.setConfirmOrderInfo({
+		itemType: PAYMENT_ITEM_TYPE_MAP.Track,
+		itemId: item.trackId as number,
+		trackCount: item.trackCount,
+	})
+	// 关闭购买弹窗
+	closeBuyPopup()
+};
 onLoad(() => {
 	getAlbumDetailInfo()
+	getVipSettingList()
 });
 
 
@@ -495,7 +607,7 @@ onLoad(() => {
 	margin: 10rpx;
 }
 .resizable-top{
-	height: 60rpx;
+	height: 80rpx;
 }
 .track-item-checked{
 	background-color: #f5f5f5;
@@ -509,5 +621,11 @@ onLoad(() => {
 	align-items: center;
 	width: 60rpx;
 	text-align: center;
+}
+.price-container{
+	color:#ff6e40;
+}
+.buy-track-container{
+	justify-content:space-evenly;
 }
 </style>
