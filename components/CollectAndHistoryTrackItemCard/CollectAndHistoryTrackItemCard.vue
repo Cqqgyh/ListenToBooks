@@ -33,7 +33,7 @@
     :confirmText="popSetting.confirmText"
     :title="popSetting.title"
     :content="popSetting.content"
-    @confirm="() => handleCancel(data.trackId as number)"
+    @confirm="() => handleCancel( mode=== 'collect' ? data.trackId as number : data.id as number)"
   ></uni-popup-dialog>
  </uni-popup>
 </template>
@@ -91,7 +91,7 @@ const props = defineProps({
 // 分类导航
 
 /* 方法 */
-const handleCancel = async (albumId: number) => {
+const handleCancel = async (albumId: number | string) => {
  try {
   const res = await props.handleCancel(albumId)
   // const res = await albumsService.isCollectTrack(albumId)
