@@ -47,4 +47,8 @@ export enum PRICE_TYPE_MAP {
   Single = '0201',
   Album = '0202',
 }
-
+// 微信下单类型 	支付类型：1301-订单 1302-充值
+export enum WX_ORDER_TYPE_MAP {
+  Order = '1301',
+  Recharge = '1302',
+}

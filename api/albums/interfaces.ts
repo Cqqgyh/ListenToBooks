@@ -90,7 +90,7 @@ export interface AlbumInfoListInterface{
   playStatNum: number
   subscribeStatNum: number
   buyStatNum: number
-  albumCommentStatNum: number
+  commentStatNum: number
   id?: number | string
 }
 // 声音信息列表接口
@@ -105,7 +105,7 @@ export interface TrackInfoListInterface {
   playStatNum: number
   collectStatNum: number
   praiseStatNum: number
-  albumCommentStatNum: number
+  commentStatNum: number
 }
 // 分页请求响应接口
 export interface PageResponseInterface<T> {
@@ -163,7 +163,7 @@ export interface AlbumInterface {
 export interface AlbumStatVoInterface {
   albumId: null | number;
   playStatNum: number;
-  collectStatNum: null | number;
+  subscribeStatNum: null | number;
   buyStatNum: number;
   commentStatNum: null | number;
 }
@@ -194,7 +194,7 @@ export interface TrackInterface {
   mediaDuration: number;
   orderNum: number;
   playStatNum: number;
-  albumCommentStatNum: number;
+  commentStatNum: number;
   createTime: string;
   isShowPiadMark: boolean;
   isChecked?: boolean;
@@ -212,7 +212,7 @@ export interface TrackStaVoInterface {
   playStatNum: number;
   collectStatNum: number;
   praiseStatNum: number;
-  albumCommentStatNum: number;
+  commentStatNum: number;
 }
 // 订阅专辑列表接口
 export interface SubscribeAlbumsInterface {
@@ -256,5 +256,5 @@ export interface TrackStaVoInterface {
   playStatNum: number;
   collectStatNum: number;
   praiseStatNum: number;
-  albumCommentStatNum: number;
+  commentStatNum: number;
 }

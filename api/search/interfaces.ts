@@ -23,7 +23,7 @@ export interface SearchItemInterface {
   playStatNum: number;
   collectStatNum: number;
   buyStatNum: number;
-  albumCommentStatNum: number;
+  commentStatNum: number;
 }
 // 分页请求响应接口
 export interface SearchPageResponseInterface<T> {

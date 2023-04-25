@@ -1,8 +1,8 @@
 import { defineStore } from "pinia"
 import { order, user } from "../api"
 import {useUpdateUserInfo} from "../hooks/useUpdateUserInfo"
-import { OrderInterface, OrderRequestInterface } from "../api/order/interfaces"
-import { PAYMENT_ITEM_TYPE_MAP, PAY_WAY_MAP, } from "../utils/constant"
+import { OrderInterface, OrderRequestInterface, WechatPayInterface } from "../api/order/interfaces"
+import { PAYMENT_ITEM_TYPE_MAP, PAY_WAY_MAP, WX_ORDER_TYPE_MAP } from "../utils/constant"
 
 export const useOrderStore = defineStore("order", {
   state: () => {
@@ -41,6 +41,85 @@ export const useOrderStore = defineStore("order", {
     setOrderPayWay(payWay: PAY_WAY_MAP) {
       this.submitOrderInfo.payWay = payWay
     },
+    // 提交订单
+    async submitOrder() {
+      try {
+        const res = await order.submitOrder(this.submitOrderInfo)
+        // 如果是余额支付，直接支付成功
+        if (this.submitOrderInfo.payWay === PAY_WAY_MAP.Balance) {
+          this.paySuccess()
+        } else if (this.submitOrderInfo.payWay === PAY_WAY_MAP.WeChat) {
+          // 微信支付
+          await this.wechatPay(res.data.orderNo)
+          // 查询支付状态
+          await this.queryOrderPayStatus(res.data.orderNo)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    // 微信支付逻辑
+    async wechatPay(orderNo: string | number, paymentType: string = WX_ORDER_TYPE_MAP.Order ) {
+      // 调用后端微信下单接口
+      try {
+        const res = await order.wechatPay(orderNo,paymentType)
+        // 调用微信官方支付接口
+        await this.wechatOfficialPay(res.data)
+        // 查询订单状态
+        await this.queryOrderPayStatus(orderNo)
+
+      }catch (error) {
+        console.log(error)
+      }
+
+
+    },
+    // 微信官方支付接口
+    async wechatOfficialPay(params: WechatPayInterface) {
+      try {
+        const res = await wx.requestPayment(Object.assign({
+          timeStamp: '',
+          nonceStr: '',
+          package: '',
+          signType: 'MD5',
+          paySign: '',
+        }, params));
+        // 支付成功
+        this.paySuccess();
+        console.log('支付成功');
+      } catch (err) {
+        // 支付失败
+        console.log(err);
+      }
+    },
+    // 查询订单支付状态
+    async queryOrderPayStatus(orderNo: string | number,times:number = 10,interval:number = 2000) {
+      // 轮询查询订单支付状态
+      try {
+        const res = await order.queryOrderPayStatus(orderNo);
+        if (res.data) {
+          // 查询支付成功
+          this.paySuccess();
+        } else {
+          // 查询支付失败
+          if (times > 1) {
+            console.log('查询支付信息失败，继续查询-----------',times)
+            setTimeout(() => {
+              this.queryOrderPayStatus(orderNo, times - 1, interval);
+            }, interval);
+          } else {
+            uni.showToast({
+              title: '查询支付信息失败',
+              icon: 'error',
+              duration: 2000
+            })
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     // 支付成功
     paySuccess() {
       uni.showToast({
@@ -53,6 +132,13 @@ export const useOrderStore = defineStore("order", {
         // 更新用户信息
         const {updateUserInfo} = useUpdateUserInfo()
         updateUserInfo()
+      // 去往支付成功页面
+        console.log('去往支付成功页面')
+        //
+      uni.redirectTo({
+        url: '/pages/paySuccess/paySuccess'
+      })
+
 
     },
     // 清空相关订单信息

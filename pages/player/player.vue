@@ -72,8 +72,8 @@
 									:value="audioContxt.percentTime"
 									step="1"
 									activeColor="#f86442"
-									block-color="#fff" 
-									block-size="20" 
+									block-color="#fff"
+									block-size="20"
 									@change="sliderChange"
 								/>
 							</view>
@@ -134,7 +134,7 @@
 							</view>
 							<view class="gui-flex gui-column gui-align-items-center">
 								<text class="gui-icons gui-h3 gui-m-b-5">&#xe6b8;</text>
-								<text class="gui-text-small">{{ trackStaVo?.albumCommentStatNum }}</text>
+								<text class="gui-text-small">{{ trackStaVo?.commentStatNum }}</text>
 							</view>
 						</view>
 					</view>
@@ -269,22 +269,22 @@ const play = () => {
 /** 初始化音频 */
 const initAudio = (ctx: any) => {
 	ctx.onTimeUpdate((e) => {
-		
+
 		// 获取当前进度
 		const currentTime:number = innerAudioContext.currentTime
-		
+
 		// console.log(audioContxt.percentTime);
-		
+
 		if (audioContxt.durationTime) {
 			audioContxt.percentTime = (currentTime / audioContxt.durationTime) * 1000
 			// console.log(audioContxt.percentTime);
 		}
-		
+
 		audioContxt.currentTime = formatTime(currentTime);
 	})
 	ctx.onCanplay(() => {
 		// 获取音频长度
-		setTimeout(() => { 
+		setTimeout(() => {
 			console.log('音频长度', innerAudioContext.duration);
 			// 转化成时分秒的格式
 			const duration = innerAudioContext.duration
@@ -293,7 +293,7 @@ const initAudio = (ctx: any) => {
 		}, 300)
 	})
 	ctx.onWaiting((e) => {
-		
+
 	})
 	ctx.onPlay(() => {
 		audioContxt.playStatus = true
@@ -302,10 +302,10 @@ const initAudio = (ctx: any) => {
 		audioContxt.playStatus = false
 	})
 	ctx.onEnded((e) => {
-		
+
 	})
 	ctx.onError((e) => {
-		
+
 	})
 }
 

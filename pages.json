@@ -29,7 +29,7 @@
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
-		}, 
+		},
 		{
 			"path": "pages/detail/detail",
 			"style": {
@@ -156,6 +156,15 @@
             "style" :
             {
                 "navigationBarTitleText": "登陆",
+                "enablePullDownRefresh": false
+            }
+
+        }
+        ,{
+            "path" : "pages/paySuccess/paySuccess",
+            "style" :
+            {
+                "navigationBarTitleText": "支付成功",
                 "enablePullDownRefresh": false
             }
 

@@ -53,7 +53,7 @@
 					</view>
 					<view class="gui-flex gui-column">
 						<text>
-							{{ albumDetailInfo.albumStatVo.collectStatNum || 0}}
+							{{ albumDetailInfo.albumStatVo.subscribeStatNum || 0}}
 							<text class="gui-text-small gui-text-brown">万</text>
 						</text>
 						<text class="gui-text-small gui-text-brown">订阅量</text>
@@ -172,7 +172,7 @@
 								<text v-else class="gui-icons gui-block gui-m-r-10">&#xe649;</text>
 								<text class="gui-block gui-m-r-20">{{ item.playStatNum }}</text>
 								<text class="gui-icons gui-block gui-m-r-10">&#xe6b8;</text>
-								<text class="gui-block gui-m-r-20">{{ item.albumCommentStatNum }}</text>
+								<text class="gui-block gui-m-r-20">{{ item.commentStatNum }}</text>
 								<text class="gui-icons gui-block gui-m-r-10">&#xe607;</text>
 								<text class="gui-block">{{ formatTime(item.mediaDuration)  }}</text>
 							</view>
