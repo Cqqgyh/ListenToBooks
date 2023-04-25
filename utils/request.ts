@@ -1,6 +1,7 @@
 import { useUserStore } from '../stores/user'
 import type { RequestOptions } from './interface'
 import { RequestResponse } from "./interface"
+import { setRedirectUrl } from "./utils"
 const BASEURL = 'http://139.198.163.91:8500'
 class Service {
   api<T>(opts: RequestOptions): Promise<RequestResponse<T>> {
@@ -31,16 +32,19 @@ class Service {
           if (res.statusCode === 200) {
             if (res.data.code == 200) {
               resolve(res.data)
-            } else if (res.data.code == 28004) {
+            } else if (res.data.code == 208) {
               uni.showModal({
                 title: '提示',
                 content: '登录过期，请重新登录',
                 success: function (res) {
                   if (res.confirm) {
-                    uni.redirectTo({
-                      url: '/pages/login/index',
-                    })
+                    // 清空缓存
                     uni.clearStorageSync()
+                    uni.redirectTo({
+                      url: `/pages/login/login`,
+                    })
+                    // 设置重定向url
+                    setRedirectUrl()
                   } else if (res.cancel) {
                     console.log('用户不想登陆')
                   }

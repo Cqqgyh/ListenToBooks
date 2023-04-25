@@ -3,9 +3,15 @@ import {
   AlbumDetailInterface,
   AlbumInfoInterface,
   AlbumInfoListInterface,
-  PageResponseInterface, QueryTrackInterface, TrackInfoInterface, TrackInterface,
-  WorksInfoPageInterface,
-  TrackStaVoInterface
+  PageResponseInterface,
+  TrackStaVoInterface,
+  CollectTrackInterface, 
+  HistoryTrackInterface,
+  QueryTrackInterface, 
+  SubscribeAlbumsInterface, 
+  TrackInfoInterface, 
+  TrackInterface,
+  WorksInfoPageInterface
 } from "../albums/interfaces"
 
 class CateGory extends Service {
@@ -162,6 +168,61 @@ getTrackStaVo(trackId: number) {
     url: `/api/album/trackInfo/getTrackStatVo/${trackId}`
   })
 } 
+  /**
+   * @description 获取订阅专辑分页列表
+   * @param  { page: number, limit: number } pageInfo 分页信息
+   */
+  getSubscribeAlbums(pageInfo: { page: number, limit: number }) {
+    return this.get<PageResponseInterface<SubscribeAlbumsInterface>>({
+      url: `/api/user/userInfo/findUserSubscribePage/${pageInfo.page}/${pageInfo.limit}`,
+    })
+  }
+  /**
+   * @description 获取订阅专辑分页列表
+   * @param  { page: number, limit: number } pageInfo 分页信息
+   */
+  getCollectTrack(pageInfo: { page: number, limit: number }) {
+    return this.get<PageResponseInterface<CollectTrackInterface>>({
+      url: `/api/user/userInfo/findUserCollectPage/${pageInfo.page}/${pageInfo.limit}`,
+    })
+  }
+  /**
+   * @description 获取历史声音分页列表
+   * @param  { page: number, limit: number } pageInfo 分页信息
+   */
+  getHistoryTrack(pageInfo: { page: number, limit: number }) {
+    return this.get<PageResponseInterface<HistoryTrackInterface>>({
+      url: `/api/user/userListenProcess/findUserPage/${pageInfo.page}/${pageInfo.limit}`,
+    })
+  }
+  // 是否订阅专辑
+  /**
+   * @description 是否订阅专辑
+   */
+  isSubscribeAlbum(albumId: number) {
+    console.log('是否订阅专辑', albumId)
+    return this.get({
+      url: `/api/user/userInfo/isSubscribe/${albumId}`,
+    })
+  }
+  // 是否收藏声音
+  /**
+   * @description 是否订阅专辑
+   */
+  isCollectTrack(trackId: number) {
+    return this.get({
+      url: `/api/user/userInfo/isCollect/${trackId}`,
+    })
+  }
+  // 根据id删除播放历史
+  /**
+   * @description 根据id删除播放历史
+   */
+  deleteHistoryTrack(id: number) {
+    return this.delete({
+      url: `/api/user/userListenProcess/delete/${id}`,
+    })
+  }
 }
 
 export const albumsService = new CateGory()

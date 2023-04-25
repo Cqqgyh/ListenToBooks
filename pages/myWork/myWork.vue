@@ -128,13 +128,13 @@ const resetSelectItems = () => {
   pageData.status = selectItems.value[0].status
 }
 // 导航切换
-const navChange = (item: number | string,navItemId:string) => {
+const navChange = (index: number | string,navItemId:string) => {
   pageData.currentPageNav = navItemId
   // 重置下拉列表数据
   resetSelectItems()
   // 当切换tab或搜索时请调用组件的reload方法
   zPagingRef.value.reload()
-  console.log('navChange',item,navItemId)
+  console.log('navChange',index,navItemId)
 }
 // 获取列表数据
 const getListInfo = async (page: number, limit: number) => {

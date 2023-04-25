@@ -4,10 +4,10 @@
       <view style="height: 44px" class="gui-flex">
         <view class="gui-flex gui-row gui-wrap gui-align-items-center gui-m-l-20">
           <text class="gui-icons gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black-opacity1 gui-m-r-10"
-            >&#xe666;</text
+          >&#xe666;</text
           >
           <text class="gui-icons gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black-opacity1 gui-m-r-10"
-            >&#xe67b;</text
+          >&#xe67b;</text
           >
           <text class="gui-icons gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black-opacity1">&#xe613;</text>
         </view>
@@ -17,31 +17,18 @@
 
     <template v-slot:gBody>
       <view class="gui-relative">
-        <view class="gui-list gui-padding gui-bg-green gui-p-b-80">
-          <view class="gui-list-items">
+        <view class="gui-list gui-padding gui-bg-green gui-p-b-90">
+          <view class="gui-list-items gui-relative">
             <image
               mode="aspectFill"
-              src="https://images.unsplash.com/photo-1663524789648-90fbdf8c8b76?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzMDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=100&q=90"
+              :src="user.avatarUrl"
               class="gui-card-img"
             ></image>
-            <view class="gui-list-body">
+            <view class="gui-list-body gui-m-t-10">
               <view class="gui-card-desc">
                 <view class="gui-flex gui-rows gui-nowrap gui-align-items-center">
-                  <text class="gui-card-name gui-primary-text gui-h4 gui-bold">听友 1234567890</text>
-                </view>
-                <view class="gui-flex gui-row gui-text gui-m-t-10">
-                  <view class="gui-flex gui-column gui-align-items-center">
-                    <text>3</text>
-                    <text>收听(小时)</text>
-                  </view>
-                  <view class="gui-flex gui-column gui-align-items-center gui-m-l-30 gui-m-r-30">
-                    <text>30</text>
-                    <text>粉丝</text>
-                  </view>
-                  <view class="gui-flex gui-column gui-align-items-center">
-                    <text>8</text>
-                    <text>关注</text>
-                  </view>
+                  <text class="gui-card-name gui-primary-text gui-h4 gui-bold">{{user.nickname}}</text>
+                  <uni-icons v-if="user.isVip" custom-prefix="iconfont" type="VIP" class="gui-m-r-10" color="#f78414" size="15"></uni-icons>
                 </view>
               </view>
             </view>
@@ -51,7 +38,7 @@
 
         <view class="gui-absolute-lb gui-bg-white gui-creation-live">
           <view class="gui-flex gui-row gui-nowrap gui-space-around gui-p-t-20">
-            <view class="gui-flex gui-row gui-align-items-center">
+            <view @click="handleGoToMyWork" class="gui-flex gui-row gui-align-items-center">
               <text class="gui-icons gui-h3 gui-color-drak">&#xe666;</text>
               <text class="gui-p-l-10">创作中心</text>
             </view>
@@ -63,7 +50,7 @@
         </view>
       </view>
 
-      <view class="gui-grid gui-bg-white gui-dark-bg-level-3 gui-padding gui-m-t-20">
+      <view class="gui-flex gui-space-between gui-bg-white gui-dark-bg-level-3 gui-padding gui-m-t-20">
         <view class="gui-grid-item">
           <text class="gui-grid-icon gui-icons gui-color-gray">&#xe634;</text>
           <text class="gui-grid-text gui-icons gui-color-gray">VIP会员</text>
@@ -76,62 +63,61 @@
           <text class="gui-grid-icon gui-icons gui-color-gray">&#xe62f;</text>
           <text class="gui-grid-text gui-icons gui-color-gray">我的订单</text>
         </view>
-        <view class="gui-grid-item">
-          <text class="gui-grid-icon iconfont gui-color-gray">&#xe646;</text>
-          <text class="gui-grid-text gui-icons gui-color-gray">商城</text>
-        </view>
-        <view class="gui-grid-item">
-          <text class="gui-grid-icon iconfont gui-color-gray">&#xe61b;</text>
-          <text class="gui-grid-text gui-icons gui-color-gray">全部服务</text>
-        </view>
       </view>
 
       <view class="gui-bg-white gui-dark-bg-level-3 gui-padding">
-        <gui-switch-navigation
-          :items="navItems"
-          textAlign="center"
-          :size="120"
-          activeDirection="center"
-          lineHeight="50rpx"
-          activeFontSize="46rpx"
-          :activeLineClass="['gui-nav-scale', 'gui-gtbg-red']"
-        ></gui-switch-navigation>
-
-        <scroll-view scroll-y style="height: 620rpx" class="gui-p-t-20">
-          <navigator class="gui-list-items" v-for="n in 20" :key="n">
-            <view class="gui-list-image gui-relative">
-              <text class="gui-absolute-lt gui-bg-red gui-p-l-5 gui-p-r-5 gui-text-small gui-color-white">VIP</text>
-              <view
-                class="gui-flex gui-absolute-lb gui-bg-black-opacity7 gui-p-l-5 gui-p-r-5 gui-text-small gui-color-white gui-p-t-5 gui-p-b-5 gui-p-l-20 gui-p-r-20"
-              >
-                <text class="gui-icons gui-block gui-color-drak gui-m-r-5 gui-p-t-5">&#xe649;</text>
-                <text>715万</text>
-              </view>
-              <image
-                class="gui-list-image"
-                mode="aspectFill"
-                src="https://images.unsplash.com/photo-1663603802898-798d83877992?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0OHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=90"
-              ></image>
-              <view class="gui-badge-point"></view>
-            </view>
-            <view class="gui-list-body gui-border-b">
-              <view class="gui-list-title">
-                <text class="gui-text gui-block gui-secondary-text gui-text-left gui-ellipsis"
-                  >武炼巅峰 | 热血玄乎爽文 | 多人协作 | 尽快订阅，优惠多多</text
-                >
-              </view>
-              <text class="gui-list-body-desc gui-color-gray gui-ellipsis">23小时前更新 武炼巅峰 第944章 计谋用尽</text>
-              <gui-tags
-                text="完结"
-                :size="22"
-                :width="50"
-                borderColor="#FF0036"
-                :customClass="['gui-transparent-bg', 'gui-color-red', 'gui-m-t-10']"
-              ></gui-tags>
-            </view>
-            <text class="gui-list-arrow-right iconfont gui-color-gray-light">&#xe73a;</text>
-          </navigator>
-        </scroll-view>
+        <z-paging
+          ref="zPagingRef"
+          :paging-style="{height:'1000rpx'}"
+          v-model="pageData[pageData.currentPageNav].list"
+          @query="getListInfo"
+          :fixed="false">
+          <template #top>
+            <gui-switch-navigation
+              :items="navItems"
+              textAlign="center"
+              :isCenter="true"
+              :size="120"
+              :margin="0"
+              padding="30rpx"
+              activeDirection="center"
+              lineHeight="50rpx"
+              activeFontSize="46rpx"
+              :activeLineClass="['gui-nav-scale', 'gui-gtbg-red']"
+              @change="(index)=>navChange(index,navItems[index].id)"
+            ></gui-switch-navigation>
+            <view style="height:20rpx;"></view>
+          </template>
+          <SubscribeItemCard
+            v-if="pageData.currentPageNav === 'subscribe'"
+            :data="item"
+            :deleteItemHandler="deleteItem"
+            :handleCancel="(id)=>albumsService.isSubscribeAlbum(id)"
+            :popSetting="pageData[pageData.currentPageNav].popSetting"
+            :jumpRoute="pageData[pageData.currentPageNav].jumpRoute"
+            v-for="item in pageData[pageData.currentPageNav].list as SubscribeAlbumsInterface[]"
+            :key="item.albumId"></SubscribeItemCard>
+          <CollectAndHistoryTrackItemCard
+            v-if="pageData.currentPageNav === 'collect'"
+            :data="item"
+            :deleteItemHandler="deleteItem"
+            :handleCancel="(id) => albumsService.isCollectTrack(id)"
+            :popSetting="pageData[pageData.currentPageNav].popSetting"
+            mode="collect"
+            :jumpRoute="pageData[pageData.currentPageNav].jumpRoute"
+            v-for="item in pageData[pageData.currentPageNav].list as CollectTrackInterface[]"
+            :key="item.trackId"></CollectAndHistoryTrackItemCard>
+          <CollectAndHistoryTrackItemCard
+            v-if="pageData.currentPageNav === 'history'"
+            :data="item"
+            :deleteItemHandler="deleteItem"
+            :handleCancel="(id) => albumsService.deleteHistoryTrack(id)"
+            :popSetting="pageData[pageData.currentPageNav].popSetting"
+            mode="history"
+            :jumpRoute="pageData[pageData.currentPageNav].jumpRoute"
+            v-for="item in pageData[pageData.currentPageNav].list as HistoryTrackInterface[]"
+            :key="item.trackId"></CollectAndHistoryTrackItemCard>
+        </z-paging>
       </view>
     </template>
 
@@ -142,44 +128,146 @@
   </gui-page>
 </template>
 <script setup lang="ts">
-import { ref } from "vue"
-import { courseService } from '../../api'
+import { ref,reactive } from "vue"
 import { onLoad } from '@dcloudio/uni-app'
-const navItems = ref([
-  { name: "追更", id: 0 },
-  { name: "订阅", id: 1 },
-  { name: "收藏", id: 2 },
-  { name: "历史", id: 3 },
-  { name: "下载", id: 4 },
-])
+import { useUserStore} from "../../stores/user"
+import { storeToRefs } from 'pinia'
+import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
+import SubscribeItemCard from "../../components/SubscribeItemCard/SubscribeItemCard.vue"
+import { albumsService } from "../../api"
+import { CollectTrackInterface, HistoryTrackInterface, SubscribeAlbumsInterface } from "../../api/albums/interfaces"
+const userStore = useUserStore()
+let {user} = storeToRefs(userStore)
 
+const zPagingRef = ref<InstanceType<typeof ZPaging>>()
+
+const navItems = ref([
+  { name: "订阅", id: 'subscribe' },
+  { name: "收藏", id: 'collect' },
+  { name: "历史", id: 'history' },
+])
+// 定义页面数据
+const pageData = reactive({
+  currentPageNav:'subscribe',
+  // 订阅专辑列表
+  subscribe: {
+    // 专辑列表
+    list: [] as SubscribeAlbumsInterface[],
+    // 跳转路径
+    jumpRoute: '/pages/detail/detail',
+    // 弹出框配置
+    popSetting:{
+      type: "error",
+      title: "注意",
+      content: "你确定要取消订阅吗？",
+      cancelText: "取消",
+      confirmText: "确认"
+    }
+  },
+  // 收藏声音列表
+  collect: {
+    // 声音列表
+    list: [] as CollectTrackInterface[],
+    // 跳转路径
+    jumpRoute: '/pages/createAlbum/createAlbum',
+    // 弹出框配置
+    popSetting:{
+      type: "error",
+      title: "注意",
+      content: "你确定要取消收藏吗？",
+      cancelText: "取消",
+      confirmText: "确认"
+    }
+  },
+  // 历史声音列表
+  history: {
+    // 声音列表
+    list: [] as HistoryTrackInterface[],
+    // 跳转路径
+    jumpRoute: '/pages/createAlbum/createAlbum',
+    popSetting:{
+      type: "error",
+      title: "注意",
+      content: "你确定要删除此历史吗？",
+      cancelText: "取消",
+      confirmText: "确认"
+    }
+  },
+})
 const currentIndex = ref(4)
+// 导航切换
+const navChange = (index: number | string,navItemId:string) => {
+  pageData.currentPageNav = navItemId
+  // 当切换tab或搜索时请调用组件的reload方法
+  zPagingRef.value.reload()
+  console.log('navChange',index,navItemId)
+}
+// 获取列表数据
+const getListInfo = async (page: number, limit: number) => {
+  //组件加载时会自动触发此方法，因此默认页面加载时会自动触发，无需手动调用
+  //这里的pageNo和pageSize会自动计算好，直接传给服务器即可
+  //模拟请求服务器获取分页数据，请替换成自己的网络请求
+  const params = {
+    page: page,
+    limit: limit
+  }
+  try {
+    if (pageData.currentPageNav === 'subscribe') {
+      // 专辑列表
+      const res = await albumsService.getSubscribeAlbums(params)
+      //将请求的结果数组传递给z-paging
+      zPagingRef.value.complete(res.data.records);
+    } else if (pageData.currentPageNav === 'collect') {
+      // 声音列表
+      const res = await albumsService.getCollectTrack(params)
+      //将请求的结果数组传递给z-paging
+      zPagingRef.value.complete(res.data.records);
+    } else if (pageData.currentPageNav === 'history') {
+      // 声音列表
+      const res = await albumsService.getHistoryTrack(params)
+      //将请求的结果数组传递给z-paging
+      zPagingRef.value.complete(res.data.records);
+    }
+  } catch (error) {
+    console.log(error)
+    zPagingRef.value.complete(false);
+  }
+}
+// 子组件被删除，触发父组件的删除列表子项事件
+const deleteItem = (id: number | string) => {
+  if (pageData.currentPageNav === 'subscribe') {
+    // 专辑列表
+    pageData.subscribe.list = pageData.subscribe.list.filter((item:SubscribeAlbumsInterface) => item.albumId !== id)
+  }  else if (pageData.currentPageNav === 'collect') {
+    // 声音列表
+    pageData.collect.list = pageData.collect.list.filter((item:CollectTrackInterface) => item.trackId !== id)
+  } else if (pageData.currentPageNav === 'history') {
+    // 声音列表
+    pageData.history.list = pageData.history.list.filter((item:HistoryTrackInterface) => item.trackId !== id)
+  }
+}
 onLoad(async () => {
   console.log(1);
-
-  // const res = courseService.findAllCategory1()
-  // console.log(res);
 })
+// 去往创作中心
+const handleGoToMyWork = () => {
+  uni.navigateTo({
+    url: '/pages/myWork/myWork'
+  })
+}
 </script>
 <style scoped>
 .gui-card-img {
-  width: 150rpx;
-  height: 150rpx;
-  border-radius: 150rpx;
-}
-
-.gui-list-image {
-  width: 150rpx;
-  height: 150rpx;
-  border-radius: 10rpx;
-  font-size: 0;
+    width: 150rpx;
+    height: 150rpx;
+    border-radius: 150rpx;
 }
 
 .gui-creation-live {
-  height: 80rpx;
-  bottom: -20rpx;
-  left: 50rpx;
-  border-radius: 20rpx;
-  width: 650rpx;
+    height: 80rpx;
+    bottom: -20rpx;
+    left: 50rpx;
+    border-radius: 20rpx;
+    width: 650rpx;
 }
 </style>
