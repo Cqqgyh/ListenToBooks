@@ -60,24 +60,19 @@
 
 						<view class="gui-flex gui-row gui-space-between gui-align-items-center gui-m-l-50 gui-m-r-50 gui-m-t-30 gui-m-b-30">
 							<text class="iconfont gui-m-r-5 gui-p-t-5 gui-color-white gui-h5">{{ audioContxt.currentTime }}</text>
-							<view class="gui-flex1 gui-m-l-20 gui-m-r-20">
-								<!-- <gui-single-slider
-									:canSlide="true"
-									:barHeight="20"
-									:barWidth="20"
-									:bglineClass="['gui-bg-white']"
-									:barClass="['gui-bg-green', 'gui-color-white']"
-								></gui-single-slider> -->
+							<view class="gui-flex1 gui-m-l-20 gui-m-r-20" style="width: 100rpx">
 								<slider
-									:value="audioContxt.percentTime"
+									:min="0"
+									:max="audioContxt.durationTime"
+									:value="audioContxt.progressTime"
 									step="1"
 									activeColor="#f86442"
 									block-color="#fff" 
-									block-size="20" 
+									block-size="10" 
 									@change="sliderChange"
 								/>
 							</view>
-							<text class="iconfont gui-m-r-5 gui-p-t-5 gui-color-white gui-h5">{{ audioContxt.duration }}</text>
+							<text class="iconfont gui-m-r-5 gui-p-t-5 gui-color-white gui-h5" style="width: 100rpx">{{ audioContxt.duration }}</text>
 						</view>
 
 						<view class="gui-flex gui-row gui-space-between gui-m-l-50 gui-m-r-50 gui-m-t-30 gui-m-b-30 gui-align-items-center">
@@ -175,9 +170,9 @@ const scrollHeight = computed(() => {
 });
 const currentIndex = ref(0);
 
-// 初始化音频控件
-const innerAudioContext = uni.createInnerAudioContext();
-innerAudioContext.autoplay = true;
+// 初始化背景音频控件
+const bgAudioManager = uni.getBackgroundAudioManager();
+bgAudioManager.autoplay = true;
 
 // 音频相关信息
 let trackInfo = ref<TrackInfoInterface>()
@@ -193,7 +188,7 @@ const audioContxt = reactive({
 	/** 当前进度 */
 	currentTime: '00:00',
 	/** 进度条时间 */
-	percentTime: 0,
+	progressTime: 0,
 	/** 音频播放状态 */
 	playStatus: true
 })
@@ -245,9 +240,10 @@ const sliderChange = (e) => {
 const createAudioText = () => {
 	// 测试音频地址
 	// innerAudioContext.src = 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3';
-	if (innerAudioContext) {
-		innerAudioContext.src = trackInfo.value?.mediaUrl;
-		initAudio(innerAudioContext)
+	if (bgAudioManager) {
+		bgAudioManager.title = '致爱丽丝';
+		bgAudioManager.src = trackInfo.value?.mediaUrl;
+		initAudio(bgAudioManager)
 	}
 }
 /**
@@ -255,7 +251,7 @@ const createAudioText = () => {
  * @returns {*}
  */
 const pause = () => {
-	innerAudioContext.pause() // 停止
+	bgAudioManager.pause() // 停止
 }
 
 /**
@@ -263,33 +259,29 @@ const pause = () => {
  * @returns {*}
  */
 const play = () => {
-	innerAudioContext.play() // 播放
+	bgAudioManager.play() // 播放
 }
 
 /** 初始化音频 */
 const initAudio = (ctx: any) => {
 	ctx.onTimeUpdate((e) => {
-		
 		// 获取当前进度
-		const currentTime:number = innerAudioContext.currentTime
-		
-		// console.log(audioContxt.percentTime);
-		
-		if (audioContxt.durationTime) {
-			audioContxt.percentTime = (currentTime / audioContxt.durationTime) * 1000
-			// console.log(audioContxt.percentTime);
+		const currentTime:number = ctx.currentTime
+		if (currentTime) {
+			audioContxt.progressTime = ctx.currentTime
 		}
 		
 		audioContxt.currentTime = formatTime(currentTime);
 	})
 	ctx.onCanplay(() => {
-		// 获取音频长度
+		
 		setTimeout(() => { 
-			console.log('音频长度', innerAudioContext.duration);
-			// 转化成时分秒的格式
-			const duration = innerAudioContext.duration
-			audioContxt.durationTime = duration
+			console.log('音频长度', bgAudioManager.duration);
+			// 音频长度,时分秒格式
+			const duration = bgAudioManager.duration
 			audioContxt.duration = formatTime(duration);
+			// 音频长度,秒格式
+			audioContxt.durationTime = duration
 		}, 300)
 	})
 	ctx.onWaiting((e) => {

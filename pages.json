@@ -217,6 +217,7 @@
 			}
 		]
 	},
+	"requiredBackgroundModes": ["audio"],
 	"uniIdRouter": {},
 	"easycom": {
 		"autoscan": true,
