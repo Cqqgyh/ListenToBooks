@@ -5,13 +5,13 @@ import {
   AlbumInfoListInterface, 
   CollectTrackInterface, 
   HistoryTrackInterface,
-  PageResponseInterface, 
+  PageResponseInterface,
+  TrackStaVoInterface,
   QueryTrackInterface, 
   SubscribeAlbumsInterface, 
   TrackInfoInterface, 
   TrackInterface,
   WorksInfoPageInterface,
-  TrackStaVoInterface
 } from "../albums/interfaces"
 
 class CateGory extends Service {
@@ -157,6 +157,17 @@ class CateGory extends Service {
       url: `/api/album/trackInfo/findAlbumTrackPage/${trackListInfoPage.albumId}/${trackListInfoPage.page}/${trackListInfoPage.limit}`,
     })
   }
+
+/**
+ * @description: 获取声音统计信息
+ * @param {QueryTrackInterface} trackListInfoPage
+ * @returns {*}
+ */
+getTrackStaVo(trackId: number) {
+  return this.get<TrackStaVoInterface>({
+    url: `/api/album/trackInfo/getTrackStatVo/${trackId}`
+  })
+} 
   /**
    * @description 获取订阅专辑分页列表
    * @param  { page: number, limit: number } pageInfo 分页信息
@@ -212,17 +223,5 @@ class CateGory extends Service {
       url: `/api/user/userListenProcess/delete/${id}`,
     })
   }
-
-/**
- * @description: 获取声音统计信息
- * @param {QueryTrackInterface} trackListInfoPage
- * @returns {*}
- */
-getTrackStaVo(trackId: number) {
-  return this.get<TrackStaVoInterface>({
-    url: `/api/album/trackInfo/getTrackStatVo/${trackId}`
-  })
-} 
 }
-
 export const albumsService = new CateGory()

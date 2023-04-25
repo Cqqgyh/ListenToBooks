@@ -207,6 +207,13 @@ export interface QueryTrackInterface {
   limit: number;
 }
 
+
+export interface TrackStaVoInterface {
+  playStatNum: number;
+  collectStatNum: number;
+  praiseStatNum: number;
+  albumCommentStatNum: number;
+}
 // 订阅专辑列表接口
 export interface SubscribeAlbumsInterface {
   albumId: number;
