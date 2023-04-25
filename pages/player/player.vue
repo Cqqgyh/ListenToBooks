@@ -82,12 +82,11 @@
 
 						<view class="gui-flex gui-row gui-space-between gui-m-l-50 gui-m-r-50 gui-m-t-30 gui-m-b-30 gui-align-items-center">
 							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h5">&#xe648;</text>
-
 							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h2">&#xe659;</text>
-							<text class="iconfont gui-m-r-5 gui-p-t-5 gui-color-white gui-h1" @click="play">&#xe624;</text>
-							<text class="iconfont gui-m-r-5 gui-p-t-5 gui-color-white gui-h1" @click="pause">&#xe649;</text>
+							<!-- <text class="iconfont gui-p-t-5 gui-color-white gui-h1" @click="pause" v-if="audioContxt.playStatus">暂停</text> -->
+							<uni-icons custom-prefix="iconfont" type="pause" class="iconfont gui-p-t-5 gui-color-white gui-h1" size="80rpx" color="#fff" @click="pause" v-if="audioContxt.playStatus"></uni-icons>
+							<text class="iconfont gui-p-t-5 gui-color-white gui-h1" @click="play" v-else>&#xe624;</text>
 							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h2">&#xe65a;</text>
-
 							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h5">&#xe64c;</text>
 						</view>
 
@@ -194,7 +193,9 @@ const audioContxt = reactive({
 	/** 当前进度 */
 	currentTime: '00:00',
 	/** 进度条时间 */
-	percentTime: 0
+	percentTime: 0,
+	/** 音频播放状态 */
+	playStatus: true
 })
 
 const navchange = index => {
@@ -237,12 +238,17 @@ const sliderChange = (e) => {
 	console.log(e);
 }
 
-// 
+/**
+ * @description: 修改音频地址
+ * @returns {*}
+ */
 const createAudioText = () => {
 	// 测试音频地址
 	// innerAudioContext.src = 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3';
-	innerAudioContext.src = trackInfo.value?.mediaUrl;
-	initAudio(innerAudioContext)
+	if (innerAudioContext) {
+		innerAudioContext.src = trackInfo.value?.mediaUrl;
+		initAudio(innerAudioContext)
+	}
 }
 /**
  * @description: 暂停音频
@@ -289,11 +295,11 @@ const initAudio = (ctx: any) => {
 	ctx.onWaiting((e) => {
 		
 	})
-	ctx.onPlay((e) => {
-		
+	ctx.onPlay(() => {
+		audioContxt.playStatus = true
 	})
-	ctx.onPause((e) => {
-		
+	ctx.onPause(() => {
+		audioContxt.playStatus = false
 	})
 	ctx.onEnded((e) => {
 		
