@@ -49,3 +49,26 @@ export interface OrderDerateInterface {
   derateAmount: number;
   remarks: string;
 }
+// 提交订单响应接口
+export interface SubmitOrderInterface {
+  orderNo:string | number;
+}
+// 微信下单需要的数据接口
+export interface WechatPayNeededInterface {
+  paymentType: '1301' | '1302'; //支付类型：1301-订单 1302-充值
+  orderNo:string | number;
+}
+
+// 微信支付需要的数据接口
+export interface WechatPayInterface {
+  timeStamp: string;
+  package: string;
+  paySign: string;
+  signType: string;
+  nonceStr: string;
+}
+// 充值接口
+export interface investInterface {
+  amount: number;
+  payWay: '1101' | '1102'; // 支付方式：1101-微信 1102-支付宝
+}

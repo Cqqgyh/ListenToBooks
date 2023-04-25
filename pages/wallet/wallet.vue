@@ -1,87 +1,125 @@
 <template>
-	<gui-page>
-		<template v-slot:gBody>
-				<view class="gui-bg-yellow gui-m-30 gui-p-30 gui-border-radius">
-					<text>账户余额</text>
-					<view class="gui-flex gui-space-between gui-align-items-center">
-						<view>
-							<text>￥</text>
-							<text class="gui-h1">0</text>
-						</view>
-						<view class="gui-bg-white gui-p-30 gui-border-radius"><text class="gui-color-orange gui-bold">充 值</text></view>
-					</view>
-				</view>
+  <gui-page>
+    <template v-slot:gBody>
+      <view class="gui-bg-yellow gui-m-30 gui-p-30 gui-border-radius">
+        <text>账户余额</text>
+        <view class="gui-flex gui-space-between gui-align-items-center">
+          <view>
+            <text>￥</text>
+            <text class="gui-h1">{{ userStore.amount }}</text>
+          </view>
+          <view @click="investPopupRef.open()" class="gui-bg-white gui-p-30 gui-border-radius">
+            <text class="gui-color-orange gui-bold">充 值</text>
+          </view>
+        </view>
+      </view>
 
-				<view class="gui-m-30">
-					<navigator class="gui-list-items">
-						<view class="gui-list-body gui-border-b">
-							<view class="gui-list-title">
-								<text class="gui-list-title-text gui-list-one-line gui-primary-text">支付设置</text>
-								<text class="gui-list-title-desc gui-color-gray">开通会员自动续费更省钱</text>
-							</view>
-						</view>
-						<text class="gui-list-arrow-right gui-icons gui-color-gray-light">&#xe601;</text>
-					</navigator>
+      <view class="gui-m-30">
 
-					<navigator class="gui-list-items">
-						<view class="gui-list-body gui-border-b">
-							<view class="gui-list-title"><text class="gui-list-title-text gui-list-one-line gui-primary-text">消费记录</text></view>
-						</view>
-						<text class="gui-list-arrow-right gui-icons gui-color-gray-light">&#xe601;</text>
-					</navigator>
+        <navigator class="gui-list-items">
+          <view class="gui-list-body gui-border-b">
+            <view class="gui-list-title">
+              <text class="gui-list-title-text gui-list-one-line gui-primary-text">消费记录</text>
+            </view>
+          </view>
+          <text class="gui-list-arrow-right gui-icons gui-color-gray-light">&#xe601;</text>
+        </navigator>
 
-					<navigator class="gui-list-items">
-						<view class="gui-list-body gui-border-b">
-							<view class="gui-list-title"><text class="gui-list-title-text gui-list-one-line gui-primary-text">充值记录</text></view>
-						</view>
-						<text class="gui-list-arrow-right gui-icons gui-color-gray-light">&#xe601;</text>
-					</navigator>
+        <navigator class="gui-list-items">
+          <view class="gui-list-body gui-border-b">
+            <view class="gui-list-title">
+              <text class="gui-list-title-text gui-list-one-line gui-primary-text">充值记录</text>
+            </view>
+          </view>
+          <text class="gui-list-arrow-right gui-icons gui-color-gray-light">&#xe601;</text>
+        </navigator>
 
-					<navigator class="gui-list-items">
-						<view class="gui-list-body gui-border-b">
-							<view class="gui-list-title"><text class="gui-list-title-text gui-list-one-line gui-primary-text">听读券余额</text></view>
-						</view>
-						<text class="gui-list-arrow-right gui-icons gui-color-gray-light">&#xe601;</text>
-					</navigator>
 
-					<navigator class="gui-list-items">
-						<view class="gui-list-body gui-border-b">
-							<view class="gui-list-title"><text class="gui-list-title-text gui-list-one-line gui-primary-text">使用兑换码兑换听读券</text></view>
-						</view>
-						<text class="gui-list-arrow-right gui-icons gui-color-gray-light">&#xe601;</text>
-					</navigator>
+      </view>
+    </template>
+  </gui-page>
 
-					<navigator class="gui-list-items">
-						<view class="gui-list-body gui-border-b">
-							<view class="gui-list-title"><text class="gui-list-title-text gui-list-one-line gui-primary-text">我的已购</text></view>
-						</view>
-						<text class="gui-list-arrow-right gui-icons gui-color-gray-light">&#xe601;</text>
-					</navigator>
+  <!-- 弹出层，全集购买 -->
+  <gui-popup ref="investPopupRef" position="bottom">
+    <view class="gui-relative gui-box-shadow gui-bg-white gui-dark-bg-level-1">
+      <text class="gui-icons gui-block gui-absolute-rt gui-h3 gui-p-20" @click="closeInvestPopup">&#xe610;</text>
+      <text class="gui-h3 gui-block gui-p-t-20 gui-p-b-20 gui-text-center">充值</text>
+      <view class="gui-flex gui-padding gui-wrap gui-row buy-track-container">
 
-					<navigator class="gui-list-items">
-						<view class="gui-list-body gui-border-b">
-							<view class="gui-list-title"><text class="gui-list-title-text gui-list-one-line gui-primary-text">我的拼团</text></view>
-						</view>
-						<text class="gui-list-arrow-right gui-icons gui-color-gray-light">&#xe601;</text>
-					</navigator>
+        <view
+          v-for="(item,index) in investSettingsList"
+          :key="index"
+          @click="handleInvest(item)"
+          class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
+          <text class="gui-text-orange-opacity9 gui-block gui-padding gui-h6">{{ item.name }}</text>
+        </view>
+<!--        自定义充值金额-->
+        <view
+          @click="handleCustomizeInvest"
+          class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
+          <text class="gui-block gui-padding gui-h6">自定义</text>
+        </view>
+      </view>
 
-					<navigator class="gui-list-items">
-						<view class="gui-list-body gui-border-b">
-							<view class="gui-list-title"><text class="gui-list-title-text gui-list-one-line gui-primary-text">我的赠送</text></view>
-						</view>
-						<text class="gui-list-arrow-right gui-icons gui-color-gray-light">&#xe601;</text>
-					</navigator>
-				</view>
-		</template>
-	</gui-page>
+    </view>
+  </gui-popup>
 </template>
 
-<script>
-export default {
-	data() {
-		return {};
-	}
-};
+<script setup lang="ts">
+import GuiPopup from "../../Grace6/components/gui-popup.vue"
+import { ref } from "vue"
+import { useOrderStore } from "../../stores/order"
+import { useUserStore } from "../../stores/user"
+/* 响应式数据 */
+const orderStore = useOrderStore()
+const userStore = useUserStore()
+const investPopupRef = ref<InstanceType<typeof GuiPopup>>()
+// 充值选项
+const investSettingsList = ref([
+  {
+    price: 10,
+    name: "10元"
+  },
+  {
+    price: 20,
+    name: "20元"
+  },
+  {
+    price: 30,
+    name: "30元"
+  },
+  {
+    price: 50,
+    name: "50元"
+  },
+  {
+    price: 100,
+    name: "100元"
+  },
+])
+// 分类导航
+
+/* 方法 */
+// 关闭重置弹窗
+const closeInvestPopup = () => {
+  investPopupRef.value.close()
+}
+// 充值
+const handleInvest = (item: typeof investSettingsList.value[0]) => {
+  console.log(item)
+  // 关闭弹窗
+  closeInvestPopup()
+  // 调用支付
+  orderStore.investAmount(item.price)
+}
+
+/* 生命周期 */
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.buy-card {
+  width: 160rpx;
+  text-align: center;
+  margin: 10rpx;
+}
+</style>

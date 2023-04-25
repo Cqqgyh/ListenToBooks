@@ -56,8 +56,7 @@
             "postcss" : true,
             "minified" : true
         },
-        "usingComponents" : true,
-        "requiredBackgroundModes": ["audio"]
+        "usingComponents" : true
     },
     "mp-alipay" : {
         "usingComponents" : true

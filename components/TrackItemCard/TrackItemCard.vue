@@ -27,7 +27,7 @@
             </view>
             <view class="gui-m-r-20">
               <uni-icons custom-prefix="iconfont" type="pinglun" class="gui-m-r-10"></uni-icons>
-              <text>{{ data.albumCommentStatNum}}</text>
+              <text>{{ data.commentStatNum}}</text>
             </view>
           </view>
         </view>

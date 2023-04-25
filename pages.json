@@ -29,7 +29,7 @@
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
-		}, 
+		},
 		{
 			"path": "pages/detail/detail",
 			"style": {
@@ -160,6 +160,15 @@
             }
 
         }
+        ,{
+            "path" : "pages/paySuccess/paySuccess",
+            "style" :
+            {
+                "navigationBarTitleText": "支付成功",
+                "enablePullDownRefresh": false
+            }
+
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -217,7 +226,6 @@
 			}
 		]
 	},
-	"requiredBackgroundModes": ["audio"],
 	"uniIdRouter": {},
 	"easycom": {
 		"autoscan": true,

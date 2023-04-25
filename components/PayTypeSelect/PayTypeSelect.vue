@@ -4,14 +4,18 @@
    <view class="uni-share-title"><text class="uni-share-title-text">支付方式</text></view>
    <view class="uni-share-content">
     <view class="uni-share-content-box">
-     <view
-       @click="handleSelect(item)"
-       class="uni-share-content-item"
+     <template
        v-for="(item,index) in bottomData"
        :key="index">
-      <image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
-      <text class="uni-share-text">{{item.text}}</text>
-     </view>
+      <view
+        v-if="item.isShow"
+        @click="handleSelect(item)"
+        class="uni-share-content-item"
+       >
+       <image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
+       <text class="uni-share-text">{{item.text}}</text>
+      </view>
+     </template>
 
     </view>
    </view>
@@ -24,23 +28,43 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import GuiPopup from "../../Grace6/components/gui-popup.vue"
+import { PAY_WAY_MAP } from "../../utils/constant"
+import { useOrderStore } from "../../stores/order"
 /* 响应式数据 */
 const popupRef = ref<InstanceType<typeof GuiPopup>>()
+const props = defineProps({
+ needWeChat:{
+  type: Boolean,
+  default: true
+ },
+ needAlipay:{
+  type: Boolean,
+  default: true
+ },
+  needBalance:{
+    type: Boolean,
+    default: true
+  }
+})
+const orderStore = useOrderStore()
 const bottomData = ref([
  {
   text: '微信',
   icon: '../../static/weixin.png',
-  payWay: '1101'
+  payWay: PAY_WAY_MAP.WeChat,
+  isShow: props.needWeChat
  },
  {
   text: '支付宝',
   icon: '../../static/zhifubao.png',
-  payWay: '1102'
+  payWay: PAY_WAY_MAP.Alipay,
+  isShow: props.needAlipay
  },
  {
   text: '余额',
   icon: '../../static/logo.png',
-  payWay: '1103'
+  payWay: PAY_WAY_MAP.Balance,
+  isShow: props.needBalance
  }
 ])
 // 分类导航
@@ -57,7 +81,10 @@ const close = () => {
 }
 // 点击选择
 const handleSelect = (item: any) => {
-  console.log(item)
+  // 设置订单支付方式
+  orderStore.setOrderPayWay(item.payWay)
+  // 调起支付
+  orderStore.submitOrder()
   close()
 }
 // 对父组件暴露出去
