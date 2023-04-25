@@ -8,6 +8,13 @@
 			}
 		},
 		{
+			"path": "pages/player/player",
+			"style": {
+				"navigationBarTitleText": "播放器",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/my/my",
 			"style": {
 				"navigationBarTitleText": "我的",
@@ -22,7 +29,6 @@
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
-
 		}, 
 		{
 			"path": "pages/detail/detail",
@@ -195,6 +201,10 @@
 				"name": "测试页-分类查询列表",
 				"path": "pages/search/search",
 				"query": "category1Id=1&category2Id=101&category3Id=1002&pageTitle=音乐"
+			},
+			{
+				"path": "pages/player/player",
+				"name": "测试页-播放器"
 			}
 		]
 	},

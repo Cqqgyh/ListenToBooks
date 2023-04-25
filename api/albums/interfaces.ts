@@ -207,3 +207,10 @@ export interface QueryTrackInterface {
   limit: number;
 }
 
+
+export interface TrackStaVoInterface {
+  playStatNum: number;
+  collectStatNum: number;
+  praiseStatNum: number;
+  albumCommentStatNum: number;
+}

@@ -4,7 +4,8 @@ import {
   AlbumInfoInterface,
   AlbumInfoListInterface,
   PageResponseInterface, QueryTrackInterface, TrackInfoInterface, TrackInterface,
-  WorksInfoPageInterface
+  WorksInfoPageInterface,
+  TrackStaVoInterface
 } from "../albums/interfaces"
 
 class CateGory extends Service {
@@ -150,6 +151,17 @@ class CateGory extends Service {
       url: `/api/album/trackInfo/findAlbumTrackPage/${trackListInfoPage.albumId}/${trackListInfoPage.page}/${trackListInfoPage.limit}`,
     })
   }
+
+/**
+ * @description: 获取声音统计信息
+ * @param {QueryTrackInterface} trackListInfoPage
+ * @returns {*}
+ */
+getTrackStaVo(trackId: number) {
+  return this.get<TrackStaVoInterface>({
+    url: `/api/album/trackInfo/getTrackStatVo/${trackId}`
+  })
+} 
 }
 
 export const albumsService = new CateGory()
