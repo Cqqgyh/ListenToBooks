@@ -244,3 +244,10 @@ export interface DialogInterface {
   confirmText:string
 }
 
+
+export interface TrackStaVoInterface {
+  playStatNum: number;
+  collectStatNum: number;
+  praiseStatNum: number;
+  albumCommentStatNum: number;
+}
