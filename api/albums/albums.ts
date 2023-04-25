@@ -2,14 +2,14 @@ import Service from "../../utils/request"
 import {
   AlbumDetailInterface,
   AlbumInfoInterface,
-  AlbumInfoListInterface, 
-  CollectTrackInterface, 
+  AlbumInfoListInterface,
+  CollectTrackInterface,
   HistoryTrackInterface,
   PageResponseInterface,
   TrackStaVoInterface,
-  QueryTrackInterface, 
-  SubscribeAlbumsInterface, 
-  TrackInfoInterface, 
+  QueryTrackInterface,
+  SubscribeAlbumsInterface,
+  TrackInfoInterface,
   TrackInterface,
   WorksInfoPageInterface,
 } from "../albums/interfaces"
@@ -167,7 +167,7 @@ getTrackStaVo(trackId: number) {
   return this.get<TrackStaVoInterface>({
     url: `/api/album/trackInfo/getTrackStatVo/${trackId}`
   })
-} 
+}
   /**
    * @description 获取订阅专辑分页列表
    * @param  { page: number, limit: number } pageInfo 分页信息
@@ -195,7 +195,6 @@ getTrackStaVo(trackId: number) {
       url: `/api/user/userListenProcess/findUserPage/${pageInfo.page}/${pageInfo.limit}`,
     })
   }
-  // 是否订阅专辑
   /**
    * @description 是否订阅专辑
    */
@@ -205,9 +204,8 @@ getTrackStaVo(trackId: number) {
       url: `/api/user/userInfo/isSubscribe/${albumId}`,
     })
   }
-  // 是否收藏声音
   /**
-   * @description 是否订阅专辑
+   * @description 是否收藏声音
    */
   isCollectTrack(trackId: number) {
     return this.get({
