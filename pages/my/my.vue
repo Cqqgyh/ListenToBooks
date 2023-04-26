@@ -1,5 +1,5 @@
 <template>
-  <gui-page :customHeader="true" :headerClass="['gui-bg-green']" :customFooter="true">
+  <gui-page :customHeader="true" :headerClass="['gui-bg-white']" :customFooter="true">
     <template v-slot:gHeader>
       <view style="height: 44px" class="gui-flex">
         <view class="gui-flex gui-row gui-wrap gui-align-items-center gui-m-l-20">
@@ -17,7 +17,7 @@
 
     <template v-slot:gBody>
       <view class="gui-relative">
-        <view class="gui-list gui-padding gui-bg-green gui-p-b-90">
+        <view class="gui-list gui-padding gui-bg-white gui-p-b-90">
           <view class="gui-list-items gui-relative">
             <image
               mode="aspectFill"
