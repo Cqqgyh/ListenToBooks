@@ -80,10 +80,10 @@
 
 						<view class="gui-flex gui-row gui-space-between gui-m-l-50 gui-m-r-50 gui-m-t-30 gui-m-b-30 gui-align-items-center">
 							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h5" @click="openAlbumPopup">&#xe648;</text>
-							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h2">&#xe659;</text>
+							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h2" @click="prevAudio">&#xe659;</text>
 							<uni-icons custom-prefix="iconfont" type="pause" class="iconfont gui-p-t-5 gui-color-white gui-h1" size="80rpx" color="#fff" @click="pauseAudio" v-if="audios.playStatus"></uni-icons>
 							<text class="iconfont gui-p-t-5 gui-color-white gui-h1" @click="playAudio" v-else>&#xe624;</text>
-							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h2">&#xe65a;</text>
+							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h2" @click="nextAudio">&#xe65a;</text>
 							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h5">&#xe64c;</text>
 						</view>
 
@@ -156,43 +156,45 @@
 			type="bottom"
 			backgroundColor="#fff"
 		>	
-			<view class="title">播放列表</view>
-				<z-paging
-					ref="zPagingRef"
-					:paging-style="{height: '500px'}"
-					v-model="audioList"
-					@query="getAblumAudioList"
-					:fixed="false">
-					<view class="audio-list">
-						<view
-							class="gui-list-items "
-							v-for="item in audioList"
-							:key="item.trackId"
-							@click="changeAudio(item)"
-							>
-							<view class="gui-relative track-item-sort">
-								<view
-									:class="item.isChecked ? 'track-item-title-checked' : 'gui-color-grey1'"
-									class=" gui-h5">{{ item.orderNum + 1 }}</view>
+			<view class="header">
+				<view class="title">播放列表</view>
+				<view class="cancel-btn" @click="closeAlbumPopup">取消</view>
+			</view>
+			<z-paging
+				ref="zPagingRef"
+				:paging-style="{height: '500px'}"
+				v-model="audioList"
+				@query="getAblumAudioList"
+				:fixed="false">
+				<view class="audio-list">
+					<view
+						class="gui-list-items "
+						v-for="item in audioList"
+						:key="item.trackId"
+						@click="changeAudio(item)"
+						>
+						<view class="gui-relative track-item-sort">
+							<view
+								:class="item.isChecked ? 'track-item-title-checked' : 'gui-color-grey1'"
+								class=" gui-h5">{{ item.orderNum + 1 }}</view>
+						</view>
+						<view class="gui-list-body gui-border-b">
+							<view class="gui-list-title">
+								<text :class="item.isChecked ? 'track-item-title-checked' : 'gui-primary-text '" class="gui-list-title-text gui-ellipsis">{{item.trackTitle}}</text>
 							</view>
-							<view class="gui-list-body gui-border-b">
-								<view class="gui-list-title">
-									<text :class="item.isChecked ? 'track-item-title-checked' : 'gui-primary-text '" class="gui-list-title-text gui-ellipsis">{{item.trackTitle}}</text>
-								</view>
-								<view class="gui-color-gray gui-flex gui-text-small gui-flex gui-align-items-center gui-m-t-20">
-									<text v-if="item.isChecked && item.isPlaying" class="gui-icons gui-block gui-m-r-10">&#xe64b;</text>
-									<text v-else class="gui-icons gui-block gui-m-r-10">&#xe649;</text>
-									<text class="gui-block gui-m-r-20">{{ item.playStatNum }}</text>
-									<text class="gui-icons gui-block gui-m-r-10">&#xe6b8;</text>
-									<text class="gui-block gui-m-r-20">{{ item.albumCommentStatNum }}</text>
-									<text class="gui-icons gui-block gui-m-r-10">&#xe607;</text>
-									<text class="gui-block">{{ formatTime(item.mediaDuration)  }}</text>
-								</view>
+							<view class="gui-color-gray gui-flex gui-text-small gui-flex gui-align-items-center gui-m-t-20">
+								<text v-if="item.isChecked && item.isPlaying" class="gui-icons gui-block gui-m-r-10">&#xe64b;</text>
+								<text v-else class="gui-icons gui-block gui-m-r-10">&#xe649;</text>
+								<text class="gui-block gui-m-r-20">{{ item.playStatNum }}</text>
+								<text class="gui-icons gui-block gui-m-r-10">&#xe6b8;</text>
+								<text class="gui-block gui-m-r-20">{{ item.albumCommentStatNum }}</text>
+								<text class="gui-icons gui-block gui-m-r-10">&#xe607;</text>
+								<text class="gui-block">{{ formatTime(item.mediaDuration)  }}</text>
 							</view>
 						</view>
 					</view>
-				</z-paging>
-			<view class="cancel-btn" @click="closeAlbumPopup">取消</view>
+				</view>
+			</z-paging>
 		</uni-popup>
 	</view>
 </template>
@@ -312,14 +314,62 @@ const handleSliderMoveEnd = () => {
  * @description 切换音频事件
  */
 const changeAudio = (item: TrackInterface) => {
-	console.log(item);
 	// 判断是不是播放的同一个音频
-	console.log(item.trackId, audios.trackId);
-	
 	if(item.trackId !== audios.trackId) {
-		audios.trackId = item.trackId
 		getTrackInfo(item.trackId)
 	}
+}
+/**
+ * @description: 切换上一首音频
+ * @returns {*}
+ */
+const prevAudio = () => {
+	// 判断是不是第一首，是则提示
+	const firstId = audioList.value[0]?.trackId
+	if (firstId === audios.trackId) {
+		uni.showToast({
+			title : "当前已经是第一首了",
+			icon  : "none"
+		})
+		return;
+	}
+	// 获取上一首的id
+	console.log(audios.trackId);
+	// 从播放列表寻找
+	let id = 0;
+	audioList.value.forEach((item, index) => {
+		if (item.trackId === audios.trackId) {
+			id = audioList.value[index - 1]?.trackId
+		}
+	})
+
+	getTrackInfo(id)
+}
+ /**
+ * @description: 切换下一首音频
+ * @returns {*}
+ */
+const nextAudio = () => {
+	// 判断是不是最后一首。是则提示
+	const len = audioList.value.length
+	const lastId = audioList.value[len - 1]?.trackId
+	if (lastId === audios.trackId) {
+		uni.showToast({
+			title : "当前播放列表已是最新的了，请加载更多",
+			icon  : "none"
+		})
+		return;
+	}
+	// 获取下一首的id
+	console.log(audios.trackId);
+	// 从播放列表寻找
+	let id = 0;
+	audioList.value.forEach((item, index) => {
+		if (item.trackId === audios.trackId) {
+			id = audioList.value[index + 1]?.trackId
+		}
+	})
+	getTrackInfo(id)
 }
 /**
  * @description: 修改音频地址
@@ -332,10 +382,12 @@ const createBgAudioManager = () => {
 
 		// 若原先的音频未暂停，则先暂停
 		if (!bgAudioManager.paused) {
-			bgAudioManager.pause();
+			// stop和pause是不一样的，stop直接停止播放，然后从头开始
+			bgAudioManager.stop();
     }
 		bgAudioManager.title = trackInfo.value?.trackTitle;
 		bgAudioManager.coverImgUrl = trackInfo.value?.coverUrl
+		// 设置了src以后会自动播放
 		bgAudioManager.src = trackInfo.value?.mediaUrl;
 		// bgAudioManager.autoplay = true;
 		initAudio(bgAudioManager)
@@ -395,7 +447,8 @@ const initAudio = (ctx: any) => {
 		audios.playStatus = false
 	})
 	ctx.onEnded((e) => {
-
+		// 播放结束自动切换到下一首歌
+		nextAudio()
 	})
 }
 
@@ -407,6 +460,7 @@ const initAudio = (ctx: any) => {
   try {
     const res = await albumsService.getTrackInfo(trackId)
 		trackInfo.value = res.data
+		audios.trackId = res.data?.id as number;
 		createBgAudioManager()
   } catch (error) {
     console.log(error)
@@ -441,7 +495,6 @@ const getAblumAudioList = async (page:number, limit:number) => {
 	const res = await albumsService.getAlbumTrackList(params)
 	// audioList.value = res.data.records
 	zPagingRef.value.complete(res.data.records)
-	console.log(res);
 }
 
 /**
@@ -490,21 +543,15 @@ onMounted(() => {
 	padding: 0 16rpx;
 }
 
-.cancel-btn {
-	position: fixed;
-	bottom: 0;
-	text-align: center;
-	width: 100%;
-	height: 50px;
+.header {
+	display: flex;
+	justify-content: space-between;
 	background-color: #fff;
-	line-height: 50px;
 	color: #333;
-	border-top: 1rpx solid #f2f2f2;
+	height: 50px;
+	line-height: 50px;
+	padding: 0 32rpx;
 }
 
-.title {
-	height: 50px;
-	line-height: 50px;
-	padding-left: 16rpx;
-}
+
 </style>
