@@ -65,9 +65,6 @@ export const useOrderStore = defineStore("order", {
         const res = await order.wechatPay(orderNo,paymentType)
         // 调用微信官方支付接口
         await this.wechatOfficialPay(res.data)
-        // 查询订单状态
-        await this.queryOrderPayStatus(orderNo)
-
       }catch (error) {
         console.log(error)
       }
@@ -84,8 +81,6 @@ export const useOrderStore = defineStore("order", {
           signType: 'MD5',
           paySign: '',
         }, params));
-        // 支付成功
-        this.paySuccess();
         console.log('支付成功');
       } catch (err) {
         // 支付失败
@@ -93,13 +88,13 @@ export const useOrderStore = defineStore("order", {
       }
     },
     // 查询订单支付状态
-    async queryOrderPayStatus(orderNo: string | number,times:number = 10,interval:number = 2000) {
+    async queryOrderPayStatus(orderNo: string | number,times:number = 10,interval:number = 2000,callback = ()=>this.paySuccess) {
       // 轮询查询订单支付状态
       try {
         const res = await order.queryOrderPayStatus(orderNo);
         if (res.data) {
           // 查询支付成功
-          this.paySuccess();
+          callback();
         } else {
           // 查询支付失败
           if (times > 1) {
@@ -119,7 +114,19 @@ export const useOrderStore = defineStore("order", {
         console.log(error);
       }
     },
+    // 充值金额
+    async investAmount(amount: number) {
+      try {
+        const res = await order.investAmount(amount)
+        // 微信支付
+        await this.wechatPay(res.data.orderNo,WX_ORDER_TYPE_MAP.Recharge)
+        // 查询支付状态
+        await this.queryOrderPayStatus(res.data.orderNo,10,2000,()=>this.investSuccess)
+      } catch (error) {
+        console.log(error)
+      }
 
+    },
     // 支付成功
     paySuccess() {
       uni.showToast({
@@ -140,6 +147,20 @@ export const useOrderStore = defineStore("order", {
       })
 
 
+    },
+    // 充值成功
+    investSuccess() {
+      uni.showToast({
+        title: '充值成功',
+        icon: 'success',
+        duration: 2000
+      })
+      // 清空相关订单信息
+      this.clearOrderInfo()
+      // 更新用户信息
+      const {updateUserInfo} = useUpdateUserInfo()
+      updateUserInfo()
+      console.log('充值成功')
     },
     // 清空相关订单信息
     clearOrderInfo() {

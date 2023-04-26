@@ -67,3 +67,8 @@ export interface WechatPayInterface {
   signType: string;
   nonceStr: string;
 }
+// 充值接口
+export interface investInterface {
+  amount: number;
+  payWay: '1101' | '1102'; // 支付方式：1101-微信 1102-支付宝
+}

@@ -1,12 +1,13 @@
 import Service from '../../utils/request'
 import {
+  investInterface,
   OrderInterface,
   OrderRequestInterface,
   SubmitOrderInterface,
   TrackSettingInterface,
   VipSettingInterface, WechatPayInterface, WechatPayNeededInterface
 } from "./interfaces"
-import { WX_ORDER_TYPE_MAP } from "../../utils/constant"
+import { PAY_WAY_MAP, WX_ORDER_TYPE_MAP } from "../../utils/constant"
 
 class CateGory extends Service {
   /**
@@ -73,7 +74,13 @@ class CateGory extends Service {
       loading:false
     })
   }
-
+  // 充值接口
+  investAmount(amount: number, payWay: '1101' | '1102' = PAY_WAY_MAP.WeChat) {
+    return this.post<SubmitOrderInterface>({
+      url: '/api/account/rechargeInfo/submitRecharge',
+      data: {amount, payWay}
+    })
+  }
 
 }
 
