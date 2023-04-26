@@ -3,7 +3,7 @@
 		<view class="gui-relative" style="background-color: #7d7d4b;">
 			<view class="gui-p-t-40 gui-flex gui-row">
 				<view class="gui-flex gui-flex1 gui-row gui-justify-content-start gui-p-l-20 gui-align-items-center">
-					<view class="gui-icons gui-color-white  gui-m-r-40" @click="closePopup">&#xe603;</view>
+					<view class="gui-icons gui-color-white  gui-m-r-40" >&#xe603;</view>
 					<gui-switch-navigation
 						:activeLineClass="['gui-nav-scale', 'gui-bg-white']"
 						:titleClass="['gui-color-white']"
@@ -39,48 +39,50 @@
 						</view>
 
 						<view class="gui-flex gui-column gui-align-items-center gui-justify-content-center  gui-m-l-50 gui-m-r-50 gui-m-t-30 gui-m-b-30">
-							<text>{{ trackInfo?.trackTitle }}</text>
+							
 							<view class="gui-flex gui-row gui-align-items-center gui-m-t-20">
-								<image
+								<!-- <image
 									class="gui-small-avatar"
 									mode="aspectFill"
-									src="https://images.unsplash.com/photo-1663603802898-798d83877992?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0OHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=90"
-								></image>
+									:src="album."
+								></image> -->
 
-								<text class="gui-color-yellow gui-text-small gui-m-r-20 gui-m-l-20 gui-flex">
+								<!-- <text class="gui-color-yellow gui-text-small gui-m-r-20 gui-m-l-20 gui-flex">
 									<text>新经典</text>
 									<text class="gui-icons">&#xe601;</text>
-								</text>
-								<view class="gui-flex gui-row gui-text-small gui-justify-content-center gui-color-white gui-bg-black-opacity2 gui-border-radius gui-p-10">
+								</text> -->
+								<text>{{ trackInfo?.trackTitle }}</text>
+								<!-- <view class="gui-flex gui-row gui-text-small gui-justify-content-center gui-color-white gui-bg-black-opacity2 gui-border-radius gui-p-10">
 									<text class="gui-icons gui-m-r-5 gui-p-t-5">&#xe6c7;</text>
 									<text>关注</text>
-								</view>
+								</view> -->
 							</view>
 						</view>
 
 						<view class="gui-flex gui-row gui-space-between gui-align-items-center gui-m-l-50 gui-m-r-50 gui-m-t-30 gui-m-b-30">
-							<text class="iconfont gui-m-r-5 gui-p-t-5 gui-color-white gui-h5">{{ audioContxt.currentTime }}</text>
+							<text class="iconfont gui-m-r-5 gui-p-t-5 gui-color-white gui-h5">{{ audios.currentTime }}</text>
 							<view class="gui-flex1 gui-m-l-20 gui-m-r-20" style="width: 100rpx">
 								<slider
-									:min="0"
-									:max="audioContxt.durationTime"
-									:value="audioContxt.progressTime"
 									step="1"
 									activeColor="#f86442"
 									block-color="#fff" 
-									block-size="10" 
+									block-size="10"
+									:min="0"
+									:max="sliders.max"
+									:value="sliders.progressTime"
 									@change="sliderChange"
+									@touchstart="handleSliderMoveStart "
+      						@touchend="handleSliderMoveEnd"
 								/>
 							</view>
-							<text class="iconfont gui-m-r-5 gui-p-t-5 gui-color-white gui-h5" style="width: 100rpx">{{ audioContxt.duration }}</text>
+							<text class="iconfont gui-m-r-5 gui-p-t-5 gui-color-white gui-h5" style="width: 100rpx">{{ audios.duration }}</text>
 						</view>
 
 						<view class="gui-flex gui-row gui-space-between gui-m-l-50 gui-m-r-50 gui-m-t-30 gui-m-b-30 gui-align-items-center">
-							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h5">&#xe648;</text>
+							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h5" @click="openAlbumPopup">&#xe648;</text>
 							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h2">&#xe659;</text>
-							<!-- <text class="iconfont gui-p-t-5 gui-color-white gui-h1" @click="pause" v-if="audioContxt.playStatus">暂停</text> -->
-							<uni-icons custom-prefix="iconfont" type="pause" class="iconfont gui-p-t-5 gui-color-white gui-h1" size="80rpx" color="#fff" @click="pause" v-if="audioContxt.playStatus"></uni-icons>
-							<text class="iconfont gui-p-t-5 gui-color-white gui-h1" @click="play" v-else>&#xe624;</text>
+							<uni-icons custom-prefix="iconfont" type="pause" class="iconfont gui-p-t-5 gui-color-white gui-h1" size="80rpx" color="#fff" @click="pauseAudio" v-if="audios.playStatus"></uni-icons>
+							<text class="iconfont gui-p-t-5 gui-color-white gui-h1" @click="playAudio" v-else>&#xe624;</text>
 							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h2">&#xe65a;</text>
 							<text class="gui-icons gui-m-r-5 gui-p-t-5 gui-color-white gui-h5">&#xe64c;</text>
 						</view>
@@ -90,13 +92,13 @@
 								<image
 									class="gui-list-image"
 									mode="aspectFill"
-									src="https://images.unsplash.com/photo-1663603802898-798d83877992?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0OHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=90"
+									:src="album?.coverUrl"
 								></image>
 							</view>
 							<view class="gui-list-body">
 								<view class="gui-list-title">
 									<text class="gui-text gui-block gui-secondary-text gui-text-left gui-ellipsis gui-color-white">
-										[新民间剧场]寻龙天师寻龙天师寻龙天师寻龙天师寻龙天师寻龙天师
+										{{ album?.albumTitle }}
 									</text>
 								</view>
 								<text class="gui-list-body-desc gui-text-brown gui-m-t-10 gui-ellipsis">{{ trackStaVo?.collectStatNum }}人订阅</text>
@@ -148,15 +150,62 @@
 				</swiper-item>
 			</swiper>
 		</view>
+		<uni-popup 
+			ref="albumPopupRef" 
+			safeArea 
+			type="bottom"
+			backgroundColor="#fff"
+		>	
+			<view class="title">播放列表</view>
+				<z-paging
+					ref="zPagingRef"
+					:paging-style="{height: '500px'}"
+					v-model="audioList"
+					@query="getAblumAudioList"
+					:fixed="false">
+					<view class="audio-list">
+						<view
+							class="gui-list-items "
+							v-for="item in audioList"
+							:key="item.trackId"
+							@click="changeAudio(item)"
+							>
+							<view class="gui-relative track-item-sort">
+								<view
+									:class="item.isChecked ? 'track-item-title-checked' : 'gui-color-grey1'"
+									class=" gui-h5">{{ item.orderNum + 1 }}</view>
+							</view>
+							<view class="gui-list-body gui-border-b">
+								<view class="gui-list-title">
+									<text :class="item.isChecked ? 'track-item-title-checked' : 'gui-primary-text '" class="gui-list-title-text gui-ellipsis">{{item.trackTitle}}</text>
+								</view>
+								<view class="gui-color-gray gui-flex gui-text-small gui-flex gui-align-items-center gui-m-t-20">
+									<text v-if="item.isChecked && item.isPlaying" class="gui-icons gui-block gui-m-r-10">&#xe64b;</text>
+									<text v-else class="gui-icons gui-block gui-m-r-10">&#xe649;</text>
+									<text class="gui-block gui-m-r-20">{{ item.playStatNum }}</text>
+									<text class="gui-icons gui-block gui-m-r-10">&#xe6b8;</text>
+									<text class="gui-block gui-m-r-20">{{ item.albumCommentStatNum }}</text>
+									<text class="gui-icons gui-block gui-m-r-10">&#xe607;</text>
+									<text class="gui-block">{{ formatTime(item.mediaDuration)  }}</text>
+								</view>
+							</view>
+						</view>
+					</view>
+				</z-paging>
+			<view class="cancel-btn" @click="closeAlbumPopup">取消</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script setup lang="ts">
 import graceJS from '@/Grace6/js/grace.js';
+import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
 import { albumsService } from "../../api"
 import {
   TrackInfoInterface,
-	TrackStaVoInterface
+	TrackStaVoInterface,
+	TrackInterface,
+	AlbumDetailInterface
 } from "../../api/albums/interfaces"
 import { ref, computed, onMounted, reactive } from 'vue';
 import { onLoad } from "@dcloudio/uni-app"
@@ -172,77 +221,123 @@ const currentIndex = ref(0);
 
 // 初始化背景音频控件
 const bgAudioManager = uni.getBackgroundAudioManager();
-bgAudioManager.autoplay = true;
 
 // 音频相关信息
 let trackInfo = ref<TrackInfoInterface>()
 // 音频统计信息
 let trackStaVo  = ref<TrackStaVoInterface>()
-
+// 专辑信息
+let album = ref()
 // 音频相关参数
-const audioContxt = reactive({
+const audios = reactive({
 	/** 音频总时长 */
 	duration: '00:00',
-	/** 音频总时长，秒格式 */
-	durationTime: 0,
 	/** 当前进度 */
 	currentTime: '00:00',
+	/** 音频播放状态 */
+	playStatus: false,
+	/** 正在播放的音频id */
+	trackId: 1
+})
+
+/** 声音列表 */
+const audioList = ref<TrackInterface[]>([])
+
+// 进度条相关参数
+const sliders =  reactive({
+	/** 是否正在拖动进度条 */
+	isDraging: false,
 	/** 进度条时间 */
 	progressTime: 0,
-	/** 音频播放状态 */
-	playStatus: true
+	/** 进度条总长度 */
+	max: 0,
 })
+
+const albumPopupRef = ref()
 
 const navchange = index => {
 	currentIndex.value = index;
 };
 
 /**
- * @description: 获取声音信息
- * @returns {*}
+ * @description 打开popup
  */
-const getTrackInfo = async (id:number) => {
-  try {
-    const res = await albumsService.getTrackInfo(id)
-		trackInfo.value = res.data
-		createAudioText()
-  } catch (error) {
-    console.log(error)
-  }
+ const openAlbumPopup = () => {
+  albumPopupRef.value.open()
+}
+/**
+ * @description 关闭popup
+ */
+const closeAlbumPopup = () => {
+  albumPopupRef.value.close()
 }
 
 /**
- * @description: 获取声音统计信息
- * @param {*} id
- * @returns {*}
- */
-const getTrackStatVo = async (id: number) => {
-	try {
-		const res = await albumsService.getTrackStaVo(id)
-		trackStaVo.value = res.data
-	} catch(error) {
-		console.log(error)
-	}
-}
-
-/**
- * @description: 播放进度条发生变化
+ * @description: 进度条改变事件
  * @returns {*}
  */
 const sliderChange = (e) => {
 	console.log(e);
+	// 拖动slider的值
+	const position = e.detail.value
+	seekAudio(position)
 }
 
+/**
+ * @description: 开始拖动进度条事件
+ * @returns {*}
+ */
+const handleSliderMoveStart = () =>  {
+	sliders.isDraging = true
+}
+/**
+ * @description: 结束拖动进度条时间
+ * @returns {*}
+ */
+const handleSliderMoveEnd = () => {
+	sliders.isDraging = false
+}
+
+/**
+ * 音频跳转
+ */
+ const seekAudio = (position: number) => {
+	bgAudioManager.seek(position)
+	// 修改当前进度
+	audios.currentTime = formatTime(position)
+	sliders.progressTime = position
+}
+
+/**
+ * @description 切换音频事件
+ */
+const changeAudio = (item: TrackInterface) => {
+	console.log(item);
+	// 判断是不是播放的同一个音频
+	console.log(item.trackId, audios.trackId);
+	
+	if(item.trackId !== audios.trackId) {
+		audios.trackId = item.trackId
+		getTrackInfo(item.trackId)
+	}
+}
 /**
  * @description: 修改音频地址
  * @returns {*}
  */
-const createAudioText = () => {
-	// 测试音频地址
+const createBgAudioManager = () => {
+	// 音频测试地址
 	// innerAudioContext.src = 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3';
 	if (bgAudioManager) {
-		bgAudioManager.title = '致爱丽丝';
+
+		// 若原先的音频未暂停，则先暂停
+		if (!bgAudioManager.paused) {
+			bgAudioManager.pause();
+    }
+		bgAudioManager.title = trackInfo.value?.trackTitle;
+		bgAudioManager.coverImgUrl = trackInfo.value?.coverUrl
 		bgAudioManager.src = trackInfo.value?.mediaUrl;
+		// bgAudioManager.autoplay = true;
 		initAudio(bgAudioManager)
 	}
 }
@@ -250,7 +345,7 @@ const createAudioText = () => {
  * @description: 暂停音频
  * @returns {*}
  */
-const pause = () => {
+const pauseAudio = () => {
 	bgAudioManager.pause() // 停止
 }
 
@@ -258,52 +353,113 @@ const pause = () => {
  * @description: 播放音频
  * @returns {*}
  */
-const play = () => {
+const playAudio = () => {
 	bgAudioManager.play() // 播放
 }
 
-/** 初始化音频 */
+/**
+ * @description: 初始化音频相关的方法
+ * @param {*} ctx
+ * @returns {*}
+ */
 const initAudio = (ctx: any) => {
 	ctx.onTimeUpdate((e) => {
-		// 获取当前进度
-		const currentTime:number = ctx.currentTime
-		if (currentTime) {
-			audioContxt.progressTime = ctx.currentTime
+		// 当拖动进度条的时候不需要更新进度，使用seek方法
+		if(!sliders.isDraging) {
+			// 获取当前进度
+			const currentTime:number = ctx.currentTime
+			// 跟新音频进度和slider进度
+			if (currentTime) {
+				sliders.progressTime = ctx.currentTime
+				audios.currentTime = formatTime(currentTime);
+			}
 		}
-		
-		audioContxt.currentTime = formatTime(currentTime);
 	})
 	ctx.onCanplay(() => {
-		
 		setTimeout(() => { 
 			console.log('音频长度', bgAudioManager.duration);
 			// 音频长度,时分秒格式
 			const duration = bgAudioManager.duration
-			audioContxt.duration = formatTime(duration);
-			// 音频长度,秒格式
-			audioContxt.durationTime = duration
+			audios.duration = formatTime(duration);
+			// 进度条长度=音频长度
+			sliders.max = duration
 		}, 300)
 	})
 	ctx.onWaiting((e) => {
 		
 	})
 	ctx.onPlay(() => {
-		audioContxt.playStatus = true
+		audios.playStatus = true
 	})
 	ctx.onPause(() => {
-		audioContxt.playStatus = false
+		audios.playStatus = false
 	})
 	ctx.onEnded((e) => {
 		
 	})
-	ctx.onError((e) => {
-		
-	})
+}
+
+/**
+ * @description: 获取专辑声音详情信息
+ * @returns {*}
+ */
+ const getTrackInfo = async (trackId: number) => {
+  try {
+    const res = await albumsService.getTrackInfo(trackId)
+		trackInfo.value = res.data
+		createBgAudioManager()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+/**
+ * @description: 获取专辑声音统计信息
+ * @param {*} id
+ * @returns {*}
+ */
+const getTrackStatVo = async () => {
+	try {
+		const res = await albumsService.getTrackStaVo(audios.trackId)
+		trackStaVo.value = res.data
+	} catch(error) {
+		console.log(error)
+	}
+}
+
+/**
+ * @description: 获取专辑声音列表信息
+ * @returns {*}
+ */
+const zPagingRef = ref<InstanceType<typeof ZPaging>>()
+const getAblumAudioList = async (page:number, limit:number) => {
+	const params = {
+		page,
+		limit,
+		albumId: 2
+	} 
+	const res = await albumsService.getAlbumTrackList(params)
+	// audioList.value = res.data.records
+	zPagingRef.value.complete(res.data.records)
+	console.log(res);
+}
+
+/**
+ * @description: 获取专辑详情信息
+ * @returns {*}
+ */
+const getAlbumDetail = async(id: number) => {
+	const res = await albumsService.getAlbumInfo(id)
+	album.value = res.data
 }
 
 onLoad(() => {
-	getTrackInfo(1)
-	getTrackStatVo(1)
+	audios.trackId = 56
+	getAlbumDetail(2)
+	getTrackInfo(audios.trackId)
+	getTrackStatVo()
+	// getAblumAudioList()
+	
 })
 
 onMounted(() => {
@@ -325,5 +481,30 @@ onMounted(() => {
 
 .gui-text-brown-light {
 	color: #e2bb92;
+}
+
+.audio-list {
+	height: 500px;
+	width: 100%;
+	overflow-y: auto;
+	padding: 0 16rpx;
+}
+
+.cancel-btn {
+	position: fixed;
+	bottom: 0;
+	text-align: center;
+	width: 100%;
+	height: 50px;
+	background-color: #fff;
+	line-height: 50px;
+	color: #333;
+	border-top: 1rpx solid #f2f2f2;
+}
+
+.title {
+	height: 50px;
+	line-height: 50px;
+	padding-left: 16rpx;
 }
 </style>
