@@ -20,7 +20,7 @@ export default {
 /* 加载框架核心样式 */
 @import "./Grace6/css/grace.scss";
 /* 加载深色模式适配样式 */
-@import "./Grace6/css/graceDark.scss";
+// @import "./Grace6/css/graceDark.scss";
 /* 加载自定义样式 */
 @import "./custom/custom.scss";
 /* 引入颜色库 */

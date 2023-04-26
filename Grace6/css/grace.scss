@@ -37,7 +37,7 @@ page, gui-page{min-height:100%;  display:flex; flex-direction:column; flex:1;}
 /* #ifdef H5 */
 .gui-switch-page-footer{bottom:50px !important;}
 /* #endif */
-.gui-page-status-bar{width:750rpx; overflow:hidden;}
+.gui-page-status-bar{width:750rpx; overflow:hidden; background-color: #FFFFFF;}
 .gui-page-pendant{position:fixed; width:100rpx; right:25rpx; bottom:100rpx; z-index:999}
 .gui-page-fixed-top{position:fixed; top:44px; left:0px;  width:750rpx; z-index:999;}
 
