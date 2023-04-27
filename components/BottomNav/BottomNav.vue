@@ -56,15 +56,15 @@ const navListInfo = ref([
  },
  {
   index: 1,
-  path: "/pages/live/index"
+  path: "/pages/live/live"
  },
  {
   index: 2,
-  path: "/pages/album/index"
+  path: "/pages/player/player"
  },
  {
   index: 3,
-  path: "/pages/rank/index"
+  path: "/pages/rank/rank"
  },
  {
   index: 4,

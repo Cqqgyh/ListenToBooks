@@ -8,9 +8,22 @@
 			}
 		},
 		{
+			"path": "pages/live/live",
+			"style": {
+				"navigationBarTitleText": "直播"
+			}
+		},
+		{
 			"path": "pages/player/player",
 			"style": {
 				"navigationBarTitleText": "播放器",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/rank/rank",
+			"style": {
+				"navigationBarTitleText": "排行榜",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -185,6 +198,11 @@
 				"path": "pages/index/index"
 			},
 			{
+				"name": "测试页-专辑详情",
+				"path": "pages/detail/detail",
+				"query": "id=1"
+			},
+			{
 				"name": "测试页-我的作品页",
 				"path": "pages/myWork/myWork"
 			},
@@ -222,7 +240,8 @@
 			},
 			{
 				"path": "pages/player/player",
-				"name": "测试页-播放器"
+				"name": "测试页-播放器",
+				"query": "albumId=1&trackId=1"
 			}
 		]
 	},
