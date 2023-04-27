@@ -88,7 +88,7 @@ export const useOrderStore = defineStore("order", {
       }
     },
     // 查询订单支付状态
-    async queryOrderPayStatus(orderNo: string | number,times:number = 10,interval:number = 2000,callback = ()=>this.paySuccess) {
+    async queryOrderPayStatus(orderNo: string | number,times:number = 10,interval:number = 2000,callback = ()=>this.paySuccess()) {
       // 轮询查询订单支付状态
       try {
         const res = await order.queryOrderPayStatus(orderNo);
@@ -121,7 +121,7 @@ export const useOrderStore = defineStore("order", {
         // 微信支付
         await this.wechatPay(res.data.orderNo,WX_ORDER_TYPE_MAP.Recharge)
         // 查询支付状态
-        await this.queryOrderPayStatus(res.data.orderNo,10,2000,()=>this.investSuccess)
+        await this.queryOrderPayStatus(res.data.orderNo,10,2000,()=>this.investSuccess())
       } catch (error) {
         console.log(error)
       }
@@ -129,16 +129,18 @@ export const useOrderStore = defineStore("order", {
     },
     // 支付成功
     paySuccess() {
-      uni.showToast({
-        title: '支付成功',
-        icon: 'success',
-        duration: 2000
-      })
         // 清空相关订单信息
         this.clearOrderInfo()
         // 更新用户信息
         const {updateUserInfo} = useUpdateUserInfo()
         updateUserInfo()
+      setTimeout(() => {
+        uni.showToast({
+          title: '支付成功',
+          icon: 'success',
+          duration: 2000
+        })
+      },200)
       // 去往支付成功页面
         console.log('去往支付成功页面')
         //
@@ -150,16 +152,19 @@ export const useOrderStore = defineStore("order", {
     },
     // 充值成功
     investSuccess() {
-      uni.showToast({
-        title: '充值成功',
-        icon: 'success',
-        duration: 2000
-      })
       // 清空相关订单信息
       this.clearOrderInfo()
       // 更新用户信息
       const {updateUserInfo} = useUpdateUserInfo()
       updateUserInfo()
+      // 避免因全局封装的request中，设置的hideLoading而导致的请求后不出现提示的问题
+      setTimeout(() => {
+        uni.showToast({
+          title: '充值成功',
+          icon: 'success',
+          duration: 2000
+        })
+      },200)
       console.log('充值成功')
     },
     // 清空相关订单信息
