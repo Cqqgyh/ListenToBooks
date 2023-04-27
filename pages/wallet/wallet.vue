@@ -55,7 +55,7 @@
         </view>
 <!--        自定义充值金额-->
         <view
-          @click="handleCustomizeInvest"
+          @click="openCustomAmountPopup"
           class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
           <text class="gui-block gui-padding gui-h6">自定义</text>
         </view>
@@ -63,6 +63,17 @@
 
     </view>
   </gui-popup>
+  <!-- 自定义金额 -->
+  <uni-popup ref="customAmountPopupRef" type="dialog">
+    <uni-popup-dialog
+      ref="customAmountDialogRef"
+      mode="input"
+      title="自定义金额"
+      value=""
+      before-close
+      placeholder="请输入正自然数"
+      @confirm="handleCustomizeInvest"></uni-popup-dialog>
+  </uni-popup>
 </template>
 
 <script setup lang="ts">
@@ -70,10 +81,13 @@ import GuiPopup from "../../Grace6/components/gui-popup.vue"
 import { ref } from "vue"
 import { useOrderStore } from "../../stores/order"
 import { useUserStore } from "../../stores/user"
+import UniPopup from "../../uni_modules/uni-popup/components/uni-popup/uni-popup.vue"
 /* 响应式数据 */
 const orderStore = useOrderStore()
 const userStore = useUserStore()
 const investPopupRef = ref<InstanceType<typeof GuiPopup>>()
+const customAmountPopupRef = ref<InstanceType<typeof UniPopup>>()
+
 // 充值选项
 const investSettingsList = ref([
   {
@@ -111,6 +125,32 @@ const handleInvest = (item: typeof investSettingsList.value[0]) => {
   closeInvestPopup()
   // 调用支付
   orderStore.investAmount(item.price)
+}
+// 打开自定义金额弹窗，关闭其他弹窗
+const openCustomAmountPopup = () => {
+  closeInvestPopup()
+  customAmountPopupRef.value.open()
+}
+// 自定义充值金额
+const handleCustomizeInvest = (value:string) => {
+  const amount = value.trim()
+  const regex = /^[1-9]\d*$/;
+  if (regex.test(amount)){
+    // 关闭弹窗
+    customAmountPopupRef.value.close()
+    // 调用支付
+    orderStore.investAmount(Number(amount))
+
+  } else {
+    // 弹出提示
+    uni.showToast({
+      title: "请输入正自然数",
+      icon: "none"
+    })
+  }
+
+
+
 }
 
 /* 生命周期 */
