@@ -55,7 +55,7 @@
           <text class="gui-grid-icon gui-icons gui-color-gray">&#xe634;</text>
           <text class="gui-grid-text gui-icons gui-color-gray">VIP会员</text>
         </view>
-        <view class="gui-grid-item">
+        <view class="gui-grid-item" @click="handleGoToOtherPage('/pages/wallet/wallet')">
           <text class="gui-grid-icon gui-icons gui-color-gray">&#xe612;</text>
           <text class="gui-grid-text gui-icons gui-color-gray">我的钱包</text>
         </view>
@@ -245,6 +245,12 @@ const deleteItem = (id: number | string) => {
     // 声音列表
     pageData.history.list = pageData.history.list.filter((item:HistoryTrackInterface) => item.trackId !== id)
   }
+}
+// 去其他页面
+const handleGoToOtherPage = (route:string) => {
+  uni.navigateTo({
+    url: route
+  })
 }
 onLoad(async () => {
   console.log(1);
