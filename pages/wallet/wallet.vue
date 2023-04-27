@@ -16,7 +16,7 @@
 
       <view class="gui-m-30">
 
-        <navigator class="gui-list-items">
+        <navigator url="/pages/fund/fund?id=consume" class="gui-list-items">
           <view class="gui-list-body gui-border-b">
             <view class="gui-list-title">
               <text class="gui-list-title-text gui-list-one-line gui-primary-text">消费记录</text>
@@ -25,7 +25,7 @@
           <text class="gui-list-arrow-right gui-icons gui-color-gray-light">&#xe601;</text>
         </navigator>
 
-        <navigator class="gui-list-items">
+        <navigator url="/pages/fund/fund?id=invest" class="gui-list-items">
           <view class="gui-list-body gui-border-b">
             <view class="gui-list-title">
               <text class="gui-list-title-text gui-list-one-line gui-primary-text">充值记录</text>
@@ -53,7 +53,7 @@
           class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
           <text class="gui-text-orange-opacity9 gui-block gui-padding gui-h6">{{ item.name }}</text>
         </view>
-<!--        自定义充值金额-->
+        <!--        自定义充值金额-->
         <view
           @click="openCustomAmountPopup"
           class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
@@ -78,7 +78,7 @@
 
 <script setup lang="ts">
 import GuiPopup from "../../Grace6/components/gui-popup.vue"
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import { useOrderStore } from "../../stores/order"
 import { useUserStore } from "../../stores/user"
 import UniPopup from "../../uni_modules/uni-popup/components/uni-popup/uni-popup.vue"
@@ -109,7 +109,7 @@ const investSettingsList = ref([
   {
     price: 100,
     name: "100元"
-  },
+  }
 ])
 // 分类导航
 
@@ -132,10 +132,10 @@ const openCustomAmountPopup = () => {
   customAmountPopupRef.value.open()
 }
 // 自定义充值金额
-const handleCustomizeInvest = (value:string) => {
+const handleCustomizeInvest = (value: string) => {
   const amount = value.trim()
-  const regex = /^[1-9]\d*$/;
-  if (regex.test(amount)){
+  const regex = /^[1-9]\d*$/
+  if (regex.test(amount)) {
     // 关闭弹窗
     customAmountPopupRef.value.close()
     // 调用支付
@@ -150,8 +150,9 @@ const handleCustomizeInvest = (value:string) => {
   }
 
 
-
 }
+
+
 
 /* 生命周期 */
 </script>

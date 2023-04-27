@@ -1,6 +1,7 @@
 import Service from '../../utils/request'
 import {
-  investInterface,
+  ConsumeRecordInterface,
+  InvestRecordInterface,
   OrderInterface,
   OrderRequestInterface,
   SubmitOrderInterface,
@@ -8,6 +9,7 @@ import {
   VipSettingInterface, WechatPayInterface, WechatPayNeededInterface
 } from "./interfaces"
 import { PAY_WAY_MAP, WX_ORDER_TYPE_MAP } from "../../utils/constant"
+import { PageResponseInterface } from "../albums/interfaces"
 
 class CateGory extends Service {
   /**
@@ -67,14 +69,21 @@ class CateGory extends Service {
       url: `/api/payment/wxPay/createJsapi/${paymentType}/${orderNo}`,
     })
   }
-  // 查询订单支付状态
+  /**
+   * @description: 查询订单支付状态
+   * @param orderNo 订单号
+   */
   queryOrderPayStatus(orderNo: string | number) {
     return this.get({
       url: `/api/payment/wxPay/queryPayStatus/${orderNo}`,
       loading:false
     })
   }
-  // 充值接口
+  /**
+   * @description: 充值接口
+   * @param amount 充值金额
+   * @param payWay 支付方式
+   */
   investAmount(amount: number, payWay: '1101' | '1102' = PAY_WAY_MAP.WeChat) {
     return this.post<SubmitOrderInterface>({
       url: '/api/account/rechargeInfo/submitRecharge',
@@ -82,6 +91,26 @@ class CateGory extends Service {
     })
   }
 
+  /**
+   * @description: 消费记录
+   * @return {*}
+   * @param params
+   */
+  getConsumeRecordList(params:{ page: number, limit: number }) {
+    return this.get<PageResponseInterface<ConsumeRecordInterface[]>>({
+      url: `/api/account/userAccount/findUserConsumePage/${params.page}/${params.limit}`,
+    })
+  }
+  /**
+   * @description: 充值记录
+   * @return {*}
+   * @param params
+   */
+  getInvestRecordList(params:{ page: number, limit: number }) {
+    return this.get<PageResponseInterface<InvestRecordInterface[]>>({
+      url: `/api/account/userAccount/findUserRechargePage/${params.page}/${params.limit}`,
+    })
+  }
 }
 
 export const order = new CateGory()

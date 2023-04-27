@@ -72,3 +72,23 @@ export interface investInterface {
   amount: number;
   payWay: '1101' | '1102'; // 支付方式：1101-微信 1102-支付宝
 }
+// 消费记录
+export interface ConsumeRecordInterface {
+  id: number;
+  createTime: string;
+  userId: number;
+  title: string;
+  tradeType: string;
+  amount: number;
+  orderNo: string;
+}
+// 充值记录
+export interface InvestRecordInterface {
+  id: number;
+  createTime: string;
+  userId: number;
+  title: string;
+  tradeType: string;
+  amount: number;
+  orderNo?: string | null;
+}
