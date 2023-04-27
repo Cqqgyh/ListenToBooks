@@ -436,6 +436,10 @@ const handleTrackOnClick = async (index: number, item: TrackInterface) => {
 				item2.isPlaying = !item2.isPlaying
 			}
 		})
+		// 跳转到播放页面
+		uni.navigateTo({
+			url: `/pages/player/player?albumId=${albumDetailInfo.value.albumInfo.id}&trackId=${item.trackId}`
+		})
 	}
 }
 // 获取会员收费配置列表
