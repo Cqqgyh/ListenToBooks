@@ -121,6 +121,16 @@ class CateGory extends Service {
       loading:true
     })
   }
+  /**
+   * @description: 查询订单列表
+   * @param 
+   */
+  queryOrderInfo(orderNo: string) {
+    return this.get({
+      url: `/api/order/orderInfo/getOrderInfo/${orderNo}`,
+      loading:true
+    })
+  }
 }
 
 export const order = new CateGory()

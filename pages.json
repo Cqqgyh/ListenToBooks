@@ -107,8 +107,7 @@
 			"style" :
 			{
 				"navigationBarTitleText": "订单中心",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
+				"enablePullDownRefresh": false
 			}
 		},
 		{
