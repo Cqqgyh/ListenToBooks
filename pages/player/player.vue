@@ -175,19 +175,19 @@
 						>
 						<view class="gui-relative track-item-sort">
 							<view
-								:class="item.isChecked ? 'track-item-title-checked' : 'gui-color-grey1'"
+								:class="item?.trackId == audios.trackId ? 'track-item-title-checked' : 'gui-color-grey1'"
 								class=" gui-h5">{{ item.orderNum + 1 }}</view>
 						</view>
 						<view class="gui-list-body gui-border-b">
 							<view class="gui-list-title">
-								<text :class="item.isChecked ? 'track-item-title-checked' : 'gui-primary-text '" class="gui-list-title-text gui-ellipsis">{{item.trackTitle}}</text>
+								<text :class="item?.trackId == audios.trackId ? 'track-item-title-checked' : 'gui-primary-text '" class="gui-list-title-text gui-ellipsis">{{item.trackTitle}}</text>
 							</view>
 							<view class="gui-color-gray gui-flex gui-text-small gui-flex gui-align-items-center gui-m-t-20">
-								<text v-if="item.isChecked && item.isPlaying" class="gui-icons gui-block gui-m-r-10">&#xe64b;</text>
+								<text v-if="item?.trackId == audios.trackId" class="gui-icons gui-block gui-m-r-10">&#xe64b;</text>
 								<text v-else class="gui-icons gui-block gui-m-r-10">&#xe649;</text>
 								<text class="gui-block gui-m-r-20">{{ item.playStatNum }}</text>
 								<text class="gui-icons gui-block gui-m-r-10">&#xe6b8;</text>
-								<text class="gui-block gui-m-r-20">{{ item.albumCommentStatNum }}</text>
+								<text class="gui-block gui-m-r-20">{{ item?.albumCommentStatNum }}</text>
 								<text class="gui-icons gui-block gui-m-r-10">&#xe607;</text>
 								<text class="gui-block">{{ formatTime(item.mediaDuration)  }}</text>
 							</view>
@@ -238,7 +238,9 @@ const audios = reactive({
 	/** 音频播放状态 */
 	playStatus: false,
 	/** 正在播放的音频id */
-	trackId: 1
+	trackId: 0,
+	/** 专辑id */
+	albumId: 0
 })
 
 /** 声音列表 */
@@ -486,7 +488,7 @@ const getAblumAudioList = async (page:number, limit:number) => {
 	const params = {
 		page,
 		limit,
-		albumId: 2
+		albumId: audios.albumId
 	} 
 	const res = await albumsService.getAlbumTrackList(params)
 	// audioList.value = res.data.records
@@ -504,8 +506,9 @@ const getAlbumDetail = async(id: number) => {
 
 onLoad((options: any) => {
 	console.log(options);
-	
-	audios.trackId = 56
+	const { albumId, trackId } = options;
+	audios.trackId = trackId
+	audios.albumId = albumId
 	getAlbumDetail(2)
 	getTrackInfo(audios.trackId)
 	getTrackStatVo()
@@ -551,5 +554,10 @@ onMounted(() => {
 	padding: 0 32rpx;
 }
 
-
+.track-item-checked{
+	background-color: #f5f5f5;
+}
+.track-item-title-checked{
+	color: #ff0036;
+}
 </style>

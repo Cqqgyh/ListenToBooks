@@ -192,6 +192,7 @@ export interface TrackInterface {
   trackId: number;
   trackTitle: string;
   mediaDuration: number;
+  albumCommentStatNum: number;
   orderNum: number;
   playStatNum: number;
   commentStatNum: number;
