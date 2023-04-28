@@ -1,6 +1,7 @@
 <template>
 	<gui-page :customFooter="true" v-model="albumDetailInfo" v-if="albumDetailInfo.albumInfo">
 		<template v-slot:gBody>
+			<navigator url="/pages/index/index">返回首页</navigator>
 			<scroll-view
 				class="gui-bg-white gui-dark-bg-level-3 gui-border-box mianImgBg gui-bg-brown-linear-gradient gui-p-30"
 				:scroll-y="true"

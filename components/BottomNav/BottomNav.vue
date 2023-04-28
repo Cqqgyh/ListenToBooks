@@ -28,6 +28,7 @@
    <text
      :class="[
 							currentIndex == 2 ? 'gui-primary-color' : 'gui-color-gray',
+              playerStore.playing ? 'playing' : '',
 							'gui-footer',
 							'gui-icons',
 							'gui-footer-buttons-ab-icon',
@@ -45,6 +46,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
 import { getCurrentPageInfo } from "../../utils/utils"
+import { usePlayerStore } from "../../stores/player"
+
+const playerStore = usePlayerStore()
 // 引入路由
 const pages = getCurrentPageInfo()
 /* 响应式数据 */
@@ -60,7 +64,7 @@ const navListInfo = ref([
  },
  {
   index: 2,
-  path: "/pages/player/player"
+  path: `/pages/player/player?albumId=${playerStore.albumId}&trackId=${playerStore.trackId}`
  },
  {
   index: 3,
@@ -77,7 +81,7 @@ const navListInfo = ref([
 // 切换导航
 const navChange = (index: number) => {
  currentIndex.value = index;
-  uni.navigateTo({
+ uni.navigateTo({
     url: navListInfo.value[index].path
   });
 };
@@ -91,5 +95,12 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 
+@keyframes rotation{
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}
+.playing {
+  animation: rotation 6.5s linear infinite;
+}
 </style>
 

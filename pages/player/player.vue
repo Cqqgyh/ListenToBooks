@@ -211,6 +211,9 @@ import {
 import { ref, computed, onMounted, reactive } from 'vue';
 import { onLoad } from "@dcloudio/uni-app"
 import { formatTime } from '../../utils/utils'
+import { usePlayerStore } from "../../stores/player"
+
+const playerStore = usePlayerStore()
 const systemHeight = ref(0);
 const swiperHeight = computed(() => {
 	return systemHeight.value - uni.upx2px(113);
@@ -440,13 +443,19 @@ const initAudio = (ctx: any) => {
 	})
 	ctx.onPlay(() => {
 		audios.playStatus = true
+		playerStore.changePlayStatus(true)
 	})
 	ctx.onPause(() => {
 		audios.playStatus = false
+		playerStore.changePlayStatus(false)
 	})
 	ctx.onEnded(() => {
 		// 播放结束自动切换到下一首歌
 		nextAudio()
+	})
+	ctx.onError(() => {
+		audios.playStatus = false
+		playerStore.changePlayStatus(false)
 	})
 }
 
@@ -509,6 +518,7 @@ onLoad((options: any) => {
 	const { albumId, trackId } = options;
 	audios.trackId = trackId
 	audios.albumId = albumId
+	playerStore.setId(options)
 	getAlbumDetail(2)
 	getTrackInfo(audios.trackId)
 	getTrackStatVo()
