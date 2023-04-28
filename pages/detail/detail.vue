@@ -1,7 +1,15 @@
 <template>
-	<gui-page :customFooter="true" v-model="albumDetailInfo" v-if="albumDetailInfo.albumInfo">
+	<gui-page :customFooter="true" :customHeader="true"  v-model="albumDetailInfo" v-if="albumDetailInfo.albumInfo">
+		<!-- 自定义头部导航 -->
+		<template v-slot:gHeader>
+			<view style="height: 44px" class="gui-flex gui-nowrap gui-rows gui-align-items-center">
+				<gui-header-leading @goHome="goHome"></gui-header-leading>
+				<text class="gui-h5 gui-bold gui-flex1 gui-text-center gui-ellipsis gui-primary-text">{{ albumDetailInfo.albumInfo.albumTitle }}</text>
+				<view class="gui-flex"><text class="gui-icons gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black-opacity3 gui-m-r-10">&#xe604;</text></view>
+				<view style="width: 180rpx"></view>
+			</view>
+		</template>
 		<template v-slot:gBody>
-			<navigator url="/pages/index/index">返回首页</navigator>
 			<scroll-view
 				class="gui-bg-white gui-dark-bg-level-3 gui-border-box mianImgBg gui-bg-brown-linear-gradient gui-p-30"
 				:scroll-y="true"
@@ -555,6 +563,12 @@ const handleBuyAllAlbums = () => {
 	// 去往确认订单页面
 	handleToOrder()
 };
+
+const goHome = () => {
+	uni.redirectTo({
+		url: '/pages/index/index'
+	});
+}
 onLoad(() => {
 	getAlbumDetailInfo()
 	getVipSettingList()

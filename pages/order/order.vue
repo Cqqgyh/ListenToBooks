@@ -275,6 +275,11 @@ export default {
 					}
 				}
 			});
+		},
+		goHome() {
+			uni.redirectTo({
+				url: '/pages/index/index'
+			});
 		}
 	}
 };

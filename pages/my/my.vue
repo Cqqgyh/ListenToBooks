@@ -59,7 +59,7 @@
           <text class="gui-grid-icon gui-icons gui-color-gray">&#xe612;</text>
           <text class="gui-grid-text gui-icons gui-color-gray">我的钱包</text>
         </view>
-        <view class="gui-grid-item">
+        <view class="gui-grid-item" @click="handleGoToOtherPage('/pages/order/order')">
           <text class="gui-grid-icon gui-icons gui-color-gray">&#xe62f;</text>
           <text class="gui-grid-text gui-icons gui-color-gray">我的订单</text>
         </view>
