@@ -70,6 +70,7 @@
 </template>
 <script>
 import graceJs from '@/Grace6/js/grace.js';
+import { order } from "../../api"
 export default {
 	data() {
 		return {
@@ -96,6 +97,7 @@ export default {
 		};
 	},
 	onLoad: function() {
+		this.getOrderListr()
 		setTimeout(() => {
 			this.loading = false;
 			// 01. 获取页面主体高度
@@ -138,6 +140,14 @@ export default {
 		}
 	},
 	methods: {
+		async getOrderListr() {
+			const params = {
+				page: 1,
+				limit: 10
+			}
+			const res  = await order.queryOrdeList(params)
+			console.log(res);
+		},
 		// 分类切换
 		navchange: function(e) {
 			this.currentIndex = e;

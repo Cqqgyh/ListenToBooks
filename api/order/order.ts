@@ -111,6 +111,16 @@ class CateGory extends Service {
       url: `/api/account/userAccount/findUserRechargePage/${params.page}/${params.limit}`,
     })
   }
+  /**
+   * @description: 查询订单列表
+   * @param 
+   */
+  queryOrdeList(params:{ page: number, limit: number }) {
+    return this.get({
+      url: `/api/order/orderInfo/findUserPage/${params.page}/${params.limit}`,
+      loading:true
+    })
+  }
 }
 
 export const order = new CateGory()

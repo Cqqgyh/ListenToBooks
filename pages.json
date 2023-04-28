@@ -169,14 +169,14 @@
                 "navigationBarTitleText": "登陆",
                 "enablePullDownRefresh": false
             }
-
         }
         ,{
             "path" : "pages/paySuccess/paySuccess",
             "style" :
             {
                 "navigationBarTitleText": "支付成功",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": false,
+								"navigationStyle": "custom"
             }
 
         }
