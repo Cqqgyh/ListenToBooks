@@ -207,7 +207,6 @@ import {
   TrackInfoInterface,
 	TrackStaVoInterface,
 	TrackInterface,
-	AlbumDetailInterface
 } from "../../api/albums/interfaces"
 import { ref, computed, onMounted, reactive } from 'vue';
 import { onLoad } from "@dcloudio/uni-app"
@@ -415,7 +414,7 @@ const playAudio = () => {
  * @returns {*}
  */
 const initAudio = (ctx: any) => {
-	ctx.onTimeUpdate((e) => {
+	ctx.onTimeUpdate(() => {
 		// 当拖动进度条的时候不需要更新进度，使用seek方法
 		if(!sliders.isDraging) {
 			// 获取当前进度
@@ -437,16 +436,13 @@ const initAudio = (ctx: any) => {
 			sliders.max = duration
 		}, 300)
 	})
-	ctx.onWaiting((e) => {
-
-	})
 	ctx.onPlay(() => {
 		audios.playStatus = true
 	})
 	ctx.onPause(() => {
 		audios.playStatus = false
 	})
-	ctx.onEnded((e) => {
+	ctx.onEnded(() => {
 		// 播放结束自动切换到下一首歌
 		nextAudio()
 	})
@@ -506,7 +502,9 @@ const getAlbumDetail = async(id: number) => {
 	album.value = res.data
 }
 
-onLoad(() => {
+onLoad((options: any) => {
+	console.log(options);
+	
 	audios.trackId = 56
 	getAlbumDetail(2)
 	getTrackInfo(audios.trackId)
