@@ -1,5 +1,5 @@
 <template>
-<uni-card padding="5rpx">
+<uni-card padding="5rpx" @click="handleGoToDetails">
   <view class="gui-margin-top">
     <view class="gui-card-body gui-flex gui-rows gui-nowrap">
       <text class="gui-absolute-lt gui-bg-red gui-p-l-5 gui-p-r-5 gui-text-small gui-color-white" style="transform: scale(0.8)">{{ getNameByValue(PAY_TYPE,data.payType) }}</text>
@@ -63,6 +63,11 @@ const props = defineProps({
 // 分类导航
 
 /* 方法 */
+const handleGoToDetails = () => {
+  uni.navigateTo({
+    url: `/pages/detail/detail?id=${props.data.id}`
+  })
+}
 
 /* 生命周期 */
 </script>

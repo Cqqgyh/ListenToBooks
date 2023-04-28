@@ -132,10 +132,10 @@
 						</view>
 						<view class="gui-flex gui-space-between gui-justify-content-center gui-align-items-center gui-m-t-10">
 							<view
+								v-if="false"
 								type="default"
 								class="gui-button gui-bg-black-opacity6 gui-noborder gui-flex1 gui-m-l-20 gui-m-r-20 gui-flex gui-justify-content-center"
-								@click="openBuyPopup"
-							>
+								>
 								<text class="gui-icons gui-block gui-m-r-10 gui-text-brown-light">&#xe649;</text>
 								<text class="gui-icons gui-button-text gui-text-brown-light">开始播放</text>
 							</view>
@@ -435,6 +435,10 @@ const handleTrackOnClick = async (index: number, item: TrackInterface) => {
 				item2.isChecked = true
 				item2.isPlaying = !item2.isPlaying
 			}
+		})
+		// 跳转到播放页面
+		uni.navigateTo({
+			url: `/pages/player/player?albumId=${albumDetailInfo.value.albumInfo.id}&trackId=${item.trackId}`
 		})
 	}
 }

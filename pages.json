@@ -91,7 +91,6 @@
 			{
 				"navigationBarTitleText": "资金记录",
 				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
 			}
 
 		},
