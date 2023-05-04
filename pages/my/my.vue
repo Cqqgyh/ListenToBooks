@@ -95,8 +95,9 @@
             :handleCancel="(id)=>albumsService.isSubscribeAlbum(id)"
             :popSetting="pageData[pageData.currentPageNav].popSetting"
             :jumpRoute="pageData[pageData.currentPageNav].jumpRoute"
-            v-for="item in pageData[pageData.currentPageNav].list as SubscribeAlbumsInterface[]"
-            :key="item.albumId"></SubscribeItemCard>
+            v-for="item in pageData[pageData.currentPageNav].list"
+            :key="item.albumId"
+          />
           <CollectAndHistoryTrackItemCard
             v-if="pageData.currentPageNav === 'collect'"
             :data="item"
@@ -105,7 +106,7 @@
             :popSetting="pageData[pageData.currentPageNav].popSetting"
             mode="collect"
             :jumpRoute="pageData[pageData.currentPageNav].jumpRoute"
-            v-for="item in pageData[pageData.currentPageNav].list as CollectTrackInterface[]"
+            v-for="item in pageData[pageData.currentPageNav].list"
             :key="item.trackId"></CollectAndHistoryTrackItemCard>
           <CollectAndHistoryTrackItemCard
             v-if="pageData.currentPageNav === 'history'"
@@ -115,7 +116,7 @@
             :popSetting="pageData[pageData.currentPageNav].popSetting"
             mode="history"
             :jumpRoute="pageData[pageData.currentPageNav].jumpRoute"
-            v-for="item in pageData[pageData.currentPageNav].list as HistoryTrackInterface[]"
+            v-for="item in pageData[pageData.currentPageNav].list"
             :key="item.trackId"></CollectAndHistoryTrackItemCard>
         </z-paging>
       </view>
