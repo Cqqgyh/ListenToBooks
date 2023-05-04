@@ -129,11 +129,6 @@ export const useOrderStore = defineStore("order", {
     },
     // 支付成功
     paySuccess() {
-        // 清空相关订单信息
-        this.clearOrderInfo()
-        // 更新用户信息
-        const {updateUserInfo} = useUpdateUserInfo()
-        updateUserInfo()
       setTimeout(() => {
         uni.showToast({
           title: '支付成功',
@@ -143,11 +138,15 @@ export const useOrderStore = defineStore("order", {
       },200)
       // 去往支付成功页面
         console.log('去往支付成功页面')
-        //
+      //
       uni.redirectTo({
-        url: '/pages/paySuccess/paySuccess'
+        url: `/pages/paySuccess/paySuccess/orderNo=${this.submitOrderInfo.tradeNo}`
       })
-
+      // 清空相关订单信息
+      this.clearOrderInfo()
+      // 更新用户信息
+      const {updateUserInfo} = useUpdateUserInfo()
+      updateUserInfo()
 
     },
     // 充值成功

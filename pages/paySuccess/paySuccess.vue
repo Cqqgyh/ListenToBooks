@@ -11,12 +11,18 @@
 	</view>
 </template>
 <script setup lang="ts">
+const props = defineProps({
+	orderNo: {
+		type: String,
+		default: '',
+	},
+})
 
-const onTapReturn = (e) =>  {
-	console.log(e);
-	if (e === 1) {
+const onTapReturn = (mode:number) =>  {
+	console.log(mode);
+	if (mode === 1) {
 		uni.navigateTo({
-			url: `/pages/orderDetail/orderDetail?orderNo=${123}`,
+			url: `/pages/orderDetail/orderDetail?orderNo=${props.orderNo}`,
 		});
 	} else {
 		uni.navigateBack();
