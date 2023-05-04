@@ -32,17 +32,17 @@
                 </view>
               </view>
             </view>
-            <text class="gui-list-arrow-right gui-icons gui-color-gray" @click="handleGoToInfo">&#xe601;</text>
+            <text class="gui-list-arrow-right gui-icons gui-color-gray" @click="handleGoToOtherPage('/pages/updateInfo/updateInfo')">&#xe601;</text>
           </view>
         </view>
 
         <view class="gui-absolute-lb gui-bg-white gui-creation-live">
           <view class="gui-flex gui-row gui-nowrap gui-space-around gui-p-t-20">
-            <view @click="handleGoToMyWork" class="gui-flex gui-row gui-align-items-center">
+            <view @click="handleGoToOtherPage('/pages/myWork/myWork')" class="gui-flex gui-row gui-align-items-center">
               <text class="gui-icons gui-h3 gui-color-drak">&#xe666;</text>
               <text class="gui-p-l-10">创作中心</text>
             </view>
-            <view class="gui-flex gui-row gui-align-items-center">
+            <view @click="handleGoToOtherPage('')" class="gui-flex gui-row gui-align-items-center">
               <text class="iconfont gui-color-drak gui-h3">&#xe7d5;</text>
               <text class="gui-p-l-10">录音/直播</text>
             </view>
@@ -51,7 +51,7 @@
       </view>
 
       <view class="gui-flex gui-space-between gui-bg-white gui-dark-bg-level-3 gui-padding gui-m-t-20">
-        <view class="gui-grid-item">
+        <view class="gui-grid-item" @click="handleGoToOtherPage('')">
           <text class="gui-grid-icon gui-icons gui-color-gray">&#xe634;</text>
           <text class="gui-grid-text gui-icons gui-color-gray">VIP会员</text>
         </view>
@@ -248,24 +248,21 @@ const deleteItem = (id: number | string) => {
 }
 // 去其他页面
 const handleGoToOtherPage = (route:string) => {
-  uni.navigateTo({
-    url: route
-  })
+  if(route) {
+      uni.navigateTo({
+      url: route
+    })
+  } else {
+    uni.showToast({
+      title : "该功能暂未开放",
+      icon  : "none"
+    })
+  }
 }
 onLoad(async () => {
   console.log(1);
 })
-// 去往创作中心
-const handleGoToMyWork = () => {
-  uni.navigateTo({
-    url: '/pages/myWork/myWork'
-  })
-}
-const handleGoToInfo = () => { 
-  uni.navigateTo({
-    url: '/pages/updateInfo/updateInfo'
-  })
-}
+
 </script>
 <style scoped>
 .gui-card-img {
