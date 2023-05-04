@@ -11,6 +11,8 @@ export const useOrderStore = defineStore("order", {
       confirmOrderInfo: {} as OrderRequestInterface,
       // 提交订单所需信息
       submitOrderInfo: {} as OrderInterface,
+      // 订单号
+      orderNo: "" as string | number,
     }
   },
   actions: {
@@ -45,6 +47,8 @@ export const useOrderStore = defineStore("order", {
     async submitOrder() {
       try {
         const res = await order.submitOrder(this.submitOrderInfo)
+        // 保存订单号
+        this.orderNo = res.data.orderNo
         // 如果是余额支付，直接支付成功
         if (this.submitOrderInfo.payWay === PAY_WAY_MAP.Balance) {
           this.paySuccess()
@@ -140,7 +144,7 @@ export const useOrderStore = defineStore("order", {
         console.log('去往支付成功页面')
       //
       uni.redirectTo({
-        url: `/pages/paySuccess/paySuccess/orderNo=${this.submitOrderInfo.tradeNo}`
+        url: `/pages/paySuccess/paySuccess?orderNo=${this.orderNo}`
       })
       // 清空相关订单信息
       this.clearOrderInfo()
@@ -170,6 +174,7 @@ export const useOrderStore = defineStore("order", {
     clearOrderInfo() {
       this.confirmOrderInfo = {} as OrderRequestInterface
       this.submitOrderInfo = {} as OrderInterface
+      this.orderNo = "" as string | number
     }
 
   }
