@@ -36,6 +36,13 @@
 			}
 		},
 		{
+			"path": "pages/updateInfo/updateInfo",
+			"style": {
+				"navigationBarTitleText": "更新",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/album/album",
 			"style": {
 				"navigationBarTitleText": "",
@@ -239,7 +246,12 @@
 				"path": "pages/player/player",
 				"name": "测试页-播放器",
 				"query": "albumId=1&trackId=1"
+			},
+			{
+				"path": "pages/updateInfo/updateInfo",
+				"name": "测试页-修改个人信息"
 			}
+			
 		]
 	},
 	"uniIdRouter": {},

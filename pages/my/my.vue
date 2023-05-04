@@ -32,7 +32,7 @@
                 </view>
               </view>
             </view>
-            <text class="gui-list-arrow-right gui-icons gui-color-gray">&#xe601;</text>
+            <text class="gui-list-arrow-right gui-icons gui-color-gray" @click="handleGoToInfo">&#xe601;</text>
           </view>
         </view>
 
@@ -259,6 +259,11 @@ onLoad(async () => {
 const handleGoToMyWork = () => {
   uni.navigateTo({
     url: '/pages/myWork/myWork'
+  })
+}
+const handleGoToInfo = () => { 
+  uni.navigateTo({
+    url: '/pages/updateInfo/updateInfo'
   })
 }
 </script>
