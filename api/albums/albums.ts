@@ -212,13 +212,20 @@ getTrackStaVo(trackId: number) {
       url: `/api/user/userInfo/isCollect/${trackId}`,
     })
   }
-  // 根据id删除播放历史
   /**
    * @description 根据id删除播放历史
    */
   deleteHistoryTrack(id: number) {
     return this.delete({
       url: `/api/user/userListenProcess/delete/${id}`,
+    })
+  }
+  /**
+   * @description 根据id删除播放历史
+   */
+  findRankingList(category1Id: number , dimension: string) {
+    return this.get({
+      url: `/api/search/albumInfo/findRankingList/${category1Id}/${dimension}`,
     })
   }
 }

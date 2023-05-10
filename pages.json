@@ -24,7 +24,8 @@
 			"path": "pages/rank/rank",
 			"style": {
 				"navigationBarTitleText": "排行榜",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -250,8 +251,11 @@
 			{
 				"path": "pages/updateInfo/updateInfo",
 				"name": "测试页-修改个人信息"
+			},
+			{
+				"path": "pages/rank/rank",
+				"name": "测试页-排行榜"
 			}
-			
 		]
 	},
 	"uniIdRouter": {},

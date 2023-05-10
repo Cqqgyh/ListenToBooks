@@ -276,7 +276,7 @@
 					<text class="gui-text-orange-opacity9 gui-block gui-m-t-10">￥{{ item.price }}</text>
 				</view>
 				<view
-					v-if="userStore.user.isVip === 0 && albumDetailInfo.albumInfo.payType === PAY_TYPE_MAP.VipFree"
+					v-if="userStore.user.isVip === 0 && albumDetailInfo?.albumInfo?.payType === PAY_TYPE_MAP.VipFree"
 					@click="handleBuyAllIsMeanBuyVip"
 					class="buy-card gui-text-small gui-flex gui-column gui-align-items-center gui-p-20 gui-border-radius gui-border">
 					<text>全集</text>
@@ -312,12 +312,12 @@
 					<image
 						class="gui-list-image"
 						mode="aspectFill"
-						:src="albumDetailInfo.albumInfo.coverUrl"
+						:src="albumDetailInfo?.albumInfo?.coverUrl"
 					></image>
 				</view>
 				<view class="gui-list-body gui-border-b">
 					<view class="gui-list-title"><text class="gui-list-title-text gui-primary-text">以下方式开启畅听</text></view>
-					<text class="gui-list-body-desc gui-color-gray">{{ albumDetailInfo.albumInfo.albumTitle }}</text>
+					<text class="gui-list-body-desc gui-color-gray">{{ albumDetailInfo?.albumInfo?.albumTitle }}</text>
 				</view>
 			</navigator>
 <!--			购买会员-->
@@ -326,7 +326,7 @@
 				class="gui-flex gui-row gui-space-between gui-m-40 gui-align-items-center">
 				<view class="gui-flex gui-flex1 gui-column">
 					<text class="gui-block">{{userStore.user.isVip ? '续费会员 优惠多多' : '开通会员 优惠多多'}}</text>
-					<text class="gui-block gui-text-small gui-text-brown-light">{{ albumDetailInfo.albumInfo.vipDiscount > 0 ? `会员专享：${albumDetailInfo.albumInfo.vipDiscount}折购买本专辑` : '可收听所有会员内容'}}</text>
+					<text class="gui-block gui-text-small gui-text-brown-light">{{ albumDetailInfo?.albumInfo?.vipDiscount > 0 ? `会员专享：${albumDetailInfo.albumInfo.vipDiscount}折购买本专辑` : '可收听所有会员内容'}}</text>
 				</view>
 				<view class="gui-bg-orange gui-color-white gui-p-20">{{userStore.user.isVip ? '立即续费' : '立即开通'}}</view>
 			</view>
@@ -334,7 +334,7 @@
 				@click="handleBuyAllAlbums"
 				class="gui-m-40 gui-flex gui-space-between gui-bg-black-opacity2 gui-p-20">
 				<text class="gui-ellipsis gui-flex1">
-					{{albumDetailInfo.albumInfo.discount > 0 ? `${albumDetailInfo.albumInfo.discount}折` : ''}}购买本专辑
+					{{albumDetailInfo?.albumInfo?.discount > 0 ? `${albumDetailInfo.albumInfo.discount}折` : ''}}购买本专辑
 				</text>
 				<text class="gui-list-arrow-right gui-icons">&#xe601;</text>
 			</navigator>
