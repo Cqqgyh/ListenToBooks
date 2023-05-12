@@ -3,7 +3,7 @@
 		<view class="gui-relative" style="background-color: #7d7d4b;">
 			<view class="gui-p-t-40 gui-flex gui-row">
 				<view class="gui-flex gui-flex1 gui-row gui-justify-content-start gui-p-l-20 gui-align-items-center">
-					<view class="gui-icons gui-color-white  gui-m-r-40" >&#xe603;</view>
+					<view class="gui-icons gui-color-white  gui-m-r-40" @click="handleJump">&#xe603;</view>
 					<gui-switch-navigation
 						:activeLineClass="['gui-nav-scale', 'gui-bg-white']"
 						:titleClass="['gui-color-white']"
@@ -117,7 +117,7 @@
 								<text class="gui-icons gui-h3 gui-m-b-5">&#xe60a;</text>
 								<text class="gui-text-small">99+</text>
 							</view> -->
-							<view class="gui-flex gui-flex1 gui-row gui-bg-black-opacity1 gui-border-radius gui-p-t-10 gui-p-b-10 gui-p-l-30 gui-p-r-30 gui-align-items-center">
+							<view @click="handleComment" class="gui-flex gui-flex1 gui-row gui-bg-black-opacity1 gui-border-radius gui-p-t-10 gui-p-b-10 gui-p-l-30 gui-p-r-30 gui-align-items-center">
 								<text class="gui-icons gui-m-b-5 gui-m-r-10">&#xe69e;</text>
 								<text>发表评论</text>
 							</view>
@@ -130,6 +130,7 @@
 								<text class="gui-icons gui-h3 gui-m-b-5" v-else>&#xe6ad;</text>
 								<text class="gui-text-small">{{ trackStaVo?.collectStatNum || 0 }}</text>
 							</view>
+							<!-- 评论 -->
 							<view class="gui-flex gui-column gui-align-items-center" @click="handleComment">
 								<text class="gui-icons gui-h3 gui-m-b-5">&#xe6b8;</text>
 								<text class="gui-text-small">{{ trackStaVo?.albumCommentStatNum || 0 }}</text>
@@ -138,16 +139,19 @@
 					</view>
 				</swiper-item>
 				<swiper-item>
-					<view class="gui-flex gui-space-around gui-bg-white gui-m-t-30 gui-p-t-30  gui-p-l-30 gui-p-r-30 gui-bg-white">
+					<!-- <view class="gui-flex gui-space-around gui-bg-white gui-m-t-30 gui-p-t-30  gui-p-l-30 gui-p-r-30 gui-bg-white">
 						<view class="gui-flex gui-flex1 gui-justify-content-start gui-align-items-center">
 							<text class="gui-icons gui-block gui-m-r-5">&#xe6b8;</text>
 							<text>我要评价</text>
 						</view>
 						<view class="gui-flex gui-flex1 gui-justify-content-end"><gui-star></gui-star></view>
-					</view>
+					</view> -->
 					<scroll-view scroll-y :style="{ height: scrollHeight  + 'px' }" class="gui-border-box  gui-p-l-30 gui-p-r-30 gui-bg-white">
 						<CommentList></CommentList>
 					</scroll-view>
+					<view class="">
+
+					</view>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -203,7 +207,7 @@
 <script setup lang="ts">
 import graceJS from '@/Grace6/js/grace.js';
 import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
-import { albumsService } from "../../api"
+import { albumsService, commentService } from "../../api"
 import {
   TrackInfoInterface,
 	TrackStaVoInterface,
@@ -316,6 +320,13 @@ const handleSliderMoveEnd = () => {
 	sliders.progressTime = position
 }
 
+/**
+ * @description: 路由跳转到上一页
+ * @returns {*}
+ */
+const handleJump = () => {
+	uni.navigateBack()
+}
 /**
  * @description 切换音频事件
  */
@@ -466,7 +477,9 @@ const initAudio = (ctx: any) => {
  * @returns {*}
  */
 const handleComment = () => {
+	console.log(123);
 	
+	currentIndex.value = 1
 }
 
 /**
@@ -545,18 +558,32 @@ const getAlbumDetail = async(id: number) => {
 	album.value = res.data
 }
 
+/**
+ * @description: 获取评论列表
+ * @returns {*}
+ */
+const getComment = async () => {
+	const params = {
+		page: 1,
+		limit: 10,
+		albumId: 1
+	}
+	const res = await commentService.getCommentList(params)
+	console.log(res);
+	
+}
+
 onLoad((options: any) => {
 	console.log(options);
 	const { albumId, trackId } = options;
 	audios.trackId = trackId
 	audios.albumId = albumId
 	playerStore.setId(options)
-	getAlbumDetail(2)
+	getAlbumDetail(albumId)
 	getTrackInfo(audios.trackId)
 	getTrackStatVo()
 	getIsCollect()
-	// getAblumAudioList()
-	
+	getComment()
 })
 
 onMounted(() => {
