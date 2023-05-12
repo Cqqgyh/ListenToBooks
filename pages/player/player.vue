@@ -105,7 +105,7 @@
 							</view>
 
 							<view class="gui-p-10 gui-border-radius gui-m-l-20 gui-bg-black-opacity2 gui-flex gui-align-items-center">
-								<text class="gui-icons gui-text-brown gui-text-small gui-m-r-10">&#xe6c7;</text>
+								<!-- <text class="gui-icons gui-text-brown gui-text-small gui-m-r-10">&#xe6c7;</text> -->
 								<text class="gui-text-small gui-text-brown">免费订阅</text>
 							</view>
 						</view>
@@ -113,25 +113,26 @@
 
 					<view class="gui-absolute-lb gui-bg-black-opacity1 gui-p-t-20 gui-p-b-20 gui-color-white" style="width:100%;">
 						<view class="gui-flex gui-row gui-space-between gui-m-l-50 gui-m-r-50 gui-text-center">
-							<view class="gui-flex gui-column gui-align-items-center">
+							<!-- <view class="gui-flex gui-column gui-align-items-center">
 								<text class="gui-icons gui-h3 gui-m-b-5">&#xe60a;</text>
 								<text class="gui-text-small">99+</text>
-							</view>
-							<view class="gui-flex gui-row gui-bg-black-opacity1 gui-border-radius gui-p-t-10 gui-p-b-10 gui-p-l-30 gui-p-r-30 gui-align-items-center">
+							</view> -->
+							<view class="gui-flex gui-flex1 gui-row gui-bg-black-opacity1 gui-border-radius gui-p-t-10 gui-p-b-10 gui-p-l-30 gui-p-r-30 gui-align-items-center">
 								<text class="gui-icons gui-m-b-5 gui-m-r-10">&#xe69e;</text>
 								<text>发表评论</text>
 							</view>
-							<view class="gui-flex gui-column gui-align-items-center">
+							<!-- <view class="gui-flex gui-column gui-align-items-center">
 								<text class="gui-icons gui-h3 gui-m-b-5">&#xe6ea;</text>
 								<text class="gui-text-small">2.8万</text>
+							</view> -->
+							<view class="gui-flex gui-margin-x gui-column gui-align-items-center" @click="handleCollect">
+								<text class="gui-icons gui-h3 gui-m-b-5" v-if="isCollect">&#xe605;</text>
+								<text class="gui-icons gui-h3 gui-m-b-5" v-else>&#xe6ad;</text>
+								<text class="gui-text-small">{{ trackStaVo?.collectStatNum || 0 }}</text>
 							</view>
-							<view class="gui-flex gui-column gui-align-items-center">
-								<text class="gui-icons gui-h3 gui-m-b-5">&#xe645;</text>
-								<text class="gui-text-small">1987</text>
-							</view>
-							<view class="gui-flex gui-column gui-align-items-center">
+							<view class="gui-flex gui-column gui-align-items-center" @click="handleComment">
 								<text class="gui-icons gui-h3 gui-m-b-5">&#xe6b8;</text>
-								<text class="gui-text-small">{{ trackStaVo?.commentStatNum }}</text>
+								<text class="gui-text-small">{{ trackStaVo?.albumCommentStatNum || 0 }}</text>
 							</view>
 						</view>
 					</view>
@@ -226,6 +227,7 @@ const currentIndex = ref(0);
 // 初始化背景音频控件
 const bgAudioManager = uni.getBackgroundAudioManager();
 
+const isCollect = ref<boolean>(false)
 // 音频相关信息
 let trackInfo = ref<TrackInfoInterface>()
 // 音频统计信息
@@ -460,6 +462,36 @@ const initAudio = (ctx: any) => {
 }
 
 /**
+ * @description: 评论
+ * @returns {*}
+ */
+const handleComment = () => {
+	
+}
+
+/**
+ * @description: 是否收藏声音
+ * @returns {*}
+ */
+const getIsCollect = async () => {
+	const res: any = await albumsService.isCollectTrack(audios.trackId)
+	isCollect.value = res.data
+}
+
+/**
+ * @description: 收藏
+ * @returns {*}
+ */
+const handleCollect = async () => {
+	await albumsService.collectTrack(audios.trackId)
+	const res: any = await albumsService.isCollectTrack(audios.trackId)
+	isCollect.value = res.data
+	uni.showToast({
+		title: !res.data ? '取消收藏成功' : '收藏成功',
+		icon: 'none'
+	})
+}
+/**
  * @description: 获取专辑声音详情信息
  * @returns {*}
  */
@@ -522,6 +554,7 @@ onLoad((options: any) => {
 	getAlbumDetail(2)
 	getTrackInfo(audios.trackId)
 	getTrackStatVo()
+	getIsCollect()
 	// getAblumAudioList()
 	
 })

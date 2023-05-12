@@ -178,7 +178,7 @@ getTrackStaVo(trackId: number) {
     })
   }
   /**
-   * @description 获取订阅专辑分页列表
+   * @description 获取收藏分页列表
    * @param  { page: number, limit: number } pageInfo 分页信息
    */
   getCollectTrack(pageInfo: { page: number, limit: number }) {
@@ -196,14 +196,31 @@ getTrackStaVo(trackId: number) {
     })
   }
   /**
+   * @description 订阅专辑
+   */
+  subscribeAlbum(albumId: number) {
+    return this.get({
+      url: `/api/user/userInfo/subscribe/${albumId}`,
+    })
+  }
+  /**
    * @description 是否订阅专辑
    */
   isSubscribeAlbum(albumId: number) {
-    console.log('是否订阅专辑', albumId)
     return this.get({
       url: `/api/user/userInfo/isSubscribe/${albumId}`,
     })
   }
+
+  /**
+   * @description 收藏声音
+   */
+  collectTrack(trackId: number) {
+    return this.get({
+      url: `/api/user/userInfo/collect/${trackId}`,
+    })
+  }
+
   /**
    * @description 是否收藏声音
    */
@@ -221,7 +238,7 @@ getTrackStaVo(trackId: number) {
     })
   }
   /**
-   * @description 根据id删除播放历史
+   * @description 获取排行榜单列表
    */
   findRankingList(category1Id: number , dimension: string) {
     return this.get({

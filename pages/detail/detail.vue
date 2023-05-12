@@ -133,9 +133,9 @@
 					<template #top>
 						<view
 							class="gui-flex gui-space-between gui-align-items-center gui-padding"
-							@click="openAccountPopup">
+							>
 							<view class="gui-h4 gui-bold">{{userStore.user.isVip ? '续费会员 优惠多多' : '开通会员 优惠多多'}}</view>
-							<button type="default" class="gui-button gui-bg-red gui-noborder">
+							<button type="default" class="gui-button gui-bg-red gui-noborder" @click="openAccountPopup">
 								<text class="gui-color-white gui-button-text gui-p-l-20 gui-p-r-20 gui-border-radius">{{userStore.user.isVip ? '立即续费' : '立即开通'}}</text>
 							</button>
 						</view>
@@ -148,19 +148,20 @@
 								<text class="gui-icons gui-block gui-m-r-10 gui-text-brown-light">&#xe649;</text>
 								<text class="gui-icons gui-button-text gui-text-brown-light">开始播放</text>
 							</view>
+							<!-- 订阅 -->
 							<view
 								type="default"
 								v-if="albumDetailInfo.albumInfo.isFinished === '1'"
 								class="gui-button gui-bg-black-opacity6 gui-noborder gui-flex1 gui-m-l-20 gui-m-r-20 gui-flex gui-justify-content-center"
 								@click="handleSubscribe"
 							>
-								<text v-if="albumDetailInfo.isSubscribe" class="gui-icons gui-color-white gui-block gui-m-r-10">&#xe78a;</text>
+								<text v-if="isSubscribe" class="gui-icons gui-color-white gui-block gui-m-r-10">&#xe78a;</text>
 								<text v-else class="gui-icons gui-color-white gui-block gui-m-r-10">&#xe625;</text>
-								<text class="gui-icons gui-color-white gui-button-text">{{ albumDetailInfo.isSubscribe ? '取消订阅' : '订阅' }}</text>
+								<text class="gui-icons gui-color-white gui-button-text">{{ isSubscribe ? '已订阅' : '订阅' }}</text>
 							</view>
 						</view>
 					</template>
-					<!--					渲染列表-->
+					<!-- 渲染列表-->
 					<view
 						class="gui-list-items"
 						:class="item.isChecked ? 'track-item-checked' : ''"
@@ -386,6 +387,8 @@ const albumTrackList = ref<TrackInterface[]>([])
 const vipSettingList = ref<VipSettingInterface[]>([])
 // 声音收费列表
 const trackSettingList = ref<TrackSettingInterface[]>([])
+// 是否订阅
+const isSubscribe = ref<boolean>(false)
 
 /* 方法 */
 // 获取专辑详情
@@ -475,14 +478,14 @@ const getTrackVipSettingList = async (trackId:number) => {
 }
 // 订阅
 const handleSubscribe = () => {
-	console.log('handleSubscribe')
 	try {
-		const res = albumsService.isSubscribeAlbum(albumDetailInfo.value.albumInfo.id)
+		albumsService.subscribeAlbum(albumDetailInfo.value.albumInfo.id)
+		const res: any = albumsService.isSubscribeAlbum(albumDetailInfo.value.albumInfo.id)
+		isSubscribe.value = res.data
 		uni.showToast({
-			title: albumDetailInfo.value.isSubscribe ? '取消订阅成功' : '订阅成功',
+			title: res.data ? '订阅成功' : '取消订阅成功',
 			icon: 'none'
 		})
-		albumDetailInfo.value.isSubscribe = !albumDetailInfo.value.isSubscribe
 	} catch (error) {
 		console.log(error)
 	}
@@ -569,9 +572,16 @@ const goHome = () => {
 		url: '/pages/index/index'
 	});
 }
+
+const getIsSubscribe = () => {
+	console.log(1);
+	const res: any = albumsService.isSubscribeAlbum(props.id)
+	isSubscribe.value = res.data
+}
 onLoad(() => {
 	getAlbumDetailInfo()
 	getVipSettingList()
+	getIsSubscribe()
 });
 
 
