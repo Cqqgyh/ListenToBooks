@@ -23,7 +23,7 @@
                     columns:2,
                   }"
               :add="coverUrlList.length < 1"
-              action="http://139.198.163.91:8500/api/album/fileUpload"
+              :action="UPLOAD_URL.IMAGE"
               @onSuccess="uploadImgSuccess"></cl-upload>
           </uni-forms-item>
           <!--          专辑分类-->
@@ -146,7 +146,7 @@ import { albumsService } from "../../api"
 import AttributePopup from "../../components/AttributePopup/AttributePopup.vue"
 import UniForms from "../../uni_modules/uni-forms/components/uni-forms/uni-forms.vue"
 import { emitter } from "../../utils/mitt"
-import { PAY_TYPE } from "../../utils/constant"
+import { PAY_TYPE, UPLOAD_URL } from "../../utils/constant"
 
 /* 响应式数据 */
 const attributePopupRef = ref<InstanceType<typeof AttributePopup>>()

@@ -19,7 +19,7 @@
                     columns:2,
                   }"
               :add="mediaFileList.length < 1"
-              action="http://139.198.163.91:8500/api/album/trackInfo/uploadTrack"
+              :action="UPLOAD_URL.TRACK"
               @onSuccess="uploadAudioSuccess"></cl-upload>
           </uni-forms-item>
           <!--          标题-->
@@ -41,7 +41,7 @@
                     columns:2,
                   }"
               :add="coverUrlList.length < 1"
-              action="http://139.198.163.91:8500/api/album/fileUpload"
+              :action="UPLOAD_URL.IMAGE"
               @onSuccess="uploadImgSuccess"></cl-upload>
           </uni-forms-item>
           <!--          专辑列表选择-->
@@ -88,6 +88,7 @@ import {
 import { albumsService } from "../../api"
 import UniForms from "../../uni_modules/uni-forms/components/uni-forms/uni-forms.vue"
 import { emitter } from "../../utils/mitt"
+import { UPLOAD_URL } from "../../utils/constant"
 
 /* 响应式数据 */
 // 表单收集
