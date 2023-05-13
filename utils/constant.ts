@@ -1,4 +1,4 @@
-import { BASE_UPLOAD_URL } from "../config"
+import { BASE_UPLOAD_URL } from "../config/confjg"
 // 本地存储token的key
 export const TOKEN_KEY = "token"
 // 本地存储用户信息的key

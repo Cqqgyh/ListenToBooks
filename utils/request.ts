@@ -2,7 +2,7 @@ import { useUserStore } from '../stores/user'
 import type { RequestOptions } from './interface'
 import { RequestResponse } from "./interface"
 import { setRedirectUrl } from "./utils"
-import { BASE_URL } from "../config"
+import { BASE_URL } from "../config/confjg"
 const BASEURL = BASE_URL
 class Service {
   api<T>(opts: RequestOptions): Promise<RequestResponse<T>> {
