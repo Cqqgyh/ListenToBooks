@@ -2,7 +2,8 @@ import { useUserStore } from '../stores/user'
 import type { RequestOptions } from './interface'
 import { RequestResponse } from "./interface"
 import { setRedirectUrl } from "./utils"
-const BASEURL = 'http://139.198.163.91:8500'
+import { BASE_URL } from "../config"
+const BASEURL = BASE_URL
 class Service {
   api<T>(opts: RequestOptions): Promise<RequestResponse<T>> {
     // 定义参数对象

@@ -1,14 +1,5 @@
-/*
- * @Author: 朽木白
- * @Date: 2023-04-12 15:26:13
- * @LastEditors: 1547702880@@qq.com
- * @LastEditTime: 2023-04-12 15:26:20
- * @Description: 常量
- */
-
-
+import { BASE_UPLOAD_URL } from "../config"
 // 本地存储token的key
-
 export const TOKEN_KEY = "token"
 // 本地存储用户信息的key
 export const USER_KEY = "user"
@@ -60,7 +51,7 @@ export enum WX_ORDER_TYPE_MAP {
 }
 
 // 上传地址
-export enum UPLOAD_URL {
-  IMAGE = "http://139.198.163.91:8500/api/album/fileUpload",
-  TRACK = "http://139.198.163.91:8500/api/album/trackInfo/uploadTrack"
-}
+export const UPLOAD_URL = {
+  IMAGE: `${BASE_UPLOAD_URL}/api/album/fileUpload`,
+  TRACK: `${BASE_UPLOAD_URL}/api/album/trackInfo/uploadTrack`
+} as const;
