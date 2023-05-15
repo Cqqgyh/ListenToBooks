@@ -15,6 +15,7 @@ export interface CommentInterface  {
   replyCommentId: string;
   praiseCount: number;
   albumCommentScore: number;
+  deleteMark:string;
   createTime: string;
   isPraise: boolean;
   replyCommentList: CommentInterface[] | null;

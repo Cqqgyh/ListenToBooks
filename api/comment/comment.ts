@@ -43,6 +43,17 @@ class Comment extends Service {
       }
     })
   }
+  /**
+   * @description 删除评论
+   * @param albumId
+   * @param commentId
+   */
+  deleteComment(albumId: number, commentId: string) {
+    return this.get({
+      url: `/api/comment/remove/${albumId}/${commentId}`,
+    })
+  }
+
 }
 
 

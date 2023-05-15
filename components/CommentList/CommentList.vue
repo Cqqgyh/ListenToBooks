@@ -2,8 +2,25 @@
   <view class="content">
     <z-paging ref="zPagingRef" v-model="commentList" @query="getComment" :default-page-size="30"
       show-refresher-update-time auto-show-back-to-top>
-      <view class="gui-m-t-30">
-        <view v-if="commentList.length"
+      <template #top>
+        <view
+          class="gui-flex gui-columns gui-justify-content-center gui-align-items-center gui-m-t-30 gui-bg-white"
+          style="height: 200rpx;">
+          <view class="gui-flex-reply-container">
+            <uni-easyinput
+              type="textarea"
+              trim
+              v-model="commentEmptyInfo.replyRelevantInformation.replyContent"
+              :placeholder="commentEmptyInfo.replyRelevantInformation.replyPlaceholder">
+            </uni-easyinput>
+            <text @click.stop="handleReplyComment(commentEmptyInfo as CommentInterface)"
+                  class="gui-comments-replay-btn gui-block gui-bg-gray gui-dark-bg-level-2 gui-primary-text">回复
+            </text>
+          </view>
+        </view>
+      </template>
+      <view>
+        <view
           class="gui-comments-items gui-flex gui-row gui-nowrap gui-space-between gui-bg-white gui-dark-bg-level-3"
           v-for="(item, index) in commentList" :key="index">
           <image :src="item.avatarUrl" class="gui-comments-face"></image>
@@ -15,19 +32,23 @@
                 &#xe6ea; {{ item.praiseCount }}
               </text>
             </view>
-            <view @click="handleOnClickItemReply(item, item)" class="gui-comments-content gui-block">{{ item.content }}
+            <view @click="handleOnClickItemReply(item, item)" class="gui-comments-content gui-block gui-relative padding-r">
+              {{ item.content }}
+              <uni-icons @click="handleDeleteComment(item,index)" v-if="item.deleteMark === '1'" custom-prefix="iconfont" type="shanchu" class="gui-absolute-rt" size="10"></uni-icons>
             </view>
             <view v-if="item.replyCommentList">
               <view v-for="(itemRe, indexRe) in item.replyCommentList" :key="itemRe.id"
                 class="gui-comments-replay gui-block gui-bg-gray gui-dark-bg-level-2">
-                <view v-if="!itemRe.parent" @click="handleOnClickItemReply(item, itemRe)">{{ itemRe.nickname }} :
-                  {{ itemRe.content }}
+                <view v-if="!itemRe.parent" @click="handleOnClickItemReply(item, itemRe)" class="gui-relative padding-r">
+                  {{ itemRe.nickname }} : {{ itemRe.content }}
+                  <uni-icons @click="handleDeleteComment(itemRe,index,indexRe)" v-if="itemRe.deleteMark === '1'" custom-prefix="iconfont" type="shanchu" class="gui-absolute-rt" size="10"></uni-icons>
                 </view>
-                <view v-else @click.stop="handleOnClickItemReply(item, itemRe.parent)">
+                <view v-else @click.stop="handleOnClickItemReply(item, itemRe.parent)" class="gui-relative padding-r">
                   <text>{{ itemRe.parent?.nickname }}</text>
                   <text class="gui-color-gray gui-text-small" style="margin:0 6rpx">回复</text>
                   <text>{{ itemRe.nickname }}</text>
                   <text>: {{ itemRe.content }}</text>
+                  <uni-icons @click="handleDeleteComment(itemRe,index,indexRe)" v-if="itemRe.deleteMark === '1'" custom-prefix="iconfont" type="shanchu" class="gui-absolute-rt" size="10"></uni-icons>
                 </view>
               </view>
             </view>
@@ -43,20 +64,7 @@
             <view class="gui-comments-info-text gui-color-gray">{{ item.createTime }}</view>
           </view>
         </view>
-        <!--        没有一条评论-->
-        <view v-else
-          class="gui-flex gui-columns gui-justify-content-center gui-align-items-center gui-m-t-30 gui-bg-white"
-          style="height: 500rpx;">
-          <view class="gui-color-gray">暂无评论,快来发表第一条评论吧</view>
-          <view class="gui-comments-info gui-flex gui-rows gui-nowrap gui-align-items-center gui-m-t-30">
-            <view class="gui-flex-reply-container">
-              <uni-easyinput trim v-model="commentEmptyInfo.replyRelevantInformation.replyContent" :placeholder="commentEmptyInfo.replyRelevantInformation.replyPlaceholder"></uni-easyinput>
-              <text @click.stop="handleReplyComment(commentEmptyInfo as CommentInterface)"
-                class="gui-comments-replay-btn gui-block gui-bg-gray gui-dark-bg-level-2 gui-primary-text">回复
-              </text>
-            </view>
-          </view>
-        </view>
+
       </view>
     </z-paging>
   </view>
@@ -67,6 +75,7 @@ import { ref } from "vue"
 import { CommentInterface } from "../../api/comment/interfaces"
 import { commentService } from "../../api"
 import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
+import GuiSelectMenu from "../../Grace6/components/gui-select-menu.vue"
 
 const zPagingRef = ref<InstanceType<typeof ZPaging>>()
 const props = defineProps({
@@ -152,15 +161,33 @@ const handleReplyComment = async (item: CommentInterface) => {
   const res = await commentService.addComment(params.albumId, params.commentId, params.content)
   console.log(res)
   item.replyRelevantInformation.replyContent = ""
-  item.replyRelevantInformation.replyCommentId = ""
+  item.replyRelevantInformation.replyCommentId = "0"
   item.replyRelevantInformation.replyPlaceholder = "请输入回复内容"
   zPagingRef.value.reload()
+}
+// 删除评论
+const handleDeleteComment = async (item: CommentInterface,index:number,replyIndex:number = -1) => {
+  const params = {
+    albumId: item.albumId,
+    commentId: item.id
+  }
+  const res = await commentService.deleteComment(params.albumId, params.commentId)
+  if (replyIndex === -1){
+    commentList.value.splice(index,1)
+  }else {
+    commentList.value[index].replyCommentList?.splice(replyIndex,1)
+  }
 }
 </script>
 
 <style lang="scss">
 .gui-flex-reply-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  width: 100%;
+}
+.padding-r{
+  padding-right:20rpx;
 }
 </style>
