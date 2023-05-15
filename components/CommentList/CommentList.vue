@@ -75,7 +75,7 @@ import { ref } from "vue"
 import { CommentInterface } from "../../api/comment/interfaces"
 import { commentService } from "../../api"
 import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
-import GuiSelectMenu from "../../Grace6/components/gui-select-menu.vue"
+
 
 const zPagingRef = ref<InstanceType<typeof ZPaging>>()
 const props = defineProps({
