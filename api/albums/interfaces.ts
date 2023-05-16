@@ -73,10 +73,7 @@ export interface TrackInfoQueryInterface {
 export interface WorksInfoPageInterface {
   page: number
   limit: number
-  // 专辑信息
-  albumInfoQuery?: AlbumInfoQueryInterface
-  // 声音信息
-  trackInfoQuery?: TrackInfoQueryInterface
+  status: string
   [propName: string]: any
 }
 // 专辑列表信息接口

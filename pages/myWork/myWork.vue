@@ -143,17 +143,18 @@ const getListInfo = async (page: number, limit: number) => {
   //模拟请求服务器获取分页数据，请替换成自己的网络请求
   const params = {
     page: page,
-    limit: limit
+    limit: limit,
+    status:pageData.status,
   }
   try {
     if (pageData.currentPageNav === 'albumListInfo') {
       // 专辑列表
-      const res = await albumsService.getAlbumList({ ...params,albumInfoQuery: { ...pageData.albumListInfo.query,status:pageData.status,userId:pageData.userId } })
+      const res = await albumsService.getAlbumList(params)
       //将请求的结果数组传递给z-paging
       zPagingRef.value.complete(res.data.records);
     } else if (pageData.currentPageNav === 'trackInfoListInfo') {
       // 声音列表
-      const res = await albumsService.getTrackList({ ...params,trackInfoQuery: { ...pageData.trackInfoListInfo.query,status:pageData.status,userId:pageData.userId } })
+      const res = await albumsService.getTrackList(params)
       //将请求的结果数组传递给z-paging
       zPagingRef.value.complete(res.data.records);
     }

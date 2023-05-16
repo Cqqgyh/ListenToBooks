@@ -89,7 +89,7 @@ class CateGory extends Service {
    * @return {*}
    */
   getAlbumList(albumInfoPage:WorksInfoPageInterface) {
-    return this.get<PageResponseInterface<AlbumInfoListInterface[]>>({
+    return this.post<PageResponseInterface<AlbumInfoListInterface[]>>({
       url: `/api/album/albumInfo/findUserAlbumPage/${albumInfoPage.page}/${albumInfoPage.limit}`,
       data:albumInfoPage
     })
@@ -132,7 +132,7 @@ class CateGory extends Service {
    * @return {*}
    */
   getTrackList(trackListInfoPage:WorksInfoPageInterface) {
-    return this.get<PageResponseInterface<AlbumInfoListInterface[]>>({
+    return this.post<PageResponseInterface<AlbumInfoListInterface[]>>({
       url: `/api/album/trackInfo/findUserTrackPage/${trackListInfoPage.page}/${trackListInfoPage.limit}`,
       data:trackListInfoPage
     })
