@@ -3,7 +3,7 @@
   <view class="content">
     <z-paging
         ref="zPagingRef"
-      v-model="pageData[pageData.currentPageNav].list"
+      v-model="(pageData as any)[pageData.currentPageNav].list"
       @query="getListInfo"
       show-refresher-update-time
       auto-show-back-to-top>
@@ -22,12 +22,12 @@
               activeLineHeight="4rpx"
               activeLineWidth="40rpx"
               :items="navItems"
-              @change="(index)=>navChange(index,navItems[index].id)"
+              @change="(index:number)=>navChange(index,navItems[index].id)"
             ></gui-switch-navigation>
           </view>
           <!-- 下拉选择-->
           <view class="select-container">
-            <gui-select-menu ref="guiSelectMenuRef" :items="pageData[pageData.currentPageNav].statusList.map(item => item.name)" @select="select"></gui-select-menu>
+            <gui-select-menu ref="guiSelectMenuRef" :items="(pageData as any)[pageData.currentPageNav].statusList.map((item: any) => item.name)" @select="select"></gui-select-menu>
             <view class="gui-text-small select-add" @click="()=>addOrEditItem()">
               <text class="gui-icons gui-block gui-color-gray gui-text">&#xe6c7;</text>
             </view>
@@ -80,7 +80,7 @@ const pageData = reactive({
   // 专辑列表
   albumListInfo: {
     // 专辑列表
-    list: [],
+    list: [] as AlbumInfoListInterface[],
     // 专辑新增修改路由路径
     addEditRoutePath: '/pages/createAlbum/createAlbum',
     // 状态列表
@@ -95,7 +95,7 @@ const pageData = reactive({
   // 声音列表
   trackInfoListInfo: {
     // 专辑列表
-    list: [],
+    list: [] as TrackInfoListInterface[],
     // 声音新增修改路由路径
     addEditRoutePath: '/pages/createTrack/createTrack',
     // 状态列表
