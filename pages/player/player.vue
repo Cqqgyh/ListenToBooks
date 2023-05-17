@@ -39,7 +39,7 @@
 						</view>
 
 						<view class="gui-flex gui-column gui-align-items-center gui-justify-content-center  gui-m-l-50 gui-m-r-50 gui-m-t-30 gui-m-b-30">
-							
+
 							<view class="gui-flex gui-row gui-align-items-center gui-m-t-20">
 								<!-- <image
 									class="gui-small-avatar"
@@ -65,7 +65,7 @@
 								<slider
 									step="1"
 									activeColor="#f86442"
-									block-color="#fff" 
+									block-color="#fff"
 									block-size="10"
 									:min="0"
 									:max="sliders.max"
@@ -146,21 +146,22 @@
 						</view>
 						<view class="gui-flex gui-flex1 gui-justify-content-end"><gui-star></gui-star></view>
 					</view> -->
-					<scroll-view scroll-y :style="{ height: scrollHeight  + 'px' }" class="gui-border-box  gui-p-l-30 gui-p-r-30 gui-bg-white">
-						<CommentList></CommentList>
-					</scroll-view>
+						<CommentList :albumId="albumId" :style="{ height: scrollHeight  + 'px' }"></CommentList>
+<!--					<scroll-view scroll-y :style="{ height: scrollHeight  + 'px' }" class="gui-border-box  gui-p-l-30 gui-p-r-30 gui-bg-white">-->
+<!--						<CommentList :albumId="albumId"></CommentList>-->
+<!--					</scroll-view>-->
 					<view class="">
 
 					</view>
 				</swiper-item>
 			</swiper>
 		</view>
-		<uni-popup 
-			ref="albumPopupRef" 
-			safeArea 
+		<uni-popup
+			ref="albumPopupRef"
+			safeArea
 			type="bottom"
 			backgroundColor="#fff"
-		>	
+		>
 			<view class="header">
 				<view class="title">播放列表</view>
 				<view class="cancel-btn" @click="closeAlbumPopup">取消</view>
@@ -207,7 +208,7 @@
 <script setup lang="ts">
 import graceJS from '@/Grace6/js/grace.js';
 import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
-import { albumsService, commentService } from "../../api"
+import { albumsService } from "../../api"
 import {
   TrackInfoInterface,
 	TrackStaVoInterface,
@@ -217,7 +218,14 @@ import { ref, computed, onMounted, reactive } from 'vue';
 import { onLoad } from "@dcloudio/uni-app"
 import { formatTime } from '../../utils/utils'
 import { usePlayerStore } from "../../stores/player"
+import { CommentInterface } from "../../api/comment/interfaces"
 
+const props = defineProps({
+	albumId: {
+		type: String,
+		required: true,
+	}
+})
 const playerStore = usePlayerStore()
 const systemHeight = ref(0);
 const swiperHeight = computed(() => {
@@ -445,7 +453,7 @@ const initAudio = (ctx: any) => {
 		}
 	})
 	ctx.onCanplay(() => {
-		setTimeout(() => { 
+		setTimeout(() => {
 			console.log('音频长度', bgAudioManager.duration);
 			// 音频长度,时分秒格式
 			const duration = bgAudioManager.duration
@@ -478,7 +486,7 @@ const initAudio = (ctx: any) => {
  */
 const handleComment = () => {
 	console.log(123);
-	
+
 	currentIndex.value = 1
 }
 
@@ -543,7 +551,7 @@ const getAblumAudioList = async (page:number, limit:number) => {
 		page,
 		limit,
 		albumId: audios.albumId
-	} 
+	}
 	const res = await albumsService.getAlbumTrackList(params)
 	// audioList.value = res.data.records
 	zPagingRef.value.complete(res.data.records)
@@ -558,21 +566,6 @@ const getAlbumDetail = async(id: number) => {
 	album.value = res.data
 }
 
-/**
- * @description: 获取评论列表
- * @returns {*}
- */
-const getComment = async () => {
-	const params = {
-		page: 1,
-		limit: 10,
-		albumId: 1
-	}
-	const res = await commentService.getCommentList(params)
-	console.log(res);
-	
-}
-
 onLoad((options: any) => {
 	console.log(options);
 	const { albumId, trackId } = options;
@@ -583,7 +576,6 @@ onLoad((options: any) => {
 	getTrackInfo(audios.trackId)
 	getTrackStatVo()
 	getIsCollect()
-	getComment()
 })
 
 onMounted(() => {

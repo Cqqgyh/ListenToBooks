@@ -23,7 +23,7 @@
                     columns:2,
                   }"
               :add="coverUrlList.length < 1"
-              action="http://139.198.163.91:8500/api/album/fileUpload"
+              :action="UPLOAD_URL.IMAGE"
               @onSuccess="uploadImgSuccess"></cl-upload>
           </uni-forms-item>
           <!--          专辑分类-->
@@ -110,12 +110,12 @@
               <!--          折扣-->
               <uni-forms-item label="专辑折扣" required name="discount">
                 <uni-easyinput type="digit" trim v-model="formData.discount"
-                               placeholder="请输入折扣（必填）" />
+                               placeholder="取值:0.1至9.9, -1:不打折(必填)" />
               </uni-forms-item>
               <!--          优惠价-->
               <uni-forms-item label="会员折扣" required name="vipDiscount">
                 <uni-easyinput type="digit" trim v-model="formData.vipDiscount"
-                               placeholder="请输入会员折扣（必填）" />
+                               placeholder="取值:0.1至9.9, -1:不打折(必填)" />
               </uni-forms-item>
 
             </uni-forms>
@@ -146,7 +146,7 @@ import { albumsService } from "../../api"
 import AttributePopup from "../../components/AttributePopup/AttributePopup.vue"
 import UniForms from "../../uni_modules/uni-forms/components/uni-forms/uni-forms.vue"
 import { emitter } from "../../utils/mitt"
-import { PAY_TYPE } from "../../utils/constant"
+import { PAY_TYPE, UPLOAD_URL } from "../../utils/constant"
 
 /* 响应式数据 */
 const attributePopupRef = ref<InstanceType<typeof AttributePopup>>()

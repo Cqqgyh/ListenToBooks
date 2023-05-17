@@ -3,7 +3,7 @@
   <view class="content">
     <z-paging
         ref="zPagingRef"
-      v-model="pageData[pageData.currentPageNav].list"
+      v-model="(pageData as any)[pageData.currentPageNav].list"
       @query="getListInfo"
       show-refresher-update-time
       auto-show-back-to-top>
@@ -22,12 +22,12 @@
               activeLineHeight="4rpx"
               activeLineWidth="40rpx"
               :items="navItems"
-              @change="(index)=>navChange(index,navItems[index].id)"
+              @change="(index:number)=>navChange(index,navItems[index].id)"
             ></gui-switch-navigation>
           </view>
           <!-- 下拉选择-->
           <view class="select-container">
-            <gui-select-menu ref="guiSelectMenuRef" :items="selectItemNames" @select="select"></gui-select-menu>
+            <gui-select-menu ref="guiSelectMenuRef" :items="(pageData as any)[pageData.currentPageNav].statusList.map((item: any) => item.name)" @select="select"></gui-select-menu>
             <view class="gui-text-small select-add" @click="()=>addOrEditItem()">
               <text class="gui-icons gui-block gui-color-gray gui-text">&#xe6c7;</text>
             </view>
@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, reactive, ref } from "vue"
+import { computed, onUnmounted, reactive, ref } from "vue"
 import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
 import { albumsService } from "../../api"
 import GuiSelectMenu from "../../Grace6/components/gui-select-menu.vue"
@@ -73,59 +73,53 @@ const navItems = ref([
   { name: "有声PPT", id: '3' },
   { name: "咔嚓笔记", id: '4' }
 ])
-// 下拉选择
-const selectItems = ref([
-  { name: "全部", status: '0301' },
-  { name: "进行中", status: '0302' },
-  { name: "已通过", status: '0301' },
-  { name: "未通过", status: '0301' }
-])
-// 计算下拉选择的名字数组集合
-const selectItemNames = ref(selectItems.value.map((item) => item.name))
 // 定义页面数据
 const pageData = reactive({
   currentPageNav:'albumListInfo',
-  status: selectItems.value[0].status, // 状态
   userId: 0,
   // 专辑列表
   albumListInfo: {
     // 专辑列表
-    list: [],
+    list: [] as AlbumInfoListInterface[],
     // 专辑新增修改路由路径
     addEditRoutePath: '/pages/createAlbum/createAlbum',
-    // getListInfo搜索参数
-    query: {
-      albumTitle: "",
-    },
+    // 状态列表
+    statusList: [
+      { name: "全部", status: '' },
+      { name: "已通过", status: '0301' },
+      { name: "未通过", status: '0302' }
+    ],
+    // 状态
+    status: '',
   },
   // 声音列表
   trackInfoListInfo: {
     // 专辑列表
-    list: [],
+    list: [] as TrackInfoListInterface[],
     // 声音新增修改路由路径
     addEditRoutePath: '/pages/createTrack/createTrack',
-    // getListInfo搜索参数
-    query: {
-      trackTitle: "",
-      status: "", // 状态
-      userId: 0
-    },
+    // 状态列表
+    statusList: [
+      { name: "全部", status: '' },
+      { name: "已通过", status: '0501' },
+      { name: "未通过", status: '0502' }
+    ],
+    // 状态
+    status: '',
   }
 })
 
 /* 方法 */
 // 重置下拉列表数据
 const resetSelectItems = () => {
-  selectItems.value = [
-    { name: "全部", status: '0301' },
-    { name: "进行中", status: '0302' },
-    { name: "已通过", status: '0301' },
-    { name: "未通过", status: '0301' }
-  ]
-  // 重新选择为0
-  guiSelectMenuRef.value.setCurrentIndex(0)
-  // 重置状态信息
-  pageData.status = selectItems.value[0].status
+  let index:number = 0
+  if (pageData.currentPageNav === 'albumListInfo'){
+    index = pageData.albumListInfo.statusList.findIndex(item => item.status === pageData.albumListInfo.status)
+  } else if (pageData.currentPageNav === 'trackInfoListInfo'){
+    index = pageData.trackInfoListInfo.statusList.findIndex(item => item.status === pageData.trackInfoListInfo.status)
+  }
+  // 下拉列表重新选择
+  guiSelectMenuRef.value.setCurrentIndex(index !== -1 ? index : 0)
 }
 // 导航切换
 const navChange = (index: number | string,navItemId:string) => {
@@ -143,17 +137,18 @@ const getListInfo = async (page: number, limit: number) => {
   //模拟请求服务器获取分页数据，请替换成自己的网络请求
   const params = {
     page: page,
-    limit: limit
+    limit: limit,
+    status:(pageData as {[key: string]: any})[pageData.currentPageNav].status,
   }
   try {
     if (pageData.currentPageNav === 'albumListInfo') {
       // 专辑列表
-      const res = await albumsService.getAlbumList({ ...params,albumInfoQuery: { ...pageData.albumListInfo.query,status:pageData.status,userId:pageData.userId } })
+      const res = await albumsService.getAlbumList(params)
       //将请求的结果数组传递给z-paging
       zPagingRef.value.complete(res.data.records);
     } else if (pageData.currentPageNav === 'trackInfoListInfo') {
       // 声音列表
-      const res = await albumsService.getTrackList({ ...params,trackInfoQuery: { ...pageData.trackInfoListInfo.query,status:pageData.status,userId:pageData.userId } })
+      const res = await albumsService.getTrackList(params)
       //将请求的结果数组传递给z-paging
       zPagingRef.value.complete(res.data.records);
     }
@@ -182,7 +177,9 @@ const addOrEditItem = (id?:number | string) => {
 // 下拉选择切换
 const select = (index: number) => {
   // 切换请求列表的状态信息
-  pageData.status = selectItems.value[index].status
+  // pageData.status = selectItems.value[index].status
+  // 切换列表的状态信息
+  (pageData as {[key: string]: any})[pageData.currentPageNav].status = (pageData as {[key: string]: any})[pageData.currentPageNav].statusList[index].status
   // 当切换tab或搜索时请调用组件的reload方法
   zPagingRef.value.reload()
 }

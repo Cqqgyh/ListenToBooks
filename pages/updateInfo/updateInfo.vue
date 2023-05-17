@@ -23,7 +23,7 @@
                 columns:2,
               }"
               :add="avatarUrlList.length < 1"
-              action="http://139.198.163.91:8500/api/album/fileUpload"
+              :action="UPLOAD_URL.IMAGE"
               @onSuccess="uploadImgSuccess"></cl-upload>
           </uni-forms-item>
         </uni-forms>
@@ -41,6 +41,7 @@ import { ref, reactive } from "vue"
 import { user } from "../../api"
 import UniForms from "../../uni_modules/uni-forms/components/uni-forms/uni-forms.vue"
 import { useUserStore} from "../../stores/user"
+import { UPLOAD_URL } from "../../utils/constant"
 const userStore = useUserStore()
 
 console.log();
