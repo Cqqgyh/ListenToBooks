@@ -69,7 +69,7 @@
 			</view>
 		</template>
 	</gui-page>
-	<PayTypeSelect ref="payTypeSelectRef"></PayTypeSelect>
+	<PayTypeSelect :alipaySetting="{isShow:false}" ref="payTypeSelectRef"></PayTypeSelect>
 </template>
 
 <script setup lang="ts">

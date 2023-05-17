@@ -49,7 +49,12 @@ export enum WX_ORDER_TYPE_MAP {
   Order = "1301",
   Recharge = "1302",
 }
-
+// 订单状态：0901-未支付 0902-已支付 0903-已取消
+export enum ORDER_STATUS_MAP {
+  Unpaid = "0901",
+  Paid = "0902",
+  Cancelled = "0903",
+}
 // 上传地址
 export const UPLOAD_URL = {
   IMAGE: `${BASE_UPLOAD_URL}/api/album/fileUpload`,

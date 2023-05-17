@@ -26,25 +26,28 @@
  </gui-popup>
 </template>
 <script setup lang="ts">
-import { ref } from "vue"
+import { PropType, ref } from "vue"
 import GuiPopup from "../../Grace6/components/gui-popup.vue"
 import { PAY_WAY_MAP } from "../../utils/constant"
 import { useOrderStore } from "../../stores/order"
 /* 响应式数据 */
 const popupRef = ref<InstanceType<typeof GuiPopup>>()
 const props = defineProps({
- needWeChat:{
-  type: Boolean,
-  default: true
+ wechatSetting:{
+  // payMode 支付模式 0正常订单支付 1通过订单号支付
+  type: Object as PropType<{isShow:boolean,payMode?: 0 | 1}>,
+  default: () => ({ isShow: true, payMode:0})
  },
- needAlipay:{
-  type: Boolean,
-  default: true
+ alipaySetting:{
+  // payMode 支付模式 0正常订单支付 1通过订单号支付
+  type: Object as PropType<{isShow:boolean,payMode?: 0 | 1}>,
+  default: () => ({ isShow: true, payMode:0})
  },
-  needBalance:{
-    type: Boolean,
-    default: true
-  }
+ balanceSetting:{
+  // payMode 支付模式 0正常订单支付 1通过订单号支付
+  type: Object as PropType<{isShow:boolean,payMode?: 0 | 1}>,
+  default: () => ({ isShow: true, payMode:0})
+ },
 })
 const orderStore = useOrderStore()
 const bottomData = ref([
@@ -52,19 +55,22 @@ const bottomData = ref([
   text: '微信',
   icon: '../../static/weixin.png',
   payWay: PAY_WAY_MAP.WeChat,
-  isShow: props.needWeChat
+  isShow: props.wechatSetting?.isShow,
+  payMode: props.wechatSetting?.payMode
  },
  {
   text: '支付宝',
   icon: '../../static/zhifubao.png',
   payWay: PAY_WAY_MAP.Alipay,
-  isShow: props.needAlipay
+  isShow: props.alipaySetting?.isShow,
+  payMode: props.alipaySetting?.payMode
  },
  {
   text: '余额',
   icon: '../../static/logo.png',
   payWay: PAY_WAY_MAP.Balance,
-  isShow: props.needBalance
+  isShow: props.balanceSetting?.isShow,
+  payMode: props.balanceSetting?.payMode
  }
 ])
 // 分类导航
@@ -84,7 +90,12 @@ const handleSelect = (item: any) => {
   // 设置订单支付方式
   orderStore.setOrderPayWay(item.payWay)
   // 调起支付
+  // 判断支付模式
+ if (item.payMode === 0 || item.payMode === undefined){
   orderStore.submitOrder()
+ } else if (item.payMode === 1){
+  orderStore.submitOrderForOrderNumber()
+ }
   close()
 }
 // 对父组件暴露出去

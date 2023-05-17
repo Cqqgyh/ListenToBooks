@@ -26,6 +26,10 @@ export const useOrderStore = defineStore("order", {
     setSubmitOrderInfo(params: OrderInterface) {
       this.submitOrderInfo = params
     },
+    // 设置订单号
+    setOrderNo(orderNo: string | number) {
+      this.orderNo = orderNo
+    },
     // 提交订单所需信息
     async getSubmitOrderInfo() {
       try {
@@ -62,6 +66,19 @@ export const useOrderStore = defineStore("order", {
         console.log(error)
       }
     },
+    // 纯订单号提交订单
+    async submitOrderForOrderNumber(orderNo?: string | number ) {
+      try {
+        if (this.submitOrderInfo.payWay === PAY_WAY_MAP.WeChat) {
+          // 微信支付
+          await this.wechatPay(orderNo || this.orderNo)
+          // 查询支付状态
+          await this.queryOrderPayStatus(orderNo || this.orderNo)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
     // 微信支付逻辑
     async wechatPay(orderNo: string | number, paymentType: string = WX_ORDER_TYPE_MAP.Order ) {
       // 调用后端微信下单接口
@@ -72,7 +89,6 @@ export const useOrderStore = defineStore("order", {
       }catch (error) {
         console.log(error)
       }
-
 
     },
     // 微信官方支付接口
