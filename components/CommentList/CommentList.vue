@@ -14,7 +14,7 @@
               :placeholder="commentEmptyInfo.replyRelevantInformation.replyPlaceholder">
             </uni-easyinput>
             <text @click.stop="handleReplyComment(commentEmptyInfo as CommentInterface)"
-                  class="gui-comments-replay-btn gui-block gui-bg-gray gui-dark-bg-level-2 gui-primary-text">回复
+                  class="gui-comments-replay-btn gui-block gui-bg-gray gui-dark-bg-level-2 gui-primary-text">提交
             </text>
           </view>
         </view>

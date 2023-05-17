@@ -51,7 +51,7 @@
 							{{ albumDetailInfo.albumStatVo.commentStatNum || 0}}
 							<text class="gui-text-small gui-text-brown">万</text>
 						</text>
-						<text class="gui-text-small gui-text-brown">月票</text>
+						<text class="gui-text-small gui-text-brown">评论数</text>
 					</view>
 					<view class="gui-flex gui-column">
 						<text>
