@@ -28,7 +28,7 @@
                            placeholder="请输入专辑名称（必填）" />
           </uni-forms-item>
           <!--          声音封面-->
-          <uni-forms-item label="声音封面" required name="coverUrl">
+          <uni-forms-item label="声音封面" name="coverUrl">
             <cl-upload
               class="gui-flex gui-space-between"
               v-model="coverUrlList"
@@ -123,14 +123,14 @@ const formDataRule = {
       }
     ]
   },
-  coverUrl: {
-    rules: [
-      {
-        required: true,
-        errorMessage: "请上传封面"
-      }
-    ]
-  },
+  // coverUrl: {
+  //   rules: [
+  //     {
+  //       required: true,
+  //       errorMessage: "请上传封面"
+  //     }
+  //   ]
+  // },
   albumId: {
     rules: [
       {
@@ -183,7 +183,7 @@ const getTrackInfo = async (id:number) => {
         formData[key] = res.data[key]
       }
     }
-    coverUrlList.push(res.data.coverUrl)
+    res.data.coverUrl && coverUrlList.push(res.data.coverUrl)
     mediaFileList.push(res.data.mediaUrl)
     console.log('mediaFileList.push',mediaFileList)
   } catch (error) {

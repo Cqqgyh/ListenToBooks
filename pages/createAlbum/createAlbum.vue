@@ -110,12 +110,12 @@
               <!--          折扣-->
               <uni-forms-item label="专辑折扣" required name="discount">
                 <uni-easyinput type="digit" trim v-model="formData.discount"
-                               placeholder="请输入折扣（必填）" />
+                               placeholder="取值:0.1至9.9, -1:不打折(必填)" />
               </uni-forms-item>
               <!--          优惠价-->
               <uni-forms-item label="会员折扣" required name="vipDiscount">
                 <uni-easyinput type="digit" trim v-model="formData.vipDiscount"
-                               placeholder="请输入会员折扣（必填）" />
+                               placeholder="取值:0.1至9.9, -1:不打折(必填)" />
               </uni-forms-item>
 
             </uni-forms>
