@@ -151,13 +151,13 @@
 							<!-- 订阅 -->
 							<view
 								type="default"
-								v-if="albumDetailInfo.albumInfo.isFinished === '1'"
+								v-if="albumDetailInfo.albumInfo.isFinished === '0'"
 								class="gui-button gui-bg-black-opacity6 gui-noborder gui-flex1 gui-m-l-20 gui-m-r-20 gui-flex gui-justify-content-center"
 								@click="handleSubscribe"
 							>
 								<text v-if="isSubscribe" class="gui-icons gui-color-white gui-block gui-m-r-10">&#xe78a;</text>
 								<text v-else class="gui-icons gui-color-white gui-block gui-m-r-10">&#xe625;</text>
-								<text class="gui-icons gui-color-white gui-button-text">{{ isSubscribe ? '已订阅' : '订阅' }}</text>
+								<text class="gui-icons gui-color-white gui-button-text">{{ isSubscribe ? '取消订阅' : '订阅' }}</text>
 							</view>
 						</view>
 					</template>
@@ -477,10 +477,10 @@ const getTrackVipSettingList = async (trackId:number) => {
 	}
 }
 // 订阅
-const handleSubscribe = () => {
+const handleSubscribe = async () => {
 	try {
-		albumsService.subscribeAlbum(albumDetailInfo.value.albumInfo.id)
-		const res: any = albumsService.isSubscribeAlbum(albumDetailInfo.value.albumInfo.id)
+		const res: any =await albumsService.subscribeAlbum(albumDetailInfo.value.albumInfo.id)
+		console.log('res.data', res.data)
 		isSubscribe.value = res.data
 		uni.showToast({
 			title: res.data ? '订阅成功' : '取消订阅成功',
