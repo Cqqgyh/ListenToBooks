@@ -245,5 +245,16 @@ getTrackStaVo(trackId: number) {
       url: `/api/search/albumInfo/findRankingList/${category1Id}/${dimension}`,
     })
   }
+
+  /**
+   * @description: 获取最近的一次播放历史
+   * @returns {*}
+   */
+  getLatelyTrack() {
+    return this.get({
+      url: '/api/user/userListenProcess/getLatelyTrack'
+    })
+  }
+
 }
 export const albumsService = new CateGory()
