@@ -16,11 +16,11 @@
 					  		:src="item?.itemUrl"
 					  	></image>
 					  	<view class="gui-flex gui-column gui-flex1 gui-m-l-20">
-					  		<text class="gui-block gui-ellipsis-line2 gui-h5">{{ ite?.itemName }} ￥{{ item?.itemPrice }}</text>
+					  		<text class="gui-block gui-ellipsis-line2 gui-h5">{{ item?.itemName }} ￥{{ item?.itemPrice }}</text>
 					  	</view>
 					  </view>
 					</scroll-view>
-					
+
 					<view class="gui-flex gui-space-between gui-align-items-end gui-m-t-10">
 						<text>商品总价</text>
 						<text class="gui-block gui-color-gray">
@@ -35,12 +35,13 @@
 						</text>
 					</view>
 					<view class="gui-border-b gui-m-t-20 gui-m-b-40"></view>
-					
+
 					<view class="gui-flex gui-space-between gui-align-items-end gui-m-t-10">
-						<text>订单编号</text>
-						<text class="gui-block gui-color-gray">
+						<view>订单号</view>
+						<br>
+						<view class="gui-block gui-color-gray">
 							<text>{{ orderInfo?.orderNo }}</text>
-						</text>
+						</view>
 					</view>
 					<view class="gui-border-b gui-m-t-20 gui-m-b-20"></view>
 					<view class="gui-flex gui-space-between gui-align-items-end gui-m-t-10">
@@ -49,22 +50,47 @@
 							<text>{{ orderInfo?.payWayName }}</text>
 						</text>
 					</view>
+					<view style="height:40rpx;"></view>
+					<view v-if="orderInfo?.orderStatus === ORDER_STATUS_MAP.Unpaid" class="pay-btn-container">
+						<button class="gui-bg-red gui-block gui-color-white" @click="handleCheckout">立即结算</button>
+					</view>
 				</view>
+
 			</view>
 		</template>
 	</gui-page>
+	<PayTypeSelect
+		ref="payTypeSelectRef"
+		:wechatSetting="{isShow:true,payMode:1}"
+		:alipaySetting="{isShow:false}"
+		:balanceSetting="{isShow:false}"></PayTypeSelect>
 </template>
 <script setup lang="ts">
 
 import { order } from "../../api"
 import { onLoad } from '@dcloudio/uni-app';
 import { ref } from "vue";
-
+import PayTypeSelect from "../../components/PayTypeSelect/PayTypeSelect.vue"
+import { ORDER_STATUS_MAP, PAY_WAY_MAP } from "../../utils/constant"
+import { useOrderStore } from "../../stores/order"
+import { OrderInterface } from "../../api/order/interfaces"
+const payTypeSelectRef= ref<InstanceType<typeof PayTypeSelect>>()
 const orderInfo = ref()
+const orderStore = useOrderStore()
+const handleCheckout = () => {
+	payTypeSelectRef.value.open()
+}
+
 onLoad(async (options: {orderNo: string}) => {
-	const { orderNo } = options 
+	const { orderNo } = options
 	const res  = await order.queryOrderInfo(orderNo)
 	orderInfo.value = res.data
+	// 未支付状态 构建支付参数（通过订单号支付）
+	if (orderInfo.value?.orderStatus === ORDER_STATUS_MAP.Unpaid){
+		// 设置订单号
+		orderStore.setOrderNo(orderNo)
+	}
+
 })
 
 </script>
@@ -81,5 +107,8 @@ onLoad(async (options: {orderNo: string}) => {
 	width: 150rpx;
 	height: 150rpx;
 	border-radius: 30rpx;
+}
+.pay-btn-container{
+	margin: 40rpx 0;
 }
 </style>
