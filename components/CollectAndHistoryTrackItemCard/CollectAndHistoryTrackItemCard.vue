@@ -103,7 +103,7 @@ const handleCancel = async (albumId: number | string) => {
 // 跳转
 const handleJump = () => {
  uni.navigateTo({
-  url: props.jumpRoute
+  url: `${props.jumpRoute}?albumId=${props.data.albumId}&trackId=${props.data.trackId}`
  })
 }
 // 打开弹窗

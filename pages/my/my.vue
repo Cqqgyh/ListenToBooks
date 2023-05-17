@@ -170,7 +170,7 @@ const pageData = reactive({
     // 声音列表
     list: [] as CollectTrackInterface[],
     // 跳转路径
-    jumpRoute: '/pages/createAlbum/createAlbum',
+    jumpRoute: '/pages/player/player',
     // 弹出框配置
     popSetting:{
       type: "error",
@@ -185,7 +185,7 @@ const pageData = reactive({
     // 声音列表
     list: [] as HistoryTrackInterface[],
     // 跳转路径
-    jumpRoute: '/pages/createAlbum/createAlbum',
+    jumpRoute: '/pages/player/player',
     popSetting:{
       type: "error",
       title: "注意",

@@ -504,8 +504,7 @@ const getIsCollect = async () => {
  * @returns {*}
  */
 const handleCollect = async () => {
-	await albumsService.collectTrack(audios.trackId)
-	const res: any = await albumsService.isCollectTrack(audios.trackId)
+	const res: any = await albumsService.collectTrack(audios.trackId)
 	isCollect.value = res.data
 	uni.showToast({
 		title: !res.data ? '取消收藏成功' : '收藏成功',
