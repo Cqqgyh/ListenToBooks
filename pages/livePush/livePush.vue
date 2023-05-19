@@ -5,6 +5,7 @@
 <script setup lang="ts">
 // #ifdef H5
 import  "./TXLivePusher.js"
+// #endif
 import { onMounted, ref } from "vue"
 let pushUrl = ref('webrtc://166120.livepush.myqcloud.com/live/atguigu05?txSecret=e0ca5c6c1003dab3e2791a95910e5924&txTime=64682701')
 
@@ -12,7 +13,7 @@ let pushUrl = ref('webrtc://166120.livepush.myqcloud.com/live/atguigu05?txSecret
 function initPush() {
   console.log('加载完成',TXLivePusher)
   // 这里是成功加载并执行完成后的代码
-  TXLivePusher.checkSupport().then(function(data) {
+  TXLivePusher.checkSupport().then(function(data:any) {
     // 是否支持WebRTC
     if (data.isWebRTCSupported) {
       console.log('WebRTC Support');
@@ -30,7 +31,7 @@ function initPush() {
 
   var livePusher = new TXLivePusher();
   livePusher.setRenderView('id_local_video');
-  document.getElementById('id_local_video').getElementsByTagName('video')[0].muted = true;
+  document.getElementById('id_local_video')!.getElementsByTagName('video')![0].muted = true
 
   // 设置视频质量
   livePusher.setVideoQuality('720p');
@@ -51,7 +52,7 @@ function initPush() {
     .then(function () {
       livePusher.startPush(pushUrl.value);
     })
-    .catch(function (error) {
+    .catch(function (error:any) {
       console.log('打开摄像头失败: '+ error.toString());
     });
 
@@ -64,7 +65,9 @@ function initPush() {
 }
 
 onMounted(() => {
+  // #ifdef H5
   initPush()
+  // #endif
 })
 // #endif
 </script>
