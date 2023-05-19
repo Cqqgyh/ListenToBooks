@@ -256,3 +256,9 @@ export interface TrackStaVoInterface {
   praiseStatNum: number;
   commentStatNum: number;
 }
+
+export interface ProcessParams {
+  albumId: number;
+  trackId: number;
+  breakSecond: number;
+}
