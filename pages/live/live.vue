@@ -1,11 +1,84 @@
 <template>
-  <view>尽情期待</view>
+  <gui-page :headerClass="['gui-bg-white']" :customFooter="true">
+
+    <template v-slot:gBody>
+      <view class="gui-margin-top gui-padding-x gui-flex gui-row gui-wrap">
+        <view
+          class="gui-product"
+          hover-class="gui-tap"
+          v-for="(item, index) in liveList"
+          :key="index"
+          @tap="goToLivePlay(item)">
+          <view class="gui-relative">
+            <text class="gui-absolute-lt gui-bg-red gui-p-l-5 gui-p-r-5 gui-text-small gui-color-white">{{ '测试' }}</text>
+            <view class="gui-flex gui-absolute-lb gui-bg-black-opacity7 gui-p-l-5 gui-p-r-5 gui-text-small gui-color-white gui-p-t-5 gui-p-b-5 gui-p-l-20 gui-p-r-20">
+              <text class="gui-icons gui-block gui-color-drak gui-m-r-5 gui-p-t-5">&#xe6fe;</text>
+              <text>{{ item.viewCount }}</text>
+            </view>
+            <gui-image :src="item.coverUrl" :width="220" :height="220"></gui-image>
+          </view>
+          <view class="gui-product-lines">
+            <text class="gui-product-name gui-primary-text">{{ item.liveTitle }}</text>
+          </view>
+          <view style="height: 30rpx"></view>
+        </view>
+      </view>
+    </template>
+
+    <template v-slot:gFooter>
+      <!-- 普通模式 -->
+      <BottomNav></BottomNav>
+    </template>
+  </gui-page>
+
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from "vue"
+import { albumsService, liveService } from "../../api"
+import { LiveInterfaceRes } from "../../api/live/interfaces"
+import SubscribeItemCard from "../../components/SubscribeItemCard/SubscribeItemCard.vue"
+import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
 
+const liveList = ref([] as LiveInterfaceRes[])
+// 获取直播列表
+const getLiveList = async () => {
+  try {
+    const res = await liveService.getLiveList()
+    console.log('res', res)
+    liveList.value = res.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+// 去直播间
+const goToLivePlay = (item: LiveInterfaceRes) => {
+  console.log('item', item)
+  uni.navigateTo({
+    url: `/pages/livePlay/livePlay?id=${item.id}`,
+  })
+}
+onMounted(() => {
+  getLiveList()
+})
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.gui-product {
+  width: 220rpx;
+  overflow: hidden;
+  margin-right: 10rpx;
+}
+.gui-product-lines {
+  margin-top: 10rpx;
+}
+.gui-product-name {
+  font-size: 28rpx;
+  line-height: 32rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* * 多行文本溢出... */
+  overflow: hidden;
+}
 
 </style>

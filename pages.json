@@ -14,6 +14,18 @@
 			}
 		},
 		{
+			"path": "pages/livePush/livePush",
+			"style": {
+				"navigationBarTitleText": "直播推流"
+			}
+		},
+		{
+			"path": "pages/livePlay/livePlay",
+			"style": {
+				"navigationBarTitleText": "直播播放"
+			}
+		},
+		{
 			"path": "pages/player/player",
 			"style": {
 				"navigationBarTitleText": "播放器",
