@@ -63,22 +63,21 @@ import { computed, onMounted, ref, watch,watchEffect } from "vue"
 import { courseService } from "../../api"
 import { recursionTree } from "../../utils/utils"
 import { CategoryTreeInterface, CategoryTreePropsInterface, ChannelInterface } from "../../api/category/interfaces"
-let img = 'https://images.unsplash.com/photo-1661956602868-6ae368943878?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2MHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=90';
 const swiperItems = ref([
 	{
-		img: img,
+		img: '../../static/carousel/a.png',
 		url: '',
 		title: '测试标题 001',
 		opentype: 'navigate'
 	},
 	{
-		img: img,
+		img: '../../static/carousel/b.png',
 		url: '',
 		title: '测试标题 002',
 		opentype: 'navigate'
 	},
 	{
-		img: img,
+		img: '../../static/carousel/c.png',
 		url: '',
 		title: '测试标题很长很长很长很长很长很长很长很长很长很长很长很长很长很长',
 		opentype: 'navigate'
