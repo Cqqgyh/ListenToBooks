@@ -146,7 +146,7 @@
 						</view>
 						<view class="gui-flex gui-flex1 gui-justify-content-end"><gui-star></gui-star></view>
 					</view> -->
-						<CommentList :albumId="albumId" :style="{ height: scrollHeight  + 'px' }"></CommentList>
+						<CommentList :albumId="audios.albumId" :style="{ height: scrollHeight  + 'px' }"></CommentList>
 <!--					<scroll-view scroll-y :style="{ height: scrollHeight  + 'px' }" class="gui-border-box  gui-p-l-30 gui-p-r-30 gui-bg-white">-->
 <!--						<CommentList :albumId="albumId"></CommentList>-->
 <!--					</scroll-view>-->
@@ -257,7 +257,9 @@ const audios = reactive({
 	/** 正在播放的音频id */
 	trackId: 0,
 	/** 专辑id */
-	albumId: 0
+	albumId: 0,
+	/** 跳转进度 */
+	breakSecond: 0
 })
 
 /** 声音列表 */
@@ -297,7 +299,6 @@ const closeAlbumPopup = () => {
  * @returns {*}
  */
 const sliderChange = (e) => {
-	console.log(e);
 	// 拖动slider的值
 	const position = e.detail.value
 	seekAudio(position)
@@ -453,6 +454,7 @@ const initAudio = (ctx: any) => {
 		}
 	})
 	ctx.onCanplay(() => {
+		
 		setTimeout(() => {
 			console.log('音频长度', bgAudioManager.duration);
 			// 音频长度,时分秒格式
@@ -465,6 +467,18 @@ const initAudio = (ctx: any) => {
 	ctx.onPlay(() => {
 		audios.playStatus = true
 		playerStore.changePlayStatus(true)
+		// 跳转进度
+		seekAudio(audios.breakSecond)
+		// 上报播放进度
+		setInterval(async() => {
+			// 每10秒请求一次接口
+			const params = {
+				albumId: audios.albumId,
+				trackId: audios.trackId,
+				breakSecond: sliders.progressTime
+			}
+			await albumsService.updateListenProcess(params)
+		}, 10000); // 定时器每10秒触发一次
 	})
 	ctx.onPause(() => {
 		audios.playStatus = false
@@ -485,8 +499,6 @@ const initAudio = (ctx: any) => {
  * @returns {*}
  */
 const handleComment = () => {
-	console.log(123);
-
 	currentIndex.value = 1
 }
 
@@ -565,15 +577,28 @@ const getAlbumDetail = async(id: number) => {
 	album.value = res.data
 }
 
-onLoad((options: any) => {
-	console.log(options);
-	const { albumId, trackId } = options;
-	audios.trackId = trackId
-	audios.albumId = albumId
-	playerStore.setId(options)
-	getAlbumDetail(albumId)
+onLoad(async (options: any) => {
+	console.log('options', options);
+	if (JSON.stringify(options) !== "{}") {
+		audios.trackId = options.trackId
+		audios.albumId = options.albumId
+	} else {
+		// 如果不是从单集点击进来的，请求接口，播放最近播放的一次历史
+		const { data } = await albumsService.getLatelyTrack()
+		audios.trackId = data.trackId
+		audios.albumId = data.albumId
+		audios.breakSecond = data.breakSecond
+	}
+	
+	// 获取专辑详情
+	getAlbumDetail(audios.albumId)
+	// 获取音频详情
 	getTrackInfo(audios.trackId)
+	// 获取声音列表
+	getAblumAudioList(1, 10)
+	// 获取音频统计信息
 	getTrackStatVo()
+	// 是否收藏
 	getIsCollect()
 })
 

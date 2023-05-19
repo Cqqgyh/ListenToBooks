@@ -12,6 +12,7 @@ import {
   TrackInfoInterface,
   TrackInterface,
   WorksInfoPageInterface,
+  ProcessParams
 } from "../albums/interfaces"
 
 class CateGory extends Service {
@@ -253,6 +254,17 @@ getTrackStaVo(trackId: number) {
   getLatelyTrack() {
     return this.get({
       url: '/api/user/userListenProcess/getLatelyTrack'
+    })
+  }
+
+  /**
+   * @description: 更新播放进度
+   * @returns {*}
+   */
+  updateListenProcess(data: ProcessParams) {
+    return this.post({
+      url: '/api/user/userListenProcess/updateListenProcess',
+      data
     })
   }
 

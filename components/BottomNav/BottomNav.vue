@@ -64,7 +64,7 @@ const navListInfo = ref([
  },
  {
   index: 2,
-  path: `/pages/player/player?albumId=${playerStore.albumId}&trackId=${playerStore.trackId}`
+  path: `/pages/player/player`
  },
  {
   index: 3,
