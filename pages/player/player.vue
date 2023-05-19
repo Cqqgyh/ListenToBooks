@@ -577,6 +577,15 @@ const getAlbumDetail = async(id: number) => {
 	album.value = res.data
 }
 
+/**
+ * @description: 获取专辑详情信息
+ * @returns {*}
+ */
+const getBreakSecond = async() => {
+	const res: any = await albumsService.getTrackBreakSecond(audios.trackId)
+	audios.breakSecond = res.data
+}
+
 onLoad(async (options: any) => {
 	console.log('options', options);
 	if (JSON.stringify(options) !== "{}") {
@@ -587,9 +596,9 @@ onLoad(async (options: any) => {
 		const { data } = await albumsService.getLatelyTrack()
 		audios.trackId = data.trackId
 		audios.albumId = data.albumId
-		audios.breakSecond = data.breakSecond
 	}
-	
+	// 获取上次播放的声音
+	getBreakSecond()
 	// 获取专辑详情
 	getAlbumDetail(audios.albumId)
 	// 获取音频详情

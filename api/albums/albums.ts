@@ -268,5 +268,15 @@ getTrackStaVo(trackId: number) {
     })
   }
 
+  /**
+   * @description: 获取声音的上次跳出时间
+   * @returns {*}
+   */
+  getTrackBreakSecond(trackId: number) {
+    return this.get({
+      url: `/api/user/userListenProcess/getTrackBreakSecond/${trackId}`,
+    })
+  }
+
 }
 export const albumsService = new CateGory()
