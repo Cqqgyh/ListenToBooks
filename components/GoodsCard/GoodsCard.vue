@@ -6,7 +6,7 @@
       <text class="gui-m-r-10">{{ goodsData.baseCategory3.name }}</text>
     </view>
     <!--   查看全部-->
-    <view class="gui-dark-bg-level-3 gui-color-gray gui-flex">
+    <view @click="handleViewAll" class="gui-dark-bg-level-3 gui-color-gray gui-flex">
       <text class="gui-text-small">查看全部</text>
       <text class="gui-icons gui-block gui-color-drak">&#xe601;</text>
     </view>
@@ -70,6 +70,14 @@ const gotoGoodInfo = (index: number, item: GoodsInterface) => {
   // 跳转到专辑详情页
   uni.navigateTo({
     url: `/pages/detail/detail?id=${item.id}`,
+  })
+}
+// 查看全部
+const handleViewAll = () => {
+  console.log("查看全部")
+  // 去往分类搜索搜索
+  uni.navigateTo({
+    url: `/pages/search/search?category1Id=${props.goodsData.list[0].category1Id}&category2Id=${props.goodsData.list[0].category2Id}&category3Id=${props.goodsData.list[0].category3Id}&pageTitle=${props.goodsData.baseCategory3.name}`
   })
 }
 
