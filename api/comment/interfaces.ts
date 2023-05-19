@@ -3,6 +3,7 @@ export interface ICommentParams {
   page: number
   limit: number
   albumId: number | string
+  trackId: number | string
 }
 // 专辑评论接口
 export interface CommentInterface  {

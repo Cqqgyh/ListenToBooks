@@ -10,7 +10,7 @@ class Comment extends Service {
    */
   getCommentList(params: ICommentParams) {
     return this.get<PageResponseInterface<CommentInterface[]>>({
-      url: `/api/comment/findCommentPage/${params.albumId}/${params.page}/${params.limit}`
+      url: `/api/comment/findCommentPage/${params.albumId}/${params.trackId}/${params.page}/${params.limit}`
     })
   }
 
@@ -31,15 +31,17 @@ class Comment extends Service {
    * @param replyCommentId
    * @param content
    * @param albumCommentScore
+   * @param trackId
    */
-  addComment(albumId: number | string, replyCommentId: string, content: string,albumCommentScore: number = 10) {
+  addComment(albumId: number | string,trackId: string, replyCommentId: string, content: string,albumCommentScore: number = 10) {
     return this.post({
       url: `/api/comment/save`,
       data: {
         albumId,
         replyCommentId,
         content,
-        albumCommentScore
+        albumCommentScore,
+        trackId
       }
     })
   }

@@ -82,6 +82,10 @@ const props = defineProps({
   albumId: {
     type: String,
     required: true
+  },
+  trackId: {
+    type: String,
+    required: true
   }
 })
 // 专辑评论列表
@@ -102,7 +106,8 @@ const getComment = async (pageNo: number, pageSize: number) => {
   const params = {
     page: pageNo,
     limit: pageSize,
-    albumId: props.albumId
+    albumId: props.albumId,
+    trackId: props.trackId
   }
   try { // 获取评论列表
     const res = await commentService.getCommentList(params)
@@ -155,10 +160,11 @@ const handleReplyComment = async (item: CommentInterface) => {
   console.log("item", item)
   const params = {
     albumId: item.albumId || props.albumId,
+    trackId: props.trackId,
     commentId: item.replyRelevantInformation.replyCommentId || item.id,
     content: item.replyRelevantInformation.replyContent
   }
-  const res = await commentService.addComment(params.albumId, params.commentId, params.content)
+  const res = await commentService.addComment(params.albumId,params.trackId, params.commentId, params.content)
   console.log(res)
   item.replyRelevantInformation.replyContent = ""
   item.replyRelevantInformation.replyCommentId = "0"
