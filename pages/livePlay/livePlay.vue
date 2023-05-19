@@ -1,12 +1,14 @@
 <template>
   <view class="content">
     <z-paging ref="zPagingRef" v-model="dataList" use-page-scroll use-chat-record-mode @query="queryList">
+      <!--      #ifdef H5-->
       <template #top>
         <view id="videoContain">
           <!--          <video id="player-container-id" width="100vw" height="270" preload="auto" playsinline webkit-playsinline>-->
           <!--          </video>-->
         </view>
       </template>
+      <!-- #endif -->
       <!-- 聊天item -->
       <view :id="`z-paging-${index}`" v-for="(item,index) in dataList" :key="index">
         <chatItem :item="item"></chatItem>
@@ -27,13 +29,14 @@ import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue
 import ChatInputBar from "../../components/chatInputBar/chatInputBar.vue"
 import { LiveInterfaceRes } from "../../api/live/interfaces"
 import { liveService } from "../../api"
+
 const zPagingRef = ref<InstanceType<typeof ZPaging>>()
 
 const props = defineProps({
   id: {
     type: String,
-    default: "1",
-  },
+    default: "1"
+  }
 })
 const liveInfo = ref({} as LiveInterfaceRes)
 //v-model绑定的这个变量不要在分页请求结束中自己赋值！！！
@@ -201,7 +204,7 @@ const doSend = (msg: string) => {
 const getLiveInfo = async () => {
   try {
     const res = await liveService.getLiveInfo(props.id)
-    console.log('res', res)
+    console.log("res", res)
     liveInfo.value = res.data
   } catch (error) {
     console.log(error)
@@ -210,34 +213,34 @@ const getLiveInfo = async () => {
 
 // cdn 引入
 function loadResources() {
-  return new Promise(function(resolve:any, reject:any) {
+  return new Promise(function(resolve: any, reject: any) {
     // 创建 link 元素
-    var linkTag = document.createElement('link');
-    linkTag.href = 'https://web.sdk.qcloud.com/player/tcplayer/release/v4.8.0/tcplayer.min.css';
-    linkTag.rel = 'stylesheet';
+    var linkTag = document.createElement("link")
+    linkTag.href = "https://web.sdk.qcloud.com/player/tcplayer/release/v4.8.0/tcplayer.min.css"
+    linkTag.rel = "stylesheet"
 
     // 创建 script 元素
-    var scriptTag = document.createElement('script');
-    scriptTag.src = 'https://web.sdk.qcloud.com/player/tcplayer/release/v4.8.0/tcplayer.v4.8.0.min.js';
+    var scriptTag = document.createElement("script")
+    scriptTag.src = "https://web.sdk.qcloud.com/player/tcplayer/release/v4.8.0/tcplayer.v4.8.0.min.js"
 
     // 监听 link 标签和 script 标签的 onload 和 onerror 事件
-    var loadedCount = 0;
-    var checkLoaded = function () {
+    var loadedCount = 0
+    var checkLoaded = function() {
       if (++loadedCount === 2) {
-        resolve();
+        resolve()
       }
-    };
-    linkTag.onload = checkLoaded;
-    linkTag.onerror = reject;
-    scriptTag.onload = checkLoaded;
-    scriptTag.onerror = reject;
+    }
+    linkTag.onload = checkLoaded
+    linkTag.onerror = reject
+    scriptTag.onload = checkLoaded
+    scriptTag.onerror = reject
 
     // 插入 link 元素到 head 标签中
-    document.head.appendChild(linkTag);
+    document.head.appendChild(linkTag)
 
     // 插入 script 元素到 body 标签底部
-    document.body.appendChild(scriptTag);
-  });
+    document.body.appendChild(scriptTag)
+  })
 }
 
 
@@ -255,7 +258,7 @@ const tcpalyerInit = () => {
     autoplay: true,
     "webkit-playsinline": true,
     width: 300,
-    height: 150,
+    height: 150
   }) // player-container-id 为播放器容器 ID，必须与 html 中一致
   player.src(liveInfo.value.playUrl || "webrtc://txplay.atguigu.cn/live/atguigu05") // url 播放地址
 
@@ -263,14 +266,19 @@ const tcpalyerInit = () => {
 /** 生命周期 **/
 onMounted(() => {
   // 在资源加载完成后执行一些操作
-  loadResources().then(async ()=> {
-    console.log('All resources are loaded!');
+  // #ifdef H5
+  loadResources().then(async () => {
+    console.log("All resources are loaded!")
     // 编写您需要的函数，此时所有资源已被加载并准备好使用
-   await getLiveInfo()
+    await getLiveInfo()
     tcpalyerInit()
   }).catch(function(error) {
-    console.error('Failed to load resources:', error);
-  });
+    console.error("Failed to load resources:", error)
+  })
+  // #endif
+  // #ifdef MP-WEIXIN
+  getLiveInfo()
+  // #endif
 
 })
 onPageScroll(async (e: any) => {
@@ -287,7 +295,7 @@ onPageScroll(async (e: any) => {
     align-items: center;
     justify-content: center;
     background-color: #000;
-    //overflow: hidden;
+//overflow: hidden;
 }
 </style>
 
