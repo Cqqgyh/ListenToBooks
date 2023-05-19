@@ -133,7 +133,7 @@
 							<!-- 评论 -->
 							<view class="gui-flex gui-column gui-align-items-center" @click="handleComment">
 								<text class="gui-icons gui-h3 gui-m-b-5">&#xe6b8;</text>
-								<text class="gui-text-small">{{ trackStaVo?.albumCommentStatNum || 0 }}</text>
+								<text class="gui-text-small">{{ trackStaVo?.commentStatNum || 0 }}</text>
 							</view>
 						</view>
 					</view>
@@ -146,7 +146,7 @@
 						</view>
 						<view class="gui-flex gui-flex1 gui-justify-content-end"><gui-star></gui-star></view>
 					</view> -->
-						<CommentList :albumId="audios.albumId" :style="{ height: scrollHeight  + 'px' }"></CommentList>
+						<CommentList :albumId="albumId" :trackId="audios.trackId" :style="{ height: scrollHeight  + 'px' }"></CommentList>
 <!--					<scroll-view scroll-y :style="{ height: scrollHeight  + 'px' }" class="gui-border-box  gui-p-l-30 gui-p-r-30 gui-bg-white">-->
 <!--						<CommentList :albumId="albumId"></CommentList>-->
 <!--					</scroll-view>-->
