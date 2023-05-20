@@ -5,3 +5,4 @@ declare module '*.vue' {
   }
 
 declare const TXLivePusher: any;
+declare const uni: any;

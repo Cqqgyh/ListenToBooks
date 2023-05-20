@@ -9,7 +9,7 @@ import  "./TXLivePusher.js"
 import { onMounted, ref } from "vue"
 let pushUrl = ref('webrtc://166120.livepush.myqcloud.com/live/atguigu05?txSecret=e0ca5c6c1003dab3e2791a95910e5924&txTime=64682701')
 
-
+// #ifdef H5
 function initPush() {
   console.log('加载完成',TXLivePusher)
   // 这里是成功加载并执行完成后的代码
@@ -63,13 +63,12 @@ function initPush() {
       livePusher.startPush(pushUrl.value);
     });
 }
-
+// #endif
 onMounted(() => {
   // #ifdef H5
   initPush()
   // #endif
 })
-// #endif
 </script>
 
 <style scoped>
