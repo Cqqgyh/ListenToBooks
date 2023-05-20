@@ -44,6 +44,7 @@
 </template>
 
 <script setup lang="ts">
+import { onShow } from "@dcloudio/uni-app"
 import { onMounted, ref } from "vue"
 import { getCurrentPageInfo } from "../../utils/utils"
 import { usePlayerStore } from "../../stores/player"
@@ -91,6 +92,10 @@ onMounted(() => {
  console.log('navListInfo.value.find((item) => item.path == pages.route)?.index || 0',navListInfo.value.find((item) => item.path == pages.route)?.index || 0)
  currentIndex.value = navListInfo.value.find((item) => item.path == pages.route)?.index || 0
 });
+onShow(() => {
+ console.log('navListInfo.value.find((item) => item.path == pages.route)?.index || 0',navListInfo.value.find((item) => item.path == pages.route)?.index || 0)
+ currentIndex.value = navListInfo.value.find((item) => item.path == pages.route)?.index || 0
+})
 </script>
 
 <style lang="scss" scoped>
