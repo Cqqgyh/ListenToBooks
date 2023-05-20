@@ -1,5 +1,5 @@
 import Service from '../../utils/request'
-import { LiveInterfaceRes } from "./interfaces"
+import { LiveInterfaceRes, LiveTagInterfaceRes } from "./interfaces"
 
 
 class CateGory extends Service {
@@ -28,6 +28,14 @@ class CateGory extends Service {
   getLiveInfo(id: string | number) {
     return this.get<LiveInterfaceRes>({
       url: `/api/live/liveRoom/getById/${id}`
+    })
+  }
+  /**
+   * @description 根据直播标签列表
+   */
+  getLiveTagList() {
+    return this.get<LiveTagInterfaceRes[]>({
+      url: `/api/live/liveTag/findAllLiveTag`
     })
   }
 

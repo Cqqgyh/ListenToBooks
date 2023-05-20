@@ -10,7 +10,7 @@
           :key="index"
           @tap="goToLivePlay(item)">
           <view class="gui-relative">
-            <text class="gui-absolute-lt gui-bg-red gui-p-l-5 gui-p-r-5 gui-text-small gui-color-white">{{ '测试' }}</text>
+            <text class="gui-absolute-lt gui-bg-red gui-p-l-5 gui-p-r-5 gui-text-small gui-color-white">{{ getLiveTag(item.tagId) }}</text>
             <view class="gui-flex gui-absolute-lb gui-bg-black-opacity7 gui-p-l-5 gui-p-r-5 gui-text-small gui-color-white gui-p-t-5 gui-p-b-5 gui-p-l-20 gui-p-r-20">
               <text class="gui-icons gui-block gui-color-drak gui-m-r-5 gui-p-t-5">&#xe6fe;</text>
               <text>{{ item.viewCount }}</text>
@@ -36,11 +36,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
 import { albumsService, liveService } from "../../api"
-import { LiveInterfaceRes } from "../../api/live/interfaces"
+import { LiveInterfaceRes, LiveTagInterfaceRes } from "../../api/live/interfaces"
 import SubscribeItemCard from "../../components/SubscribeItemCard/SubscribeItemCard.vue"
 import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
 
 const liveList = ref([] as LiveInterfaceRes[])
+const liveTagList = ref([] as LiveTagInterfaceRes[])
 // 获取直播列表
 const getLiveList = async () => {
   try {
@@ -51,6 +52,20 @@ const getLiveList = async () => {
     console.log(error)
   }
 }
+// 获取直播标签列表
+const getLiveTagList = async () => {
+  try {
+    const res = await liveService.getLiveTagList()
+    liveTagList.value = res.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+// 获取直播标签
+const getLiveTag = (id: number | string) => {
+  const tag = liveTagList.value.find((item) => +item.id === +id)
+  return tag ? tag.name : ''
+}
 // 去直播间
 const goToLivePlay = (item: LiveInterfaceRes) => {
   console.log('item', item)
@@ -60,6 +75,7 @@ const goToLivePlay = (item: LiveInterfaceRes) => {
 }
 onMounted(() => {
   getLiveList()
+  getLiveTagList()
 })
 </script>
 

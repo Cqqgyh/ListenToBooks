@@ -41,3 +41,11 @@ export interface ChatItemInterface {
   isMe: boolean,
   messageType: ChatMessageType,
 }
+// 直播标签
+export interface LiveTagInterfaceRes {
+  id: number,
+  createTime: string,
+  name: string,
+  iconUrl: string,
+  orderNum: null
+}
