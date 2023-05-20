@@ -5,4 +5,5 @@ declare module '*.vue' {
   }
 
 declare const TXLivePusher: any;
+declare const TCPlayer: any;
 declare const uni: any;

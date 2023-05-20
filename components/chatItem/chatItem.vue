@@ -1,7 +1,7 @@
 <!-- z-paging聊天item -->
 
 <template>
-	<view class="chat-item">
+	<view v-if="item.messageType === ChatMessageType.PUBLIC_MSG" class="chat-item">
 		<text class="chat-time" v-if="item.time&&item.time.length">
 			{{item.time}}
 		</text>
@@ -19,31 +19,38 @@
 			</view>
 		</view>
 	</view>
+	<view v-if="item.messageType === ChatMessageType.JOIN_CHAT" class="chat-item">
+		<text class="chat-time">
+			{{item.name}}进入直播间
+		</text>
+	</view>
+	<view v-if="item.messageType === ChatMessageType.CLOSE_SOCKET" class="chat-item">
+		<text class="chat-time">
+			{{item.name}}退出直播间
+		</text>
+	</view>
 </template>
 
-<script>
-	export default {
-		name:"chat-item",
-		props: {
-			item: {
-				type: Object,
-				default: function() {
-					return {
-						time: '',
-						icon: '',
-						name: '',
-						content: '',
-						isMe: false
-					}
+<script setup lang="ts">
+	import { ChatMessageType } from "../../utils/constant"
+	import { PropType } from "vue"
+	import { ChatItemInterface } from "../../api/live/interfaces"
+	const props = defineProps({
+		item: {
+			type: Object as PropType<ChatItemInterface>,
+			required: true,
+			default: function() {
+				return {
+					time: '',
+					icon: '',
+					name: '',
+					content: '',
+					isMe: false,
+					messageType: ChatMessageType.PUBLIC_MSG,
 				}
 			}
-		},
-		data() {
-			return {
-				
-			};
 		}
-	}
+	})
 </script>
 
 <style scoped>

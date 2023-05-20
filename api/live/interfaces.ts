@@ -1,4 +1,6 @@
 // 分类
+import { ChatMessageType } from "../../utils/constant"
+
 export interface  LiveInterfaceRes {
   id: number;
   createTime: string;
@@ -18,3 +20,24 @@ export interface  LiveInterfaceRes {
   location: string;
 }
 
+// websocket返回信息
+export interface LiveMessageInterfaceRes {
+  fromUser: {
+    avatarUrl: string;
+    nickname: string;
+    userId: number;
+  };
+  liveRoomId: number;
+  msgContent: string;
+  msgType: ChatMessageType;
+  time: number;
+}
+// 聊天组件
+export interface ChatItemInterface {
+  time: string,
+  icon: string,
+  name: string,
+  content: string,
+  isMe: boolean,
+  messageType: ChatMessageType,
+}

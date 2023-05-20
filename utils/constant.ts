@@ -60,3 +60,17 @@ export const UPLOAD_URL = {
   IMAGE: `${BASE_UPLOAD_URL}/api/album/fileUpload`,
   TRACK: `${BASE_UPLOAD_URL}/api/album/trackInfo/uploadTrack`
 } as const;
+export enum ChatMessageType {
+  // HEART_BEAT("0","心跳信息"),
+  // PUBLIC_MSG("1","公共聊天消息"),
+  // JOIN_CHAT("2","加入聊天室"),
+  // CLOSE_SOCKET("3","退出聊天室"),
+  // ONLINE_NUM("4","在线用户数"),
+  // TOKEN_INVALID("-1","token无效")
+  HEART_BEAT = "0",
+  PUBLIC_MSG = "1",
+  JOIN_CHAT = "2",
+  CLOSE_SOCKET = "3",
+  ONLINE_NUM = "4",
+  TOKEN_INVALID = "-1",
+}
