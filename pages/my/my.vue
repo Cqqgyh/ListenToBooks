@@ -42,7 +42,7 @@
               <text class="gui-icons gui-h3 gui-color-drak">&#xe666;</text>
               <text class="gui-p-l-10">创作中心</text>
             </view>
-            <view @click="handleGoToOtherPage('')" class="gui-flex gui-row gui-align-items-center">
+            <view @click="getLiveRoom" class="gui-flex gui-row gui-align-items-center">
               <text class="iconfont gui-color-drak gui-h3">&#xe7d5;</text>
               <text class="gui-p-l-10">录音/直播</text>
             </view>
@@ -135,7 +135,7 @@ import { useUserStore} from "../../stores/user"
 import { storeToRefs } from 'pinia'
 import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
 import SubscribeItemCard from "../../components/SubscribeItemCard/SubscribeItemCard.vue"
-import { albumsService } from "../../api"
+import { albumsService, liveService } from "../../api"
 import { CollectTrackInterface, HistoryTrackInterface, SubscribeAlbumsInterface } from "../../api/albums/interfaces"
 const userStore = useUserStore()
 let {user} = storeToRefs(userStore)
@@ -263,7 +263,24 @@ const handleGoToOtherPage = (route:string) => {
 onLoad(async () => {
   console.log(1);
 })
-
+// 获取当前用户的直播间
+const getLiveRoom = async () => {
+  try {
+    const res = await liveService.getCurrentLiveRoom()
+    console.log(res)
+    if (res.data) {
+      uni.navigateTo({
+        url: `/pages/livePush/livePush?id=${res.data.id}`
+      })
+    } else {
+      uni.navigateTo({
+        url: `/pages/creatLivePush/creatLivePush`
+      })
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>
 <style scoped>
 .gui-card-img {

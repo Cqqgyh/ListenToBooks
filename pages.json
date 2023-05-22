@@ -26,6 +26,12 @@
 			}
 		},
 		{
+			"path": "pages/creatLivePush/creatLivePush",
+			"style": {
+				"navigationBarTitleText": "创建直播间"
+			}
+		},
+		{
 			"path": "pages/player/player",
 			"style": {
 				"navigationBarTitleText": "播放器",

@@ -151,6 +151,9 @@ onMounted(() => {
     await getLiveInfo()
     tcpalyerInit()
     connect()
+    uni.setNavigationBarTitle({
+      title: liveInfo.value.liveTitle + '的直播间'
+    })
   }).catch(function(error) {
     console.error("Failed to load resources:", error)
   })

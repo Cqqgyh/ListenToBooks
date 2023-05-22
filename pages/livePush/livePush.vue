@@ -7,10 +7,28 @@
 import  "./TXLivePusher.js"
 // #endif
 import { onMounted, ref } from "vue"
-let pushUrl = ref('webrtc://166120.livepush.myqcloud.com/live/atguigu05?txSecret=e0ca5c6c1003dab3e2791a95910e5924&txTime=64682701')
-
+import { LiveInterfaceRes } from "../../api/live/interfaces"
+import { liveService } from "../../api"
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+    default: ''
+  }
+})
+const liveInfo = ref({} as LiveInterfaceRes)
+// 根据ID获取直播间的信息
+const getLiveInfo = async () => {
+  try {
+    const res = await liveService.getLiveInfo(props.id)
+    console.log("res", res)
+    liveInfo.value = res.data
+  } catch (error) {
+    console.log(error)
+  }
+}
 // #ifdef H5
-function initPush() {
+function initPush(pushUrl:string) {
   console.log('加载完成',TXLivePusher)
   // 这里是成功加载并执行完成后的代码
   TXLivePusher.checkSupport().then(function(data:any) {
@@ -50,7 +68,7 @@ function initPush() {
   // 采集完摄像头画面后自动推流
   livePusher.startCamera()
     .then(function () {
-      livePusher.startPush(pushUrl.value);
+      livePusher.startPush(pushUrl);
     })
     .catch(function (error:any) {
       console.log('打开摄像头失败: '+ error.toString());
@@ -60,13 +78,17 @@ function initPush() {
   // 采集完摄像头和麦克风之后自动推流
   Promise.all([livePusher.startCamera(),livePusher.startMicrophone()])
     .then(function() {
-      livePusher.startPush(pushUrl.value);
+      livePusher.startPush(pushUrl);
     });
 }
 // #endif
-onMounted(() => {
+onMounted(async () => {
   // #ifdef H5
-  initPush()
+  await getLiveInfo()
+  initPush(liveInfo.value.pushUrl)
+  uni.setNavigationBarTitle({
+    title: liveInfo.value.liveTitle + '的直播间'
+  })
   // #endif
 })
 </script>

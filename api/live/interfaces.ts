@@ -47,5 +47,17 @@ export interface LiveTagInterfaceRes {
   createTime: string,
   name: string,
   iconUrl: string,
-  orderNum: null
+  orderNum: null,
+  value?: number,
+  text?: string,
+}
+// 创建直播间
+export interface CreateLiveInterfaceRes {
+  coverUrl: string,
+  liveTitle: string,
+  tagId: number | string,
+  expireTime: string,
+  longitude: string,
+  latitude: string,
+  location: string
 }

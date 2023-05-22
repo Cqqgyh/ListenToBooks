@@ -1,18 +1,9 @@
 import Service from '../../utils/request'
-import { LiveInterfaceRes, LiveTagInterfaceRes } from "./interfaces"
+import { CreateLiveInterfaceRes, LiveInterfaceRes, LiveTagInterfaceRes } from "./interfaces"
 
 
 class CateGory extends Service {
 
-  /**
-   * @description 根据一级分类Id 查询分类属性数据
-   * @param  {string | number} category1Id 一级分类ID
-   */
-  // getAttrList(category1Id: string | number) {
-  //   return this.get<AttributeListInterface[]>({
-  //     url: `/api/album/category/findAttribute/${category1Id}`
-  //   })
-  // }
   /**
    * @description 获取直播间列表
    */
@@ -36,6 +27,23 @@ class CateGory extends Service {
   getLiveTagList() {
     return this.get<LiveTagInterfaceRes[]>({
       url: `/api/live/liveTag/findAllLiveTag`
+    })
+  }
+  /**
+   * @description 获取当前用户的直播间
+   */
+  getCurrentLiveRoom() {
+    return this.get<LiveInterfaceRes>({
+      url: `/api/live/liveRoom/getCurrentLive`
+    })
+  }
+  /**
+   * @description 创建直播间
+   */
+  createLiveRoom(data: CreateLiveInterfaceRes) {
+    return this.post<LiveInterfaceRes>({
+      url: `/api/live/liveRoom/saveLiveRoom`,
+      data
     })
   }
 
