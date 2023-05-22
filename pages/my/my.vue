@@ -265,10 +265,17 @@ onLoad(async () => {
 })
 // 获取当前用户的直播间
 const getLiveRoom = async () => {
+  // #ifdef MP-WEIXIN
+  uni.showToast({
+    title: '请在H5演示此功能',
+    icon: 'none'
+  })
+  // #endif
+  // #ifdef H5
   try {
     const res = await liveService.getCurrentLiveRoom()
     console.log(res)
-    if (res.data) {
+    if (res.data?.id) {
       uni.navigateTo({
         url: `/pages/livePush/livePush?id=${res.data.id}`
       })
@@ -280,6 +287,7 @@ const getLiveRoom = async () => {
   } catch (error) {
     console.log(error)
   }
+  // #endif
 }
 </script>
 <style scoped>
