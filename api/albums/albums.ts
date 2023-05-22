@@ -264,7 +264,8 @@ getTrackStaVo(trackId: number) {
   updateListenProcess(data: ProcessParams) {
     return this.post({
       url: '/api/user/userListenProcess/updateListenProcess',
-      data
+      data,
+      loading:false
     })
   }
 
