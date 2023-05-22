@@ -454,7 +454,7 @@ const initAudio = (ctx: any) => {
 		}
 	})
 	ctx.onCanplay(() => {
-		
+
 		setTimeout(() => {
 			console.log('音频长度', bgAudioManager.duration);
 			// 音频长度,时分秒格式
@@ -477,8 +477,9 @@ const initAudio = (ctx: any) => {
 				trackId: audios.trackId,
 				breakSecond: sliders.progressTime
 			}
+			if (bgAudioManager.paused) return
 			await albumsService.updateListenProcess(params)
-		}, 10000); // 定时器每10秒触发一次
+		}, 1000); // 定时器每10秒触发一次
 	})
 	ctx.onPause(() => {
 		audios.playStatus = false
