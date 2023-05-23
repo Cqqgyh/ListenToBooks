@@ -479,7 +479,7 @@ const initAudio = (ctx: any) => {
 			}
 			if (bgAudioManager.paused) return
 			await albumsService.updateListenProcess(params)
-		}, 1000); // 定时器每10秒触发一次
+		}, 10000); // 定时器每10秒触发一次
 	})
 	ctx.onPause(() => {
 		audios.playStatus = false

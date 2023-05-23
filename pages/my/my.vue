@@ -266,6 +266,9 @@ onLoad(async () => {
 // 获取当前用户的直播间
 const getLiveRoom = async () => {
   // #ifdef MP-WEIXIN
+  // 小程序原生直播文档
+  // https://developers.weixin.qq.com/miniprogram/product/live/access-requirement.html
+  // https://mp.weixin.qq.com/wxamp/broadcast/access?token=1769749118&lang=zh_CN
   uni.showToast({
     title: '请在H5演示此功能',
     icon: 'none'
