@@ -3,7 +3,7 @@
 		<template v-slot:gBody>
 			<view class="gui-padding-x gui-padding">
 				<view class="setting-item" @click="openDialog">
-					<uni-section title="退出登录" type="line">
+					<uni-section title="退出登陆" type="line">
 						<template v-slot:right>
 							<uni-icons type="forward" size="20"></uni-icons>
 						</template>
