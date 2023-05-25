@@ -9,7 +9,7 @@
           <text class="gui-icons gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black-opacity1 gui-m-r-10"
           >&#xe67b;</text
           >
-          <text class="gui-icons gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black-opacity1">&#xe613;</text>
+          <text @click="handleGoToOtherPage('/pages/setting/setting')" class="gui-icons gui-block gui-color-drak gui-p-10 gui-b-50 gui-bg-black-opacity1">&#xe613;</text>
         </view>
         <view style="width: 200rpx"></view>
       </view>
