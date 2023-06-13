@@ -20,10 +20,9 @@
             color="#ff6e40"
             class="gui-m-r-5"
             size="25"></uni-icons>
-          <text
-            class="gui-card-name gui-primary-text gui-ellipsis">
-            {{ data.albumTitle }}
-          </text>
+          <view class="gui-card-name gui-primary-text gui-ellipsis">
+            <rich-text :nodes="replaceTitle(data.albumTitle)"></rich-text>
+          </view>
         </view>
         <!-- 副标题-->
         <view class="gui-flex gui-rows gui-nowrap gui-align-items-center gui-m-t-5">
@@ -68,7 +67,12 @@ const handleGoToDetails = () => {
     url: `/pages/detail/detail?id=${props.data.id}`
   })
 }
+// 标题高亮正则替换兼容小程序
+const replaceTitle = (title: string) => {
+  // 假设要替换的字符串为 str，颜色值为 color
+  return title.replace(/<font color='(.+?)'>/gi, "<font style=\"color:$1\">");
 
+}
 /* 生命周期 */
 </script>
 
