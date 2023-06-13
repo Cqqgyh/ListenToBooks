@@ -242,7 +242,7 @@ const handleBlur = () => {
   // 此处是为了handleSearchSuggestItemOnClick 能够先执行完，再执行handleOffSearchSuggestions
   setTimeout(() => {
     handleOffSearchSuggestions()
-  },50)
+  },600)
   // 如果为空的话
 }
 // 获取搜索建议
