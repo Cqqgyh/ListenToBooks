@@ -1,9 +1,11 @@
+/*@font-face {*/
+/*  font-family: "iconfont"; !* Project id 4018356 *!*/
+/*  src: url('https://at.alicdn.com/t/c/font_4018356_pipma26eakk.ttf?t=1682390545313') format('truetype');*/
+/*}*/
 @font-face {
   font-family: "iconfont";
   src:
-  /*先试用在线的、等项目完成后，下载到本地到本地*/
-  url('https://at.alicdn.com/t/c/font_4018356_ra5s8bo0uni.ttf?t=1681614800501') format('truetype');
-  /*src: url('./iconfont.ttf') format('truetype');*/
+  url('./iconfont.ttf') format('truetype');
 }
 
 .iconfont {
@@ -14,15 +16,79 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.shengyin:before {
-  content: "\e606";
+.-blog:before {
+  content: "\e68b";
+}
+
+.pause:before {
+  content: "\e609";
+}
+
+.zhifubao:before {
+  content: "\e607";
+}
+
+.weixin:before {
+  content: "\e608";
+}
+
+.qudao-ximalaya:before {
+  content: "\e792";
+}
+
+.shanchu:before {
+  content: "\e61c";
+}
+
+.VIP:before {
+  content: "\e688";
+}
+
+.shoufeiguanli:before {
+  content: "\e603";
+}
+
+.xiazai:before {
+  content: "\e634";
+}
+
+.wanjie:before {
+  content: "\e62f";
+}
+
+.shoucang1:before {
+  content: "\e600";
+}
+
+.shoucang:before {
+  content: "\e627";
+}
+
+.dingyue:before {
+  content: "\e63f";
+}
+
+.shichang:before {
+  content: "\e659";
+}
+
+.pinglun:before {
+  content: "\e891";
+}
+
+.gouwuche3:before {
+  content: "\e70b";
 }
 
 .erji:before {
-  content: "\e60a";
+  content: "\e654";
 }
 
-.Star:before {
-  content: "\e673";
+.shengyin_o:before {
+  content: "\eb62";
+}
+
+.xingxing:before {
+  content: "\e859";
 }
 
