@@ -171,7 +171,7 @@
 						<view class="gui-relative track-item-sort">
 							<view
 								:class="item.isChecked ? 'track-item-title-checked' : 'gui-color-grey1'"
-								class=" gui-h5">{{ item.orderNum + 1 }}</view>
+								class=" gui-h5">{{ item.orderNum }}</view>
 						</view>
 						<view class="gui-list-body gui-border-b">
 							<view class="gui-list-title">
