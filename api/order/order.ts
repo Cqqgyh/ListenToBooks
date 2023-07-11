@@ -27,7 +27,7 @@ class CateGory extends Service {
    */
   getTrackSettingList(trackId:number | string) {
     return this.get<TrackSettingInterface[]>({
-      url: `/api/album/trackInfo/findUserTrackPiadList/${trackId}`
+      url: `/api/album/trackInfo/findUserTrackPaidList/${trackId}`
     })
   }
   /**
@@ -113,7 +113,7 @@ class CateGory extends Service {
   }
   /**
    * @description: 查询订单列表
-   * @param 
+   * @param
    */
   queryOrdeList(params:{ page: number, limit: number }) {
     return this.get({
@@ -123,7 +123,7 @@ class CateGory extends Service {
   }
   /**
    * @description: 查询订单列表
-   * @param 
+   * @param
    */
   queryOrderInfo(orderNo: string) {
     return this.get({
