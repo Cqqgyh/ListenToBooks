@@ -154,9 +154,8 @@ const handleCustomizeInvest = (value: string) => {
 }
 
 onMounted(() => {
-  // 更新用户信息
-  const {updateUserInfo} = useUpdateUserInfo()
-  updateUserInfo()
+  // 更新余额信息
+  userStore.getAccountBalance()
 })
 
 /* 生命周期 */
