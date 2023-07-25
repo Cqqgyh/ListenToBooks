@@ -82,6 +82,7 @@ import { onMounted, ref } from "vue"
 import { useOrderStore } from "../../stores/order"
 import { useUserStore } from "../../stores/user"
 import UniPopup from "../../uni_modules/uni-popup/components/uni-popup/uni-popup.vue"
+import { useUpdateUserInfo } from "../../hooks/useUpdateUserInfo"
 /* 响应式数据 */
 const orderStore = useOrderStore()
 const userStore = useUserStore()
@@ -152,7 +153,11 @@ const handleCustomizeInvest = (value: string) => {
 
 }
 
-
+onMounted(() => {
+  // 更新用户信息
+  const {updateUserInfo} = useUpdateUserInfo()
+  updateUserInfo()
+})
 
 /* 生命周期 */
 </script>
