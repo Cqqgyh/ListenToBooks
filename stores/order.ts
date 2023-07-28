@@ -165,8 +165,7 @@ export const useOrderStore = defineStore("order", {
       // 清空相关订单信息
       this.clearOrderInfo()
       // 更新用户信息
-      const {updateUserInfo} = useUpdateUserInfo()
-      updateUserInfo()
+      this.updateUserInfo()
 
     },
     // 充值成功
@@ -174,8 +173,7 @@ export const useOrderStore = defineStore("order", {
       // 清空相关订单信息
       this.clearOrderInfo()
       // 更新用户信息
-      const {updateUserInfo} = useUpdateUserInfo()
-      updateUserInfo()
+      this.updateUserInfo()
       // 避免因全局封装的request中，设置的hideLoading而导致的请求后不出现提示的问题
       setTimeout(() => {
         uni.showToast({
@@ -191,7 +189,17 @@ export const useOrderStore = defineStore("order", {
       this.confirmOrderInfo = {} as OrderRequestInterface
       this.submitOrderInfo = {} as OrderInterface
       this.orderNo = "" as string | number
+    },
+    //   更新用户信息
+    updateUserInfo() {
+      // 更新用户信息
+      const {updateUserInfo} = useUpdateUserInfo()
+      // 延时调用，后台充值成功，支付成功后用户信息变更需要一定时间
+      setTimeout(() => {
+        updateUserInfo()
+      }, 1500);
     }
+
 
   }
 
