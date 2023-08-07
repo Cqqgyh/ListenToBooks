@@ -48,6 +48,7 @@
           <uni-forms-item label="专辑分类" required name="albumId">
             <!--      专辑列表选择 -->
             <uni-data-select
+              :disabled="!!props.id"
               v-model="formData.albumId"
               :localdata="albumList"
               clear
@@ -89,7 +90,12 @@ import { albumsService } from "../../api"
 import UniForms from "../../uni_modules/uni-forms/components/uni-forms/uni-forms.vue"
 import { emitter } from "../../utils/mitt"
 import { UPLOAD_URL } from "../../utils/constant"
-
+const props = defineProps({
+  id: {
+    type: String,
+    default: ''
+  }
+})
 /* 响应式数据 */
 // 表单收集
 const formDataRef = ref<InstanceType<typeof UniForms>>()
