@@ -194,7 +194,7 @@ export interface TrackInterface {
   playStatNum: number;
   commentStatNum: number;
   createTime: string;
-  isShowPiadMark: boolean;
+  isShowPaidMark: boolean;
   isChecked?: boolean;
   isPlaying?: boolean;
 }

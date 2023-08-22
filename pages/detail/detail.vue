@@ -189,7 +189,7 @@
 						</view>
 						<view class="gui-flex gui-column gui-color-gray gui-text-center gui-m-l-20 gui-m-r-20">
 							<text class="gui-color-gray gui-text-small gui-block gui-m-b-20">{{ item.createTime.slice(0, 10) }}</text>
-							<uni-icons v-if="item.isShowPiadMark"  custom-prefix="iconfont" type="shoufeiguanli" class="gui-m-r-10" size="15" color="#ef5350"></uni-icons>
+							<uni-icons v-if="item.isShowPaidMark"  custom-prefix="iconfont" type="shoufeiguanli" class="gui-m-r-10" size="15" color="#ef5350"></uni-icons>
 							<uni-icons v-else custom-prefix="iconfont" type="xiazai" class="gui-m-r-10" size="15"></uni-icons>
 						</view>
 					</view>
@@ -422,7 +422,7 @@ const getAlbumTrackList= async (page:number, limit:number) => {
 const handleTrackOnClick = async (index: number, item: TrackInterface) => {
 	console.log('item', item)
 	// 是否收费
-	if (item.isShowPiadMark) {
+	if (item.isShowPaidMark) {
 		// 判断是整张专辑购买还是分级购买
 		if (albumDetailInfo.value.albumInfo.priceType === PRICE_TYPE_MAP.Single) {
 			// 分集购买
