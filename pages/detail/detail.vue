@@ -348,7 +348,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { onLoad } from "@dcloudio/uni-app"
+import { onLoad,onShow } from "@dcloudio/uni-app"
 import GuiPopup from "../../Grace6/components/gui-popup.vue"
 import ZPaging from "../../uni_modules/z-paging/components/z-paging/z-paging.vue"
 import Resizable from "../../components/Resizable/Resizable.vue"
@@ -583,7 +583,10 @@ onLoad(() => {
 	getVipSettingList()
 	getIsSubscribe()
 });
-
+onShow(() => {
+  // 处理支付成功后的回显问题
+  zPagingRef.value.refresh()
+})
 
 </script>
 <style scoped lang="scss">
