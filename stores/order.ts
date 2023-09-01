@@ -83,9 +83,11 @@ export const useOrderStore = defineStore("order", {
     async wechatPay(orderNo: string | number, paymentType: string = WX_ORDER_TYPE_MAP.Order ) {
       // 调用后端微信下单接口
       try {
+        console.log('调用后端微信下单接口---start')
         const res = await order.wechatPay(orderNo,paymentType)
-        // 调用微信官方支付接口
-        await this.wechatOfficialPay(res.data)
+        console.log('调用后端微信下单接口---end')
+        // 调用微信官方支付接口，同步调用，不要加awit，因为后面微信支付逻辑后有轮询，加了await会阻碍轮询的执行
+        this.wechatOfficialPay(res.data)
       }catch (error) {
         console.log(error)
       }
@@ -94,6 +96,7 @@ export const useOrderStore = defineStore("order", {
     // 微信官方支付接口
     async wechatOfficialPay(params: WechatPayInterface) {
       try {
+        console.log('微信官方支付接口---start')
         const res = await wx.requestPayment(Object.assign({
           timeStamp: '',
           nonceStr: '',
@@ -101,16 +104,18 @@ export const useOrderStore = defineStore("order", {
           signType: 'MD5',
           paySign: '',
         }, params));
+        console.log('微信官方支付接口---end')
         console.log('支付成功');
       } catch (err) {
         // 支付失败
-        console.log(err);
+        console.log('err',err);
       }
     },
     // 查询订单支付状态
     async queryOrderPayStatus(orderNo: string | number,times:number = 10,interval:number = 2000,callback = ()=>this.paySuccess()) {
       // 轮询查询订单支付状态
       try {
+        console.log('轮询查询订单支付状态---start')
         const res = await order.queryOrderPayStatus(orderNo);
         if (res.data) {
           // 查询支付成功
